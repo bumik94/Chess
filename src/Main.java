@@ -6,7 +6,7 @@ public class Main {
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Chess");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new ConnectTheDots());
+        frame.add(new Chess());
         frame.pack();
         frame.setVisible(true);
         frame.setResizable(false);
