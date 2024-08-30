@@ -1,7 +1,9 @@
 package main.java;
 
 import main.java.components.Board;
+import main.java.components.Pawn;
 import main.java.components.Square;
+import main.java.components.models.Figure;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,17 +14,19 @@ import java.awt.event.MouseEvent;
 public class Chess extends JPanel {
 
     private static final Color YELLOW = new Color(255, 255, 0);
-    private static final int FRAME_XY = 512;
+    private static final int FRAME_XY = 1024;
     /*
      * Board class for drawing playing field
      */
     private final Board board;
+    private final Pawn pawn;
 
     private Square selectedSquare;
 
 
     public Chess() {
         board = new Board(FRAME_XY);
+        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, FRAME_XY);
 
         /*
          * Left-click: selects a single square on the board
@@ -73,6 +77,7 @@ public class Chess extends JPanel {
 
         board.paintBoard(g);
         paintSelectedSquare(g);
+        pawn.paintFigure(g, new Rectangle(0, 0, FRAME_XY / 8, FRAME_XY / 8));
     }
 
     /**
