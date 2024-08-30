@@ -1,11 +1,12 @@
-import components.Board;
-import components.Square;
+package main.java;
+
+import main.java.components.Board;
+import main.java.components.Square;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 
 public class Chess extends JPanel {
@@ -62,7 +63,7 @@ public class Chess extends JPanel {
     }
 
     /**
-     * Main painting method
+     * main.java.Main painting method
      *
      * @param graphics the <code>Graphics</code> object to protect
      */
@@ -100,7 +101,5 @@ public class Chess extends JPanel {
         this.selectedSquare = new Square(selectedSquare, YELLOW);
         repaint(this.selectedSquare);
     }
-
-
 
 }
