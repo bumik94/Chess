@@ -1,8 +1,7 @@
-package main.java;
+package main.java.components;
 
-import main.java.components.Board;
-import main.java.components.Pawn;
-import main.java.components.Square;
+import main.java.components.figures.Pawn;
+import main.java.components.models.Square;
 import main.java.components.models.Figure;
 
 import javax.swing.*;
@@ -10,27 +9,46 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
-public class Chess extends JPanel {
+/**
+ * The main game class that draws UI and handles action events.
+ * <p>This class should contain instances of all components used
+ * for the game, namely Board and Figures. Each figure keeps
+ * track of its position on the board and this class uses this
+ * information to draw the board.</p>
+ * Selection is handled by this class and calls methods of the
+ * components to change their state.
+ */
+public class DrawChess extends JPanel {
 
     private static final Color YELLOW = new Color(255, 255, 0);
-    private static final int FRAME_XY = 1024;
-    /*
-     * Board class for drawing playing field
-     */
+    private static final int FRAME_XY = 512;
+
     private final Board board;
     private final Pawn pawn;
 
     private Square selectedSquare;
 
 
-    public Chess() {
+    public DrawChess() {
         board = new Board(FRAME_XY);
-        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, FRAME_XY);
+        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, Board.Coordinate.A8, FRAME_XY);
 
         /*
          * Left-click: selects a single square on the board
          * Right-click: deselects currently selected square
+         *
+         * This method should check all components of the Chess class
+         * and compare their location on the board. If the selectedSquare
+         * location contains a figure, get figure's available moves
+         * and draw them on the board.
+         *
+         * If a figure is selected and user clicks on valid move square,
+         * change figures location to the new square and redraw figure's
+         * previous square and new square.
+         *
+         * If another figure is on the valid move square, check figures
+         * side and if it's opponent, kick that figure and move to its position.
+         *
          */
         addMouseListener(new MouseAdapter() {
             @Override
@@ -57,7 +75,7 @@ public class Chess extends JPanel {
     }
 
     /**
-     * Panel size
+     * Board size
      *
      * @return dimension for the panel
      */
@@ -67,7 +85,7 @@ public class Chess extends JPanel {
     }
 
     /**
-     * main.java.Main painting method
+     * Main painting method
      *
      * @param graphics the <code>Graphics</code> object to protect
      */
@@ -75,9 +93,15 @@ public class Chess extends JPanel {
         super.paintComponent(graphics);
         Graphics2D g = (Graphics2D) graphics;
 
+        /*
+        Order of draw:
+            1) board
+            2) selection
+            3) figures
+         */
         board.paintBoard(g);
         paintSelectedSquare(g);
-        pawn.paintFigure(g, new Rectangle(0, 0, FRAME_XY / 8, FRAME_XY / 8));
+        pawn.paintFigure(g, board.getCoordinate(Board.Coordinate.A8));
     }
 
     /**
@@ -86,6 +110,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintSelectedSquare(Graphics g) {
+
         if (selectedSquare != null) {
             selectedSquare.paintSquare(g);
         }
@@ -97,6 +122,7 @@ public class Chess extends JPanel {
      * @param selectedSquare from <code>mousePressed</code> method
      */
     private void setSelectedSquare(Rectangle selectedSquare) {
+
         if (this.selectedSquare != null) {
             if (this.selectedSquare.getLocation().equals(selectedSquare.getLocation())) {
                 return;

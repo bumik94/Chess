@@ -1,13 +1,15 @@
-package main.java.components;
+package main.java.components.models;
 
 import java.awt.*;
 
 public class Square extends Rectangle {
 
     private static final Color BLACK = new Color(0, 0, 0);
-
     private Color background = null;
 
+    //
+    // Constructors
+    //
     public Square(int x,int y, int size, Color background) {
         super(x, y, size, size);
         this.background = background;
@@ -22,9 +24,12 @@ public class Square extends Rectangle {
         this.background = background;
     }
 
+    //
+    // Methods
+    //
     /**
-     * Paints individual square at position X and Y
-     * @param g
+     * <p>Paints individual square at position X and Y.</p>
+     * @param g the <code>Graphics</code> object to protect
      */
     public void paintSquare(Graphics g){
         g.setColor(background);

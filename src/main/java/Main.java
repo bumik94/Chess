@@ -1,14 +1,16 @@
 package main.java;
 
+import main.java.components.DrawChess;
+
 import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
 
 public class Main {
 
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("main.java.Chess");
+        JFrame frame = new JFrame("main.java.components.Chess");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new Chess());
+        frame.add(new DrawChess());
         frame.pack();
         frame.setVisible(true);
         frame.setResizable(false);

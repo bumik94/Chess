@@ -1,38 +1,67 @@
 package main.java.components;
 
+import main.java.components.models.Coordinate;
+import main.java.components.models.Square;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board {
 
     private static final Color WHITE = new Color(255, 255, 255);
     private static final Color BROWN = new Color(150, 75, 0);
-    private static final Color YELLOW = new Color(255, 255, 0);
 
-    private final ArrayList<Square> board = new ArrayList<>();
+    private final ArrayList<Square> board;
+    private final HashMap<Coordinate, Rectangle> coordinates;
 
-    private Square selectedSquare;
+// TODO problem with this coordinates map changing values on mouse action
 
     public Board(int FRAME_XY) {
-        int i = 1;  // Alternate color pattern
+        this.board = initBoard(FRAME_XY);
+        this.coordinates = initCoordinates();
+    }
+
+    /**
+     * <p>Initialize board for drawing.</p>
+     * @param FRAME_XY resolution of the frame
+     * @return <code>ArrayList</code> containing <code>Square</code> objects
+     *         with specified position and dimension
+     */
+    private ArrayList<Square> initBoard(int FRAME_XY) {
+        ArrayList<Square> list = new ArrayList<>();
         int SQUARE_SIZE = FRAME_XY / 8;
+        int alt = 1;  // Alternate color pattern
 
         for (int y = 0; y < FRAME_XY; y += SQUARE_SIZE) {
             for (int x = 0; x < FRAME_XY; x += SQUARE_SIZE) {
                 Color color;
-                if (i++ % 2 == 0) {
-                    color = WHITE; }
+                if (alt++ % 2 == 0) {
+                        color = WHITE; }
                 else {  color = BROWN; }
                 Square square = new Square(x, y, SQUARE_SIZE, color);
-                board.add(square);
+                list.add(square);
             }
-            i++;
+            alt++;
         }
 
+        return list;
     }
 
-    public ArrayList<Square> getBoard() {
-        return this.board;
+    /**
+     * Initialize <code>Coordinate</code> mapped to corresponding <code>Square</code> on the <code>board</code>.
+     * <code>Rectangle</code> holds data about the position and dimension of <code>Square</code>.
+     * @return map of <code>Coordinate, Rectangle</code>
+     */
+    private HashMap<Coordinate, Rectangle> initCoordinates() {
+        HashMap<Coordinate, Rectangle> map = new HashMap<>();
+        Coordinate[] coordinateArray = Coordinate.values();
+
+        for (int i = 0; i < coordinateArray.length; i++) {
+            map.put(coordinateArray[i], board.get(i).getBounds());
+        }
+
+        return map;
     }
 
     /**
@@ -75,6 +104,11 @@ public class Board {
      */
     public Square getSquareAt(Point p) {
         return getSquareAt(p.x, p.y);
+    }
+
+    public Rectangle getCoordinate(Coordinate c) {
+        System.out.println("Coordinate " + coordinates.get(c));
+        return coordinates.get(c);
     }
 
 }

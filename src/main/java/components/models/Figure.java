@@ -1,5 +1,7 @@
 package main.java.components.models;
 
+import main.java.components.Board;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,8 +16,18 @@ public abstract class Figure {
      * -> black
      */
     public enum Side {
-        WHITE,
-        BLACK;
+        WHITE("w_"),
+        BLACK("b_");
+
+        private final String side;
+
+        Side(String side) {
+            this.side = side;
+        }
+
+        public String getSide() {
+            return side;
+        }
     }
 
     /**
@@ -52,29 +64,32 @@ public abstract class Figure {
     Side side;
     Rank rank;
     BufferedImage figureImage;
+    Coordinate position;
 
-    public Figure(Side side, Rank rank, int FRAME_XY) {
+
+    //
+    // Constructor
+    //
+    public Figure(Side side, Rank rank, Coordinate position, int FRAME_XY) {
         this.side = side;
         this.rank = rank;
+        this.position = position;
         this.SQUARE_SIZE = FRAME_XY / 8;
 
-        //
-        // Create path for the image based on the `side` and `rank` values
+        // Create path for the image based on
+        // the `side` and `rank` values
         // and initialize figureImage
-        //
-        StringBuilder path = new StringBuilder("src/main/resources/figure_images/");
-        switch (side) {
-            case WHITE -> path.append("w_");
-            case BLACK -> path.append("b_");
-        }
-        path.append(rank.name().toLowerCase()).append(".png");
-        setFigureImage(String.valueOf(path));
+        String path = "src/main/resources/figure_images/" +
+                side.getSide() +
+                rank.name().toLowerCase() +
+                ".png";
+        setFigureImage(path);
     }
 
     //
     // Abstract methods
     //
-    public abstract void move(Rectangle r);
+    public abstract void move(Coordinate position);
 
     //
     // Default methods
@@ -92,56 +107,73 @@ public abstract class Figure {
     }
 
     /**
-     * Initialize a figure image based on subclass values.
-     * Those are determined upon initialization where a
-     * StringBuilder path is generated and passed to this method.
+     * Initialize a figure image according to subclass values.
      *
-     * @param path String containing path to the appropriate image
+     * @param path String specifying a path to the appropriate image
      */
     public void setFigureImage(String path) {
-
         try {
             figureImage = ImageIO.read(new File(path));
         } catch (IOException ignored) {}
     }
 
+//    public void paintFigure(Graphics g, Rectangle r) {
+//        int OFFSET = (int) (SQUARE_SIZE * 0.05);
+//
+//        // Destination where the image will be drawn
+//        r.grow(-OFFSET, -OFFSET); // Shrink image
+//        int dstX = r.x + OFFSET;
+//        int dstY = r.y + OFFSET;
+//        int dstW = r.width;
+//        int dstH = r.height;
+//
+//        // Original proportions of the image
+//        int srcX = figureImage.getMinX();
+//        int srcY = figureImage.getMinY();
+//        int srcW = figureImage.getWidth();
+//        int srcH = figureImage.getHeight();
+
+//        // Overloaded method that scales the image
+//        // to the current board resolution
+//        g.drawImage(figureImage,
+//        dstX, dstY, dstW, dstH,
+//        srcX, srcY, srcW, srcH,
+//        null);
+//    }
+
+    // TODO the drawImage method accepts Point1, Point2 instead of Point, Dimension!
+    //      must rewrite the whole coordinate map
     public void paintFigure(Graphics g, Rectangle r) {
+        int OFFSET = (int) (SQUARE_SIZE * 0.05);
 
         // Destination where the image will be drawn
+        r.grow(-OFFSET, -OFFSET); // Shrink image
         int dstX = r.x;
         int dstY = r.y;
-        int dstW = r.width;
-        int dstH = r.height;
+        int dstW = dstX + SQUARE_SIZE - OFFSET * 4;
+        int dstH = dstY + SQUARE_SIZE - OFFSET * 4;
 
         // Original proportions of the image
         int srcX = figureImage.getMinX();
         int srcY = figureImage.getMinY();
         int srcW = figureImage.getWidth();
         int srcH = figureImage.getHeight();
+//
+//        // Original proportions of the image
+//        int srcX = figureImage.getMinX();
+//        int srcY = figureImage.getMinY();
+//        int srcW = figureImage.getWidth();
+//        int srcH = figureImage.getHeight();
 
         // Overloaded method that scales the image
-        // to the current board scale
-        g.drawImage(figureImage,
-        dstX, dstY, dstW, dstH,
-        srcX, srcY, srcW, srcH,
-        null);
+        // to the current board resolution
+        g.drawImage(figureImage, dstX, dstY, dstW, dstH, srcX, srcY, srcW, srcH, null);
+//        System.out.printf("""
+//                %d %d
+//                %d %d
+//                """,
+//                dstX, dstY,
+//                dstW, dstH);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
