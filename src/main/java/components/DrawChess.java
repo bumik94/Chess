@@ -1,6 +1,7 @@
 package main.java.components;
 
 import main.java.components.figures.Pawn;
+import main.java.components.models.Coordinate;
 import main.java.components.models.Square;
 import main.java.components.models.Figure;
 
@@ -31,7 +32,7 @@ public class DrawChess extends JPanel {
 
     public DrawChess() {
         board = new Board(FRAME_XY);
-        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, Board.Coordinate.A8, FRAME_XY);
+        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, Coordinate.A8, FRAME_XY);
 
         /*
          * Left-click: selects a single square on the board
@@ -101,7 +102,7 @@ public class DrawChess extends JPanel {
          */
         board.paintBoard(g);
         paintSelectedSquare(g);
-        pawn.paintFigure(g, board.getCoordinate(Board.Coordinate.A8));
+        pawn.paintFigure(g, board.getCoordinate(Coordinate.A8));
     }
 
     /**
