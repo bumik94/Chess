@@ -1,7 +1,5 @@
 package main.java.components.models;
 
-import main.java.components.Board;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,71 +8,22 @@ import java.io.IOException;
 
 public abstract class Figure {
 
-    /**
-     * Enum to set the color of the pieces:
-     * -> white
-     * -> black
-     */
-    public enum Side {
-        WHITE("w_"),
-        BLACK("b_");
-
-        private final String side;
-
-        Side(String side) {
-            this.side = side;
-        }
-
-        public String getSide() {
-            return side;
-        }
-    }
-
-    /**
-     * Enum to hold information about each rank:
-     * -> notation  = a letter for rank reference
-     * -> value     = worth of the piece
-     */
-    public enum Rank {
-        KING("K", 0),
-        QUEEN("Q", 9),
-        ROOK("R", 5),
-        BISHOP("B", 3),
-        KNIGHT("N", 3),
-        PAWN("", 1);
-
-        private final String notation;
-        private final int value;
-
-        Rank(String notation, int value) {
-            this.notation = notation;
-            this.value = value;
-        }
-
-        public String getNotation() {
-            return notation;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
     int SQUARE_SIZE;
     Side side;
     Rank rank;
     BufferedImage figureImage;
-    Coordinate position;
+    Point position;
 
 
     //
     // Constructor
     //
-    public Figure(Side side, Rank rank, Coordinate position, int FRAME_XY) {
+    public Figure(Side side, Rank rank, Point position, int resolution) {
+
         this.side = side;
         this.rank = rank;
         this.position = position;
-        this.SQUARE_SIZE = FRAME_XY / 8;
+        this.SQUARE_SIZE = resolution / 8;
 
         // Create path for the image based on
         // the `side` and `rank` values
@@ -89,11 +38,20 @@ public abstract class Figure {
     //
     // Abstract methods
     //
-    public abstract void move(Coordinate position);
+    /**
+     * Checks conditions to make valid move and then calls <code>setPosition</code>
+     * @param position <code>Point</code> that will evaluate new position
+     */
+    public abstract void move(Point position);
 
     //
     // Default methods
     //
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
     public Side getSide() {
         return side;
     }
@@ -117,63 +75,59 @@ public abstract class Figure {
         } catch (IOException ignored) {}
     }
 
-//    public void paintFigure(Graphics g, Rectangle r) {
-//        int OFFSET = (int) (SQUARE_SIZE * 0.05);
-//
-//        // Destination where the image will be drawn
-//        r.grow(-OFFSET, -OFFSET); // Shrink image
-//        int dstX = r.x + OFFSET;
-//        int dstY = r.y + OFFSET;
-//        int dstW = r.width;
-//        int dstH = r.height;
-//
-//        // Original proportions of the image
-//        int srcX = figureImage.getMinX();
-//        int srcY = figureImage.getMinY();
-//        int srcW = figureImage.getWidth();
-//        int srcH = figureImage.getHeight();
-
-//        // Overloaded method that scales the image
-//        // to the current board resolution
-//        g.drawImage(figureImage,
-//        dstX, dstY, dstW, dstH,
-//        srcX, srcY, srcW, srcH,
-//        null);
-//    }
-
-    // TODO the drawImage method accepts Point1, Point2 instead of Point, Dimension!
-    //      must rewrite the whole coordinate map
-    public void paintFigure(Graphics g, Rectangle r) {
-        int OFFSET = (int) (SQUARE_SIZE * 0.05);
+    /**
+     * <p>Draws the <code>figureImage</code> offset from edge by the <code>OFFSET</code> constant</p>
+     * @param g the <code>Graphics</code> object to protect
+     */
+    public void paintFigure(Graphics g) {
+        int OFFSET = (int) (SQUARE_SIZE * 0.1);
 
         // Destination where the image will be drawn
-        r.grow(-OFFSET, -OFFSET); // Shrink image
-        int dstX = r.x;
-        int dstY = r.y;
-        int dstW = dstX + SQUARE_SIZE - OFFSET * 4;
-        int dstH = dstY + SQUARE_SIZE - OFFSET * 4;
+        int dstX = (int) position.getX() + OFFSET;
+        int dstY = (int) position.getY() + OFFSET;
+        int dstW = (int) position.getX() + SQUARE_SIZE - OFFSET;
+        int dstH = (int) position.getY() + SQUARE_SIZE - OFFSET;
 
         // Original proportions of the image
         int srcX = figureImage.getMinX();
         int srcY = figureImage.getMinY();
         int srcW = figureImage.getWidth();
         int srcH = figureImage.getHeight();
-//
-//        // Original proportions of the image
-//        int srcX = figureImage.getMinX();
-//        int srcY = figureImage.getMinY();
-//        int srcW = figureImage.getWidth();
-//        int srcH = figureImage.getHeight();
 
         // Overloaded method that scales the image
         // to the current board resolution
-        g.drawImage(figureImage, dstX, dstY, dstW, dstH, srcX, srcY, srcW, srcH, null);
-//        System.out.printf("""
-//                %d %d
-//                %d %d
-//                """,
-//                dstX, dstY,
-//                dstW, dstH);
+        g.drawImage(figureImage,
+        dstX, dstY, dstW, dstH,
+        srcX, srcY, srcW, srcH,
+        null);
+    }
+
+    /**
+     * <p>Draws the <code>figureImage</code> offset from edge by the <code>OFFSET</code> constant</p>
+     * @param g the <code>Graphics</code> object to protect
+     * @param p <code>Point</code> specifying the origin for the <code>figureImage</code>
+     */
+    public void paintFigure(Graphics g, Point p) {
+        int OFFSET = (int) (SQUARE_SIZE * 0.1);
+
+        // Destination where the image will be drawn
+        int dstX = (int) p.getX() + OFFSET;
+        int dstY = (int) p.getY() + OFFSET;
+        int dstW = (int) p.getX() + SQUARE_SIZE - OFFSET;
+        int dstH = (int) p.getY() + SQUARE_SIZE - OFFSET;
+
+        // Original proportions of the image
+        int srcX = figureImage.getMinX();
+        int srcY = figureImage.getMinY();
+        int srcW = figureImage.getWidth();
+        int srcH = figureImage.getHeight();
+
+        // Overloaded method that scales the image
+        // to the current board resolution
+        g.drawImage(figureImage,
+        dstX, dstY, dstW, dstH,
+        srcX, srcY, srcW, srcH,
+        null);
     }
 
 }

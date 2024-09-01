@@ -12,44 +12,28 @@ import java.awt.event.MouseEvent;
 
 /**
  * The main game class that draws UI and handles action events.
- * <p>This class should contain instances of all components used
- * for the game, namely Board and Figures. Each figure keeps
- * track of its position on the board and this class uses this
- * information to draw the board.</p>
  * Selection is handled by this class and calls methods of the
  * components to change their state.
  */
-public class DrawChess extends JPanel {
+public class ChessPanel extends JPanel {
 
     private static final Color YELLOW = new Color(255, 255, 0);
-    private static final int FRAME_XY = 512;
 
-    private final Board board;
-    private final Pawn pawn;
+    private final int           RESOLUTION;
+    private final ChessGame     game;
+    private final ChessBoard    board;
 
     private Square selectedSquare;
 
 
-    public DrawChess() {
-        board = new Board(FRAME_XY);
-        pawn = new Pawn(Figure.Side.WHITE, Figure.Rank.PAWN, Coordinate.A8, FRAME_XY);
+    public ChessPanel(int RESOLUTION) {
+        this.RESOLUTION = RESOLUTION;
+        this.game = new ChessGame(RESOLUTION);
+        this.board = game.getBoard();
 
         /*
          * Left-click: selects a single square on the board
          * Right-click: deselects currently selected square
-         *
-         * This method should check all components of the Chess class
-         * and compare their location on the board. If the selectedSquare
-         * location contains a figure, get figure's available moves
-         * and draw them on the board.
-         *
-         * If a figure is selected and user clicks on valid move square,
-         * change figures location to the new square and redraw figure's
-         * previous square and new square.
-         *
-         * If another figure is on the valid move square, check figures
-         * side and if it's opponent, kick that figure and move to its position.
-         *
          */
         addMouseListener(new MouseAdapter() {
             @Override
@@ -82,7 +66,11 @@ public class DrawChess extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(FRAME_XY, FRAME_XY);
+        return new Dimension(RESOLUTION, RESOLUTION);
+    }
+
+    public int getResolution() {
+        return RESOLUTION;
     }
 
     /**
@@ -100,9 +88,9 @@ public class DrawChess extends JPanel {
             2) selection
             3) figures
          */
-        board.paintBoard(g);
-        paintSelectedSquare(g);
-        pawn.paintFigure(g, board.getCoordinate(Coordinate.A8));
+        board.paintBoard(g);    // 1)
+        paintSelectedSquare(g); // 2)
+        game.drawFigures(g);    // 3)
     }
 
     /**

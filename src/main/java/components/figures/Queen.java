@@ -1,19 +1,19 @@
 package main.java.components.figures;
 
-import main.java.components.Board;
-import main.java.components.models.Coordinate;
 import main.java.components.models.Figure;
+import main.java.components.models.Rank;
+import main.java.components.models.Side;
 
 import java.awt.*;
 
 public class Queen extends Figure {
 
-    public Queen(Side side, Rank rank, Coordinate position, int FRAME_XY) {
-        super(side, rank, position, FRAME_XY);
+    public Queen(Side side, Rank rank, Point position, int resolution) {
+        super(side, rank, position, resolution);
     }
 
     @Override
-    public void move(Coordinate position) {
+    public void move(Point position) {
 
     }
 
