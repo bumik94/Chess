@@ -113,7 +113,6 @@ public class ChessBoard {
     }
 
     public Point getCoordinate(Coordinate c) {
-        System.out.println("Coordinate: " + coordinates.get(c));
         return coordinates.get(c);
     }
 

@@ -14,14 +14,16 @@ import java.util.ArrayList;
  * and handle game logic
  */
 public class ChessGame {
-    private static final int MAX_PAWNS = 8;
-    private static final int WHITE_PAWN_ROW = 48;
-    private static final int WHITE_ROYAL_ROW = 56;
-    private static final int MAX_PAIRS = 4;
+    static final int MAX_PAIRS = 4;
+    static final int MAX_PAWNS = 8;
+    static final int WHITE_PAWN_ROW = 48;
+    static final int WHITE_ROYAL_ROW = 56;
+    static final int BLACK_PAWN_ROW = 8;
+    static final int BLACK_ROYAL_ROW = 0;
 
     private final ChessBoard board;
     private final ArrayList<Figure> white;
-//    private final ArrayList<Figure> black;
+    private final ArrayList<Figure> black;
 //    private final ArrayList<Figure> figures;
 
 
@@ -30,46 +32,41 @@ public class ChessGame {
     //
     public ChessGame(int resolution) {
         board = new ChessBoard(resolution);
-        white = initWhite(resolution);
-        /*
-        Construct pieces for each side and put them inside a container
-        Create a method to loop trough this container and draw each figure
-        determined by its position field
-         */
-
-
+        black = initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW, BLACK_ROYAL_ROW);
+        white = initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW);
     }
 
     //
     // Methods
     //
+    private ArrayList<Figure> initializeFigures(
+            int resolution, Side side,
+            int PAWN_ROW, int ROYAL_ROW) {
 
-    private ArrayList<Figure> initWhite(int resolution) {
         ArrayList<Figure> list = new ArrayList<>();
         Coordinate[] coordinates = Coordinate.values();
 
-        for (int i = WHITE_PAWN_ROW; i < MAX_PAWNS + WHITE_PAWN_ROW; i++) {
+        for (int i = PAWN_ROW; i < MAX_PAWNS + PAWN_ROW; i++) {
             Pawn pawn = new Pawn(
-                    Side.WHITE,
+                    side,
                     Rank.PAWN,
                     board.getCoordinate(coordinates[i]),
                     resolution);
             list.add(pawn);
         }
         int pair = 1;
-        for (int i = WHITE_ROYAL_ROW; i < MAX_PAIRS + WHITE_ROYAL_ROW; i++) {
-
+        for (int i = ROYAL_ROW; i < MAX_PAIRS + ROYAL_ROW; i++) {
             switch (pair++) {
                 case 1 -> {
                     Rook rook1 = new Rook(
-                            Side.WHITE,
+                            side,
                             Rank.ROOK,
                             board.getCoordinate(coordinates[i]),
                             resolution);
                     list.add(rook1);
 
                     Rook rook2 = new Rook(
-                            Side.WHITE,
+                            side,
                             Rank.ROOK,
                             board.getCoordinate(coordinates[i + 7]),
                             resolution);
@@ -77,14 +74,14 @@ public class ChessGame {
                 }
                 case 2 -> {
                     Knight knight1 = new Knight(
-                            Side.WHITE,
+                            side,
                             Rank.KNIGHT,
                             board.getCoordinate(coordinates[i]),
                             resolution);
                     list.add(knight1);
 
                     Knight knight2 = new Knight(
-                            Side.WHITE,
+                            side,
                             Rank.KNIGHT,
                             board.getCoordinate(coordinates[i + 5]),
                             resolution);
@@ -92,14 +89,14 @@ public class ChessGame {
                 }
                 case 3 -> {
                     Bishop bishop1 = new Bishop(
-                            Side.WHITE,
+                            side,
                             Rank.BISHOP,
                             board.getCoordinate(coordinates[i]),
                             resolution);
                     list.add(bishop1);
 
                     Bishop bishop2 = new Bishop(
-                            Side.WHITE,
+                            side,
                             Rank.BISHOP,
                             board.getCoordinate(coordinates[i + 3]),
                             resolution);
@@ -107,14 +104,14 @@ public class ChessGame {
                 }
                 case 4 -> {
                     Queen queen = new Queen(
-                            Side.WHITE,
+                            side,
                             Rank.QUEEN,
                             board.getCoordinate(coordinates[i]),
                             resolution);
                     list.add(queen);
 
                     King king = new King(
-                            Side.WHITE,
+                            side,
                             Rank.KING,
                             board.getCoordinate(coordinates[i + 1]),
                             resolution);
@@ -132,5 +129,10 @@ public class ChessGame {
 
     public void drawFigures(Graphics g) {
         white.forEach(figure -> figure.paintFigure(g));
+        black.forEach(figure -> figure.paintFigure(g));
+    }
+
+    public void moveFigure(Coordinate coordinate) {
+
     }
 }

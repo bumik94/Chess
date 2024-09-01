@@ -1,9 +1,6 @@
 package main.java.components;
 
-import main.java.components.figures.Pawn;
-import main.java.components.models.Coordinate;
 import main.java.components.models.Square;
-import main.java.components.models.Figure;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,19 +13,18 @@ import java.awt.event.MouseEvent;
  * components to change their state.
  */
 public class ChessPanel extends JPanel {
-
     private static final Color YELLOW = new Color(255, 255, 0);
 
-    private final int           RESOLUTION;
+    private final int resolution;
     private final ChessGame     game;
     private final ChessBoard    board;
 
     private Square selectedSquare;
 
 
-    public ChessPanel(int RESOLUTION) {
-        this.RESOLUTION = RESOLUTION;
-        this.game = new ChessGame(RESOLUTION);
+    public ChessPanel(int resolution) {
+        this.resolution = resolution;
+        this.game = new ChessGame(resolution);
         this.board = game.getBoard();
 
         /*
@@ -66,11 +62,7 @@ public class ChessPanel extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(RESOLUTION, RESOLUTION);
-    }
-
-    public int getResolution() {
-        return RESOLUTION;
+        return new Dimension(resolution, resolution);
     }
 
     /**
