@@ -133,4 +133,34 @@ public class ChessGame {
     public void moveFigure(Coordinate coordinate) {
 
     }
+
+		/*
+		import java.util.*;
+
+class Main {
+  
+  public static void main(String[] args){
+    char a1C = Coordinate.getCol(Coordinate.A1);
+     int a1R = Coordinate.getRow(Coordinate.A1);
+    System.out.printf("%c %d", a1C, a1R);
+  }
+  
+  static void move(Coordinate orig, Coordinate dest) {
+     int origRow = Coordinate.getRow(orig);
+    char origCol = Coordinate.getCol(orig);
+     int destRow = Coordinate.getRow(dest);
+    char destCol = Coordinate.getCol(dest);
+    // pawn white condition to kick opponent or one forward and right of itself
+    if    (origRow + 1 == destRow && origCol + 1 == destCol && Board.getFigures.contains(Figure)
+        || origRow + 1 == destRow && origCol - 1 == destCol && Board.getFigures.contains(Figure)) {
+      if Figure.isRank(Rank.KING) {
+        // Check = true
+      }
+      else {
+        Figure.move(dest)
+      }
+    }
+  }
+}
+		*/
 }
