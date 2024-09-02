@@ -1,4 +1,4 @@
-package main.java.components.models;
+package main.java.components.utility;
 
 /**
  * Enum to hold information about each rank:

@@ -1,6 +1,8 @@
 package main.java.components;
 
+import main.java.components.models.Board;
 import main.java.components.models.Square;
+import main.java.components.utility.Coordinate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,7 @@ public class ChessPanel extends JPanel {
 
     private final int resolution;
     private final ChessGame     game;
-    private final ChessBoard    board;
+    private final Board board;
 
     private Square selectedSquare;
 
@@ -26,6 +28,9 @@ public class ChessPanel extends JPanel {
         this.resolution = resolution;
         this.game = new ChessGame(resolution);
         this.board = game.getBoard();
+
+        System.out.println(Coordinate.getColumn(Coordinate.A1));
+        System.out.println(Coordinate.getRow(Coordinate.A1));
 
         /*
          * Left-click: selects a single square on the board

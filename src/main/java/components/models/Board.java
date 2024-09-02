@@ -1,14 +1,13 @@
-package main.java.components;
+package main.java.components.models;
 
-import main.java.components.models.Coordinate;
-import main.java.components.models.Square;
+import main.java.components.utility.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChessBoard {
-
+public class Board {
+    private static final int   AREA = 64;
     private static final Color WHITE = new Color(222, 221, 219);
     private static final Color BROWN = new Color(150, 75, 0);
 
@@ -17,24 +16,24 @@ public class ChessBoard {
 
 // TODO problem with this coordinates map changing values on mouse action
 
-    public ChessBoard(int resolution) {
+    public Board(int resolution) {
         this.board = initBoard(resolution);
         this.coordinates = initCoordinates();
     }
 
     /**
      * <p>Initialize board for drawing.</p>
-     * @param FRAME_XY resolution of the frame
+     * @param resolution resolution of the frame
      * @return <code>ArrayList</code> containing <code>Square</code> objects
      *         with specified position and dimension
      */
-    private ArrayList<Square> initBoard(int FRAME_XY) {
+    private ArrayList<Square> initBoard(int resolution) {
         ArrayList<Square> list = new ArrayList<>();
-        int SQUARE_SIZE = FRAME_XY / 8;
+        int SQUARE_SIZE = resolution / 8;
         int alt = 1;  // Alternate color pattern
 
-        for (int y = 0; y < FRAME_XY; y += SQUARE_SIZE) {
-            for (int x = 0; x < FRAME_XY; x += SQUARE_SIZE) {
+        for (int y = 0; y < resolution; y += SQUARE_SIZE) {
+            for (int x = 0; x < resolution; x += SQUARE_SIZE) {
 
                 Color color;
                 if (alt++ % 2 == 0) {
@@ -60,11 +59,8 @@ public class ChessBoard {
         HashMap<Coordinate, Point> map = new HashMap<>();
         Coordinate[] coordinateArray = Coordinate.values();
 
-        for (int i = 0; i < coordinateArray.length; i++) {
-            map.put(coordinateArray[i],
-                    new Point(
-                        (int) board.get(i).getX(),
-                        (int) board.get(i).getY()));
+        for (int i = 0; i < AREA; i++) {
+            map.put(coordinateArray[i], board.get(i).getLocation());
         }
 
         return map;

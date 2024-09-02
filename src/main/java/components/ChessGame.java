@@ -1,10 +1,8 @@
 package main.java.components;
 
 import main.java.components.figures.*;
-import main.java.components.models.Coordinate;
-import main.java.components.models.Figure;
-import main.java.components.models.Rank;
-import main.java.components.models.Side;
+import main.java.components.models.*;
+import main.java.components.utility.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class ChessGame {
     static final int BLACK_PAWN_ROW = 8;
     static final int BLACK_ROYAL_ROW = 0;
 
-    private final ChessBoard board;
+    private final Board board;
     private final ArrayList<Figure> white;
     private final ArrayList<Figure> black;
 //    private final ArrayList<Figure> figures;
@@ -31,7 +29,7 @@ public class ChessGame {
     // Constructor
     //
     public ChessGame(int resolution) {
-        board = new ChessBoard(resolution);
+        board = new Board(resolution);
         black = initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW, BLACK_ROYAL_ROW);
         white = initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW);
     }
@@ -123,7 +121,7 @@ public class ChessGame {
         return list;
     }
 
-    public ChessBoard getBoard() {
+    public Board getBoard() {
         return this.board;
     }
 

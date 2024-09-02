@@ -1,8 +1,8 @@
 package main.java.components.figures;
 
 import main.java.components.models.Figure;
-import main.java.components.models.Rank;
-import main.java.components.models.Side;
+import main.java.components.utility.Rank;
+import main.java.components.utility.Side;
 
 import java.awt.*;
 

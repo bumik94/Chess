@@ -1,5 +1,7 @@
 package main.java.components.models;
 
+import main.java.components.utility.*;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
