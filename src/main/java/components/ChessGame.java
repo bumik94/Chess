@@ -20,9 +20,9 @@ public class ChessGame {
     static final int BLACK_ROYAL_ROW = 0;
 
     private final Board board;
-    private final ArrayList<Figure> white;
-    private final ArrayList<Figure> black;
-//    private final ArrayList<Figure> figures;
+//    private final ArrayList<Figure> white;
+//    private final ArrayList<Figure> black;
+    private final ArrayList<Figure> figures;
 
 
     //
@@ -30,8 +30,12 @@ public class ChessGame {
     //
     public ChessGame(int resolution) {
         board = new Board(resolution);
-        black = initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW, BLACK_ROYAL_ROW);
-        white = initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW);
+        figures = new ArrayList<>();
+        figures.addAll(initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW));
+        figures.addAll(initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW,BLACK_ROYAL_ROW));
+
+//        black = initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW, BLACK_ROYAL_ROW);
+//        white = initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW);
     }
 
     //
@@ -126,8 +130,9 @@ public class ChessGame {
     }
 
     public void drawFigures(Graphics g) {
-        white.forEach(figure -> figure.paintFigure(g));
-        black.forEach(figure -> figure.paintFigure(g));
+//        white.forEach(figure -> figure.paintFigure(g));
+//        black.forEach(figure -> figure.paintFigure(g));
+        figures.forEach(figure -> figure.paintFigure(g));
     }
 
     public void moveFigure(Coordinate coordinate) {

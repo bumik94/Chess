@@ -14,7 +14,6 @@ public class Board {
     private final ArrayList<Square> board;
     private final HashMap<Coordinate, Point> coordinates;
 
-// TODO problem with this coordinates map changing values on mouse action
 
     public Board(int resolution) {
         this.board = initBoard(resolution);
@@ -55,7 +54,6 @@ public class Board {
      * @return map of <code>Coordinate, Rectangle</code>
      */
     private HashMap<Coordinate, Point> initCoordinates() {
-        //TODO rewrite this method to contain a Point of the origin of the square
         HashMap<Coordinate, Point> map = new HashMap<>();
         Coordinate[] coordinateArray = Coordinate.values();
 

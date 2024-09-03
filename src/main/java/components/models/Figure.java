@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class Figure {
-
     int SQUARE_SIZE;
     Side side;
     Rank rank;

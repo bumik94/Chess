@@ -10,18 +10,18 @@ public enum Coordinate {
     B1, B2, B3, B4, B5, B6, B7, B8,
     A1, A2, A3, A4, A5, A6, A7, A8,
 
-    COLUMN_MIN("A"),
-    COLUMN_MAX("H"),
+    COLUMN_MIN('A'),
+    COLUMN_MAX('H'),
 
     ROW_MIN(1),
     ROW_MAX(8);
 
     Coordinate() {}
-    Coordinate(String column) {}
+    Coordinate(char column) {}
     Coordinate(int row) {}
 
-    public static String getColumn(Coordinate c) {
-        return c.toString().substring(0, 1);
+    public static char getColumn(Coordinate c) {
+        return c.toString().substring(0, 1).charAt(0);
     }
 
     public static int getRow(Coordinate c) {
