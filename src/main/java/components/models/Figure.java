@@ -13,7 +13,6 @@ public abstract class Figure {
     Side side;
     Rank rank;
     BufferedImage figureImage;
-    // TODO change Point to Coordinate, rework figures initialization
     Point position;
 
 
@@ -49,7 +48,6 @@ public abstract class Figure {
     //
     // Default methods
     //
-
     public void setPosition(Point position) {
         this.position = position;
     }
@@ -60,10 +58,6 @@ public abstract class Figure {
 
     public Rank getRank() {
         return rank;
-    }
-
-    public BufferedImage getFigureImage() {
-        return figureImage;
     }
 
     /**

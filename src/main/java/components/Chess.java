@@ -36,10 +36,6 @@ public class Chess extends JPanel {
          * Left-click: selects a single square on the board
          * Right-click: deselects currently selected square
          */
-        // TODO implement position evaluation based on the square that is clicked,
-        //      get the Point of the square and call board.getCoordinates(Point p)
-        //      to move figure if plausible.
-        //
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

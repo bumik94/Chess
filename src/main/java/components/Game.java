@@ -29,10 +29,11 @@ public class Game {
     // Constructor
     //
     public Game(int resolution) {
-        board = new Board(resolution);
+        this.board = new Board(resolution);
         figures = new ArrayList<>();
-        figures.addAll(initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW));
-        figures.addAll(initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW,BLACK_ROYAL_ROW));
+        figures.addAll(initFigures(resolution));
+//        figures.addAll(initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW));
+//        figures.addAll(initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW,BLACK_ROYAL_ROW));
 
 //        black = initializeFigures(resolution, Side.BLACK, BLACK_PAWN_ROW, BLACK_ROYAL_ROW);
 //        white = initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW);
@@ -41,6 +42,33 @@ public class Game {
     //
     // Methods
     //
+    // TODO manually construct figures
+    private  ArrayList<Figure> initFigures(int resolution) {
+        ArrayList<Figure> list = new ArrayList<>();
+
+        // White
+        // Pawns
+        for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {
+            list.add(new Pawn(Side.WHITE, Rank.PAWN, board.getPointAt(i), resolution));
+        }
+        // Rooks
+        list.add(new Rook(Side.WHITE, Rank.ROOK, board.getPointAt(Coordinate.A1), resolution));
+        list.add(new Rook(Side.WHITE, Rank.ROOK, board.getPointAt(Coordinate.A8), resolution));
+
+        // Knights
+        list.add(new Rook(Side.WHITE, Rank.KNIGHT, board.getPointAt(Coordinate.A2), resolution));
+        list.add(new Rook(Side.WHITE, Rank.KNIGHT, board.getPointAt(Coordinate.A7), resolution));
+
+        // Bishops
+        list.add(new Rook(Side.WHITE, Rank.BISHOP, board.getPointAt(Coordinate.A3), resolution));
+        list.add(new Rook(Side.WHITE, Rank.BISHOP, board.getPointAt(Coordinate.A6), resolution));
+
+        // Royalty
+        list.add(new Rook(Side.WHITE, Rank.QUEEN, board.getPointAt(Coordinate.A4), resolution));
+        list.add(new Rook(Side.WHITE, Rank.KING, board.getPointAt(Coordinate.A5), resolution));
+        return list;
+    }
+/*
     private ArrayList<Figure> initializeFigures(
             int resolution, Side side,
             int PAWN_ROW, int ROYAL_ROW) {
@@ -124,7 +152,7 @@ public class Game {
 
         return list;
     }
-
+*/
     public Board getBoard() {
         return this.board;
     }

@@ -12,8 +12,7 @@ public class Board {
     private static final Color BROWN = new Color(150, 75, 0);
 
     private final ArrayList<Square> board;
-    // TODO rework coordinate map to contain Point as key and Coordinate as value
-    private final HashMap<Coordinate, Point> coordinates;
+    private final HashMap<Point, Coordinate> coordinates;
 
 
     public Board(int resolution) {
@@ -54,12 +53,12 @@ public class Board {
      * <code>Rectangle</code> holds data about the position and dimension of <code>Square</code>.
      * @return map of <code>Coordinate, Rectangle</code>
      */
-    private HashMap<Coordinate, Point> initCoordinates() {
-        HashMap<Coordinate, Point> map = new HashMap<>();
+    private HashMap<Point, Coordinate> initCoordinates() {
+        HashMap<Point, Coordinate> map = new HashMap<>();
         Coordinate[] coordinateArray = Coordinate.values();
 
         for (int i = 0; i < AREA; i++) {
-            map.put(coordinateArray[i], board.get(i).getLocation());
+            map.put(board.get(i).getLocation(), coordinateArray[i]);
         }
 
         return map;
@@ -107,9 +106,16 @@ public class Board {
         return getSquareAt((int) p.getX(), (int) p.getY());
     }
 
-    // TODO Change method to take Point as parameter and return Coordinate from map coordinates
-    public Point getCoordinate(Coordinate c) {
+    public Coordinate getCoordinate(Point c) {
         return coordinates.get(c);
+    }
+
+    public Point getPointAt(Coordinate c) {
+        return board.get(c.ordinal()).getLocation();
+    }
+
+    public Point getPointAt(int index) {
+        return board.get(index).getLocation();
     }
 
 }
