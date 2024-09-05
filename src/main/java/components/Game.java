@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class should construct all objects
  * and handle game logic
  */
-public class ChessGame {
+public class Game {
     static final int MAX_PAIRS = 4;
     static final int MAX_PAWNS = 8;
     static final int WHITE_PAWN_ROW = 48;
@@ -28,7 +28,7 @@ public class ChessGame {
     //
     // Constructor
     //
-    public ChessGame(int resolution) {
+    public Game(int resolution) {
         board = new Board(resolution);
         figures = new ArrayList<>();
         figures.addAll(initializeFigures(resolution, Side.WHITE, WHITE_PAWN_ROW, WHITE_ROYAL_ROW));

@@ -14,19 +14,19 @@ import java.awt.event.MouseEvent;
  * Selection is handled by this class and calls methods of the
  * components to change their state.
  */
-public class ChessPanel extends JPanel {
+public class Chess extends JPanel {
     private static final Color YELLOW = new Color(255, 255, 0);
 
     private final int resolution;
-    private final ChessGame     game;
+    private final Game game;
     private final Board board;
 
     private Square selectedSquare;
 
 
-    public ChessPanel(int resolution) {
+    public Chess(int resolution) {
         this.resolution = resolution;
-        this.game = new ChessGame(resolution);
+        this.game = new Game(resolution);
         this.board = game.getBoard();
 
         System.out.println(Coordinate.getColumn(Coordinate.A1));
@@ -36,6 +36,10 @@ public class ChessPanel extends JPanel {
          * Left-click: selects a single square on the board
          * Right-click: deselects currently selected square
          */
+        // TODO implement position evaluation based on the square that is clicked,
+        //      get the Point of the square and call board.getCoordinates(Point p)
+        //      to move figure if plausible.
+        //
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

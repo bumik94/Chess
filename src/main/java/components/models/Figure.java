@@ -13,6 +13,7 @@ public abstract class Figure {
     Side side;
     Rank rank;
     BufferedImage figureImage;
+    // TODO change Point to Coordinate, rework figures initialization
     Point position;
 
 

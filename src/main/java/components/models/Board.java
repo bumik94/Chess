@@ -12,6 +12,7 @@ public class Board {
     private static final Color BROWN = new Color(150, 75, 0);
 
     private final ArrayList<Square> board;
+    // TODO rework coordinate map to contain Point as key and Coordinate as value
     private final HashMap<Coordinate, Point> coordinates;
 
 
@@ -106,6 +107,7 @@ public class Board {
         return getSquareAt((int) p.getX(), (int) p.getY());
     }
 
+    // TODO Change method to take Point as parameter and return Coordinate from map coordinates
     public Point getCoordinate(Coordinate c) {
         return coordinates.get(c);
     }
