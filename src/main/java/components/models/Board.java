@@ -106,8 +106,8 @@ public class Board {
         return getSquareAt((int) p.getX(), (int) p.getY());
     }
 
-    public Coordinate getCoordinate(Point c) {
-        return coordinates.get(c);
+    public Coordinate getCoordinate(Point p) {
+        return coordinates.get(p);
     }
 
     public Point getPointAt(Coordinate c) {

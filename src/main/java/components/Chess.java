@@ -1,6 +1,7 @@
 package main.java.components;
 
 import main.java.components.models.Board;
+import main.java.components.models.Figure;
 import main.java.components.models.Square;
 import main.java.components.utility.Coordinate;
 
@@ -15,6 +16,8 @@ import java.awt.event.MouseEvent;
  * components to change their state.
  */
 public class Chess extends JPanel {
+
+    // TODO Stockfish chess AI
     private static final Color YELLOW = new Color(255, 255, 0);
 
     private final int resolution;
@@ -22,7 +25,7 @@ public class Chess extends JPanel {
     private final Board board;
 
     private Square selectedSquare;
-
+    private Figure selectedFigure;
 
     public Chess(int resolution) {
         this.resolution = resolution;
@@ -42,10 +45,14 @@ public class Chess extends JPanel {
                 switch (e.getButton()) {
                     // Left-click
                     case MouseEvent.BUTTON1 -> {
+                        // Draw selected square
                         Point p = new Point(e.getX(), e.getY());
                         Square square = board.getSquareAt(p);
                         setSelectedSquare(square);
-                        System.out.println(square);
+//                        System.out.println(square);
+
+                        // get selected figure
+                        setSelectedFigure(square.getLocation());
                     }
                     // Right-click
                     case MouseEvent.BUTTON3 -> {
@@ -96,7 +103,6 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintSelectedSquare(Graphics g) {
-
         if (selectedSquare != null) {
             selectedSquare.paintSquare(g);
         }
@@ -105,18 +111,26 @@ public class Chess extends JPanel {
     /**
      * Keep track of currently selected square
      *
-     * @param selectedSquare from <code>mousePressed</code> method
+     * @param rectangle from <code>mousePressed</code> method
      */
-    private void setSelectedSquare(Rectangle selectedSquare) {
-
-        if (this.selectedSquare != null) {
-            if (this.selectedSquare.getLocation().equals(selectedSquare.getLocation())) {
+    private void setSelectedSquare(Rectangle rectangle) {
+        if (selectedSquare != null) {
+            if (selectedSquare.getLocation().equals(rectangle.getLocation())) {
                 return;
             }
-            repaint(this.selectedSquare);
+            // Repaint old position
+            repaint(selectedSquare);
         }
-        this.selectedSquare = new Square(selectedSquare, YELLOW);
-        repaint(this.selectedSquare);
+        // Assign and repaint new position
+        selectedSquare = new Square(rectangle, YELLOW);
+        repaint(selectedSquare);
+
+        // If selectedSquare and selectedFigure is not null, movw figure to new position
+    }
+
+    private void setSelectedFigure(Point p) {
+        selectedFigure = game.getFigure(p);
+        System.out.println("selected figure: " + selectedFigure);
     }
 
 }

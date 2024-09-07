@@ -52,6 +52,10 @@ public abstract class Figure {
         this.position = position;
     }
 
+    public Point getPosition() {
+        return this.position;
+    }
+
     public Side getSide() {
         return side;
     }
@@ -126,4 +130,12 @@ public abstract class Figure {
         null);
     }
 
+    @Override
+    public String toString() {
+        return "Figure{" +
+                "side=" + side +
+                ", rank=" + rank +
+                ", position=" + position +
+                '}';
+    }
 }
