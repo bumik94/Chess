@@ -88,7 +88,7 @@ public class Board {
         board.forEach(s -> {
             if (s.contains(p)) {
                 square[0] = s;
-                System.out.println("i=" + board.indexOf(s));
+//                System.out.println("i=" + board.indexOf(s));
             }
         });
 

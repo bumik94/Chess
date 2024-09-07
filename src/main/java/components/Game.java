@@ -71,10 +71,9 @@ public class Game {
     }
 
     public Figure getFigure(Point p) {
-        System.out.println(p);
         for (Figure figure : figures) {
             if (figure.getPosition().equals(p)) {
-                System.out.println(figure.getPosition());
+//                System.out.println(figure.getPosition());
                 return figure;
             }
         }

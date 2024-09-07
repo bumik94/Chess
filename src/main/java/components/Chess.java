@@ -32,9 +32,6 @@ public class Chess extends JPanel {
         this.game = new Game(resolution);
         this.board = game.getBoard();
 
-        System.out.println(Coordinate.getColumn(Coordinate.A1));
-        System.out.println(Coordinate.getRow(Coordinate.A1));
-
         /*
          * Left-click: selects a single square on the board
          * Right-click: deselects currently selected square
@@ -46,19 +43,29 @@ public class Chess extends JPanel {
                     // Left-click
                     case MouseEvent.BUTTON1 -> {
                         // Draw selected square
-                        Point p = new Point(e.getX(), e.getY());
-                        Square square = board.getSquareAt(p);
-                        setSelectedSquare(square);
-//                        System.out.println(square);
+                        Square square = board.getSquareAt(e.getX(), e.getY());
+                        Point p = square.getLocation();
 
-                        // get selected figure
-                        setSelectedFigure(square.getLocation());
+                        setSelectedSquare(square);
+
+                        if (selectedFigure == null) {
+                            setSelectedFigure(p);
+                        }
+                        else if (getSelectedFigure(p) == null) {
+                            selectedFigure.setPosition(p);
+                            selectedFigure = null;
+
+                            Rectangle r = selectedSquare.getBounds();
+                            repaint(r);
+                            selectedSquare = null;
+                        }
                     }
                     // Right-click
                     case MouseEvent.BUTTON3 -> {
                         if (selectedSquare != null) {
                             Rectangle r = selectedSquare.getBounds();
                             selectedSquare = null;
+                            selectedFigure = null;
                             repaint(r);
                         }
                     }
@@ -124,13 +131,15 @@ public class Chess extends JPanel {
         // Assign and repaint new position
         selectedSquare = new Square(rectangle, YELLOW);
         repaint(selectedSquare);
+    }
 
-        // If selectedSquare and selectedFigure is not null, movw figure to new position
+    private Figure getSelectedFigure(Point p) {
+        return game.getFigure(p);
     }
 
     private void setSelectedFigure(Point p) {
         selectedFigure = game.getFigure(p);
-        System.out.println("selected figure: " + selectedFigure);
+//        System.out.println("selected figure: " + selectedFigure);
     }
 
 }

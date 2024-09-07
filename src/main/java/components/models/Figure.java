@@ -2,6 +2,9 @@ package main.java.components.models;
 
 import main.java.components.utility.*;
 
+import main.java.components.utility.Rank;
+import main.java.components.utility.Side;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
