@@ -1,41 +1,25 @@
 package experimental.figures;
 
-import experimental.Coordinate;
-import experimental.Figure;
-import experimental.Rank;
-import experimental.Side;
 
-import java.awt.*;
-import java.util.ArrayList;
+import experimental.models.Coordinate;
+import experimental.models.Figure;
+import experimental.models.Side;
+
 import java.util.HashMap;
 
-public class Pawn extends Figure {
+public class Pawn {
 
-    public Pawn(Side side, Rank rank, Point position, int resolution) {
-        super(side, rank, position, resolution);
+    public static void move(Figure figure,
+                            HashMap<Coordinate, Figure> figures,
+                            Coordinate destination) {
+
+        switch (figure.getSide()) {
+            case WHITE -> {
+                // Valid move is one step ahead from current position
+//                if (figure.getPosition())
+            }
+        }
+
     }
 
-    // TODO Coordinate ordinals range from 0-63, position can be evaluated by adding
-    //  or subtracting an interval that would represent vertical, horizontal or diagonal
-    //  square next to the previous.
-    @Override
-    public void move(Point destination) {
-//        int ord = getCoordinateOrdinal();
-
-//        switch (this.getSide()) {
-//
-//case WHITE -> {
-//        for (Figure figure : getFigures()) {
-//            int ord2 = figure.getCoordinateOrdinal();
-//
-//            switch (ord - ord2) {
-//                case 8 -> {
-//                    return;
-//                }
-//            }
-//        }
-//    }
-//
-//        }
-    }
 }

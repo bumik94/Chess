@@ -1,4 +1,4 @@
-package experimental;
+package experimental.models;
 
 /**
  * Enum to set the color of the pieces:

@@ -1,5 +1,10 @@
 package experimental;
 
+import experimental.models.Coordinate;
+import experimental.models.Figure;
+import experimental.models.Rank;
+import experimental.models.Side;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +15,16 @@ import java.util.HashMap;
  */
 public class Game {
     private final Board board;
-    private final HashMap<Coordinate, Figure> figuresMap;
+    private final HashMap<Coordinate, Figure> figures;
+
+    private Side turn;  // will be used in game loop
 
     //
     // Constructor
     //
     public Game(int resolution) {
         this.board = new Board(resolution);
-        this.figuresMap = putFigures(initFigures(resolution));
+        this.figures = putFigures(initFigures(resolution));
     }
 
     //
@@ -65,9 +72,8 @@ public class Game {
     }
 
     public Figure getFigure(Point p) {
-        Figure figure = figuresMap.get(board.getCoordinate(p));
-
-        System.out.println(figure);
+        Figure figure = figures.get(board.getCoordinate(p));
+//        System.out.println(figure);
 
         return figure;
     }
@@ -77,7 +83,7 @@ public class Game {
     }
 
     public void drawFigures(Graphics g) {
-        figuresMap.values()
+        figures.values()
                 .forEach(figure -> figure.paintFigure(g));
     }
 

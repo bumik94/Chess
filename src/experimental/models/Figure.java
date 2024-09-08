@@ -1,13 +1,16 @@
-package experimental;
+package experimental.models;
+
+import experimental.figures.Pawn;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Figure {
-    int SQUARE_SIZE;
+    final int SQUARE_SIZE;
     Side side;
     Rank rank;
     BufferedImage figureImage;
@@ -23,9 +26,6 @@ public class Figure {
         this.position = position;
         this.SQUARE_SIZE = resolution / 8;
 
-        // Create path for the image based on
-        // the `side` and `rank` values
-        // and initialize figureImage
         String path = "src/main/resources/figure_images/" +
                 side.getSide() +
                 rank.name().toLowerCase() +
@@ -37,12 +37,14 @@ public class Figure {
     // Methods
     //
     /**
-     * Checks conditions to make valid move and then calls <code>setPosition</code>
-     *
-     * @param position <code>Point</code> that will evaluate new position
+     * <p>Checks for valid moves</p>
+     * @param destination <code>Coordinate</code> of destination
      */
-    public void move(Point position) {
-
+    public void move(Coordinate destination,
+                     HashMap<Coordinate, Figure> figures) {
+        switch (rank) {
+            case PAWN -> Pawn.move(this, figures, destination);
+        }
     }
 
     public void setPosition(Point position) {
@@ -54,16 +56,15 @@ public class Figure {
     }
 
     public Side getSide() {
-        return side;
+        return this.side;
     }
 
     public Rank getRank() {
-        return rank;
+        return this.rank;
     }
 
     /**
-     * Initialize a figure image according to subclass values.
-     *
+     * <p>Initialize a figure image according to subclass values.</p>
      * @param path String specifying a path to the appropriate image
      */
     public void setFigureImage(String path) {

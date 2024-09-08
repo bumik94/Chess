@@ -1,4 +1,6 @@
-package experimental;
+package experimental.models;
+
+import java.util.HashSet;
 
 public enum Coordinate {
     H1, H2, H3, H4, H5, H6, H7, H8,
@@ -20,8 +22,25 @@ public enum Coordinate {
 //  56, 57, 58, 59, 60, 61, 62, 63;
 
     private static final Coordinate[] coordinates = Coordinate.values();
+    private static final HashSet<Coordinate> bounds = new HashSet<>(setBounds());
 
     public static Coordinate getCoordinate(int ordinal) {
         return coordinates[ordinal];
+    }
+
+    public static boolean getBounds(Coordinate c) {
+        return bounds.contains(c);
+    }
+
+    private static HashSet<Coordinate> setBounds() {
+        HashSet<Coordinate> set = new HashSet<>();
+
+        for (int i = 0; i < 64;) {
+            set.add(getCoordinate(i));
+            set.add(getCoordinate(i + 7));
+            i += 8;
+        }
+
+        return set;
     }
 }

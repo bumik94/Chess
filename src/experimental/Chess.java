@@ -1,5 +1,8 @@
 package experimental;
 
+import experimental.models.Figure;
+import experimental.models.Square;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,7 +16,7 @@ import java.awt.event.MouseEvent;
 public class Chess extends JPanel {
 
     // TODO Stockfish chess AI
-    private static final Color YELLOW = new Color(255, 255, 0);
+    private static final Color YELLOW = new Color(191, 191, 29);
 
     private final int resolution;
     private final Game game;
@@ -79,7 +82,7 @@ public class Chess extends JPanel {
             setSelectedFigure(figure);
         }
         else {
-            selectedFigure.move(p);
+//            selectedFigure.move(p);
         }
 
 

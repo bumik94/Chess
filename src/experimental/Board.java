@@ -1,5 +1,8 @@
 package experimental;
 
+import experimental.models.Coordinate;
+import experimental.models.Square;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,8 +50,10 @@ public class Board {
     }
 
     /**
-     * Initialize <code>Coordinate</code> mapped to corresponding <code>Square</code> on the <code>board</code>.
-     * <code>Rectangle</code> holds data about the position and dimension of <code>Square</code>.
+     * <p>Initialize <code>Coordinate</code> mapped to corresponding
+     * <code>Square</code> on the <code>board</code>.
+     * <code>Rectangle</code> holds data about the position
+     * and dimension of <code>Square</code>.</p>
      * @return map of <code>Coordinate, Rectangle</code>
      */
     private HashMap<Point, Coordinate> initCoordinates() {

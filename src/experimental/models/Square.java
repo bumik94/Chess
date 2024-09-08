@@ -1,4 +1,4 @@
-package experimental;
+package experimental.models;
 
 import java.awt.*;
 

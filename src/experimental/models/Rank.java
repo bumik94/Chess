@@ -1,4 +1,4 @@
-package experimental;
+package experimental.models;
 
 /**
  * Enum to hold information about each rank:
