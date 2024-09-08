@@ -1,8 +1,4 @@
-package main.java.components;
-
-import main.java.components.models.Board;
-import main.java.components.models.Figure;
-import main.java.components.models.Square;
+package experimental;
 
 import javax.swing.*;
 import java.awt.*;

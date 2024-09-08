@@ -1,21 +1,12 @@
-package main.java.components.models;
-
-import main.java.components.utility.*;
-
-import main.java.components.utility.Rank;
-import main.java.components.utility.Side;
+package experimental;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-public abstract class Figure {
-    final HashMap<Point, Coordinate> coordinates;
-    final ArrayList<Figure> figures;
+public class Figure {
     int SQUARE_SIZE;
     Side side;
     Rank rank;
@@ -26,10 +17,7 @@ public abstract class Figure {
     //
     // Constructor
     //
-    public Figure(Side side, Rank rank, Point position, int resolution,
-                  HashMap<Point, Coordinate> coordinates, ArrayList<Figure> figures) {
-        this.coordinates = coordinates;
-        this.figures = figures;
+    public Figure(Side side, Rank rank, Point position, int resolution) {
         this.side = side;
         this.rank = rank;
         this.position = position;
@@ -46,27 +34,19 @@ public abstract class Figure {
     }
 
     //
-    // Abstract methods
+    // Methods
     //
     /**
      * Checks conditions to make valid move and then calls <code>setPosition</code>
+     *
      * @param position <code>Point</code> that will evaluate new position
      */
-    public abstract void move(Point position);
+    public void move(Point position) {
 
-    //
-    // Default methods
-    //
+    }
+
     public void setPosition(Point position) {
         this.position = position;
-    }
-
-    public int getCoordinateOrdinal() {
-        return coordinates.get(position).ordinal();
-    }
-
-    protected ArrayList<Figure> getFigures() {
-        return figures;
     }
 
     public Point getPosition() {

@@ -34,38 +34,30 @@ public class Game {
         // White
         // Pawns
         for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {
-            list.add(new Pawn(Side.WHITE, Rank.PAWN, board.getPointAt(i), resolution));
+            list.add(new Pawn(Side.WHITE, Rank.PAWN, board.getPointAt(i), resolution, board.getCoordinates(), getFigures()));
         }
         // Rooks
-        list.add(new Rook(Side.WHITE, Rank.ROOK, board.getPointAt(Coordinate.A1), resolution));
-        list.add(new Rook(Side.WHITE, Rank.ROOK, board.getPointAt(Coordinate.A8), resolution));
-        // Knights
-        list.add(new Rook(Side.WHITE, Rank.KNIGHT, board.getPointAt(Coordinate.A2), resolution));
-        list.add(new Rook(Side.WHITE, Rank.KNIGHT, board.getPointAt(Coordinate.A7), resolution));
-        // Bishops
-        list.add(new Rook(Side.WHITE, Rank.BISHOP, board.getPointAt(Coordinate.A3), resolution));
-        list.add(new Rook(Side.WHITE, Rank.BISHOP, board.getPointAt(Coordinate.A6), resolution));
-        // Royalty
-        list.add(new Rook(Side.WHITE, Rank.QUEEN, board.getPointAt(Coordinate.A4), resolution));
-        list.add(new Rook(Side.WHITE, Rank.KING, board.getPointAt(Coordinate.A5), resolution));
+        list.add(new Rook(Side.WHITE, Rank.ROOK,     board.getPointAt(Coordinate.A1), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.ROOK,     board.getPointAt(Coordinate.A8), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.KNIGHT,   board.getPointAt(Coordinate.A2), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.KNIGHT,   board.getPointAt(Coordinate.A7), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.BISHOP,   board.getPointAt(Coordinate.A3), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.BISHOP,   board.getPointAt(Coordinate.A6), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.QUEEN,    board.getPointAt(Coordinate.A4), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.WHITE, Rank.KING,     board.getPointAt(Coordinate.A5), resolution, board.getCoordinates(), getFigures()));
 
         // Black
-        // Pawns
         for (int i = Coordinate.G1.ordinal(); i < Coordinate.F1.ordinal(); i++) {
-            list.add(new Pawn(Side.BLACK, Rank.PAWN, board.getPointAt(i), resolution));
+            list.add(new Pawn(Side.BLACK, Rank.PAWN, board.getPointAt(i), resolution, board.getCoordinates(), getFigures()));
         }
-        // Rooks
-        list.add(new Rook(Side.BLACK, Rank.ROOK, board.getPointAt(Coordinate.H1), resolution));
-        list.add(new Rook(Side.BLACK, Rank.ROOK, board.getPointAt(Coordinate.H8), resolution));
-        // Knights
-        list.add(new Rook(Side.BLACK, Rank.KNIGHT, board.getPointAt(Coordinate.H2), resolution));
-        list.add(new Rook(Side.BLACK, Rank.KNIGHT, board.getPointAt(Coordinate.H7), resolution));
-        // Bishops
-        list.add(new Rook(Side.BLACK, Rank.BISHOP, board.getPointAt(Coordinate.H3), resolution));
-        list.add(new Rook(Side.BLACK, Rank.BISHOP, board.getPointAt(Coordinate.H6), resolution));
-        // Royalty
-        list.add(new Rook(Side.BLACK, Rank.QUEEN, board.getPointAt(Coordinate.H4), resolution));
-        list.add(new Rook(Side.BLACK, Rank.KING, board.getPointAt(Coordinate.H5), resolution));
+        list.add(new Rook(Side.BLACK, Rank.ROOK,     board.getPointAt(Coordinate.H1), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.ROOK,     board.getPointAt(Coordinate.H8), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.KNIGHT,   board.getPointAt(Coordinate.H2), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.KNIGHT,   board.getPointAt(Coordinate.H7), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.BISHOP,   board.getPointAt(Coordinate.H3), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.BISHOP,   board.getPointAt(Coordinate.H6), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.QUEEN,    board.getPointAt(Coordinate.H4), resolution, board.getCoordinates(), getFigures()));
+        list.add(new Rook(Side.BLACK, Rank.KING,     board.getPointAt(Coordinate.H5), resolution, board.getCoordinates(), getFigures()));
 
         return list;
     }
@@ -84,13 +76,14 @@ public class Game {
         return this.board;
     }
 
+    public ArrayList<Figure> getFigures() {
+        return figures;
+    }
+
     public void drawFigures(Graphics g) {
         figures.forEach(figure -> figure.paintFigure(g));
     }
 
-    public void moveFigure(Coordinate coordinate) {
-
-    }
 
 		/*
 		import java.util.*;

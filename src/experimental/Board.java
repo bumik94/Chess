@@ -1,6 +1,4 @@
-package main.java.components.models;
-
-import main.java.components.utility.*;
+package experimental;
 
 import java.awt.*;
 import java.util.ArrayList;
