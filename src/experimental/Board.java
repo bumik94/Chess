@@ -56,15 +56,15 @@ public class Board {
         Coordinate[] coordinateArray = Coordinate.values();
 
         for (int i = 0; i < AREA; i++) {
-            map.put(board.get(i).getLocation(), coordinateArray[i]);
+            map.put(board.get(i).getLocation(),
+                    coordinateArray[i]);
         }
 
         return map;
     }
 
     /**
-     * Paint playing field
-     *
+     * <p>Paint playing board</p>
      * @param g paintComponent graphics
      */
     public void paintBoard(Graphics g) {
@@ -72,33 +72,28 @@ public class Board {
     }
 
     /**
-     * Gets square from squares list at coordinates X and Y
-     *
-     * @param x cursor on X axis
-     * @param y cursor on Y axis
-     *
-     * @return Square object located at X and Y
+     * <p>Retrieves square with origin at X and Y</p>
+     * @param x Square origin X
+     * @param y Square origin Y
+     * @return Square located at X and Y
      */
     public Square getSquareAt(int x, int y) {
         Point p = new Point(x, y);
-        final Square[] square = new Square[1];
+        Square square = null;
 
-        board.forEach(s -> {
+        for (Square s : board) {
             if (s.contains(p)) {
-                square[0] = s;
-//                System.out.println("i=" + board.indexOf(s));
+                square = s;
             }
-        });
+        }
 
-        return square[0];
+        return square;
     }
 
     /**
-     * Gets <code>Square</code> from squares list at position p
-     *
-     * @param p cursor at <code>Point</code>
-     *
-     * @return Square object contained at <code>Point</code>
+     * <p>Retrieves square with origin at Point</p>
+     * @param p Square origin <code>Point</code>
+     * @return Square located at <code>Point</code>
      */
     public Square getSquareAt(Point p) {
         return getSquareAt((int) p.getX(), (int) p.getY());
@@ -108,12 +103,12 @@ public class Board {
         return coordinates.get(p);
     }
 
-    public Point getPointAt(Coordinate c) {
-        return board.get(c.ordinal()).getLocation();
-    }
-
     public Point getPointAt(int index) {
         return board.get(index).getLocation();
+    }
+
+    public Point getPointAt(Coordinate c) {
+        return getPointAt(c.ordinal());
     }
 
     public HashMap<Point, Coordinate> getCoordinates() {

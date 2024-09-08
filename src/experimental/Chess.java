@@ -22,6 +22,9 @@ public class Chess extends JPanel {
     private Square selectedSquare;
     private Figure selectedFigure;
 
+    //
+    // Constructor
+    //
     public Chess(int resolution) {
         this.resolution = resolution;
         this.game = new Game(resolution);
@@ -37,13 +40,15 @@ public class Chess extends JPanel {
                 switch (e.getButton()) {
                     // Left-click
                     case MouseEvent.BUTTON1 -> {
-                        // Draw selected square
+                        // Draw selection
                         Square square = board.getSquareAt(e.getX(), e.getY());
                         Point p = square.getLocation();
 
+                        System.out.println(board.getCoordinate(p));
                         setSelectedSquare(square);
-
                         selectFigure(p);
+
+                        System.out.println("selected figure: " + selectedFigure);
                     }
                     // Right-click
                     case MouseEvent.BUTTON3 -> {
@@ -59,10 +64,12 @@ public class Chess extends JPanel {
         });
     }
 
+    //
+    // Methods
+    //
     /**
      * <p>Handles selection of figures. At first selects a figure on square
      * and then either moves to a free square or selects another figure.</p>
-     *
      * @param p selected square origin
      */
     private void selectFigure(Point p) {
@@ -92,18 +99,47 @@ public class Chess extends JPanel {
     }
 
     /**
-     * Board size
-     *
-     * @return dimension for the panel
+     * <p>Retrieves a figure at position <code>p</code></p>
+     * @param p origin of selected square
+     * @return <code>Figure</code> if present on square, otherwise <code>null</code>
      */
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(resolution, resolution);
+    private Figure getFigureAt(Point p) {
+        return game.getFigure(p);
+    }
+
+    private void setSelectedFigure(Figure figure) {
+        selectedFigure = figure;
     }
 
     /**
-     * Main painting method
-     *
+     * <p>Repaints selected square and its previous position.</p>
+     * @param rectangle from <code>mousePressed</code> method
+     */
+    private void setSelectedSquare(Rectangle rectangle) {
+        if (selectedSquare != null) {
+            if (selectedSquare.getLocation().equals(rectangle.getLocation())) {
+                return;
+            }
+            // Repaint old position
+            repaint(selectedSquare);
+        }
+        // Assign and repaint new position
+        selectedSquare = new Square(rectangle, YELLOW);
+        repaint(selectedSquare);
+    }
+
+    /**
+     * <p>Paints the selected square yellow</p>
+     * @param g paintComponent graphics
+     */
+    private void paintSelectedSquare(Graphics g) {
+        if (selectedSquare != null) {
+            selectedSquare.paintSquare(g);
+        }
+    }
+
+    /**
+     * <p>Main painting method</p>
      * @param graphics the <code>Graphics</code> object to protect
      */
     public void paintComponent(Graphics graphics) {
@@ -122,41 +158,12 @@ public class Chess extends JPanel {
     }
 
     /**
-     * Paints a yellow square at the location of a selected square
-     *
-     * @param g paintComponent graphics
+     * <p>Board size</p>
+     * @return dimension for the panel
      */
-    private void paintSelectedSquare(Graphics g) {
-        if (selectedSquare != null) {
-            selectedSquare.paintSquare(g);
-        }
-    }
-
-    /**
-     * Keep track of currently selected square
-     *
-     * @param rectangle from <code>mousePressed</code> method
-     */
-    private void setSelectedSquare(Rectangle rectangle) {
-        if (selectedSquare != null) {
-            if (selectedSquare.getLocation().equals(rectangle.getLocation())) {
-                return;
-            }
-            // Repaint old position
-            repaint(selectedSquare);
-        }
-        // Assign and repaint new position
-        selectedSquare = new Square(rectangle, YELLOW);
-        repaint(selectedSquare);
-    }
-
-    private Figure getFigureAt(Point p) {
-        return game.getFigure(p);
-    }
-
-    private void setSelectedFigure(Figure figure) {
-        selectedFigure = figure;
-//        System.out.println("selected figure: " + selectedFigure);
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(resolution, resolution);
     }
 
 }

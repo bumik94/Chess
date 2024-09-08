@@ -6,6 +6,7 @@ public class Square extends Rectangle {
 
     private static final Color BLACK = new Color(0, 0, 0);
     private Color background = null;
+//    private Coordinate coordinate;
 
     //
     // Constructors
@@ -20,8 +21,8 @@ public class Square extends Rectangle {
     }
 
     public Square(Rectangle r, Color background) {
-        super(r);
-        this.background = background;
+        this(r.x, r.y, r.width, background);
+
     }
 
     //

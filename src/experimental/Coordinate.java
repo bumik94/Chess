@@ -8,24 +8,11 @@ public enum Coordinate {
     D1, D2, D3, D4, D5, D6, D7, D8,
     C1, C2, C3, C4, C5, C6, C7, C8,
     B1, B2, B3, B4, B5, B6, B7, B8,
-    A1, A2, A3, A4, A5, A6, A7, A8,
+    A1, A2, A3, A4, A5, A6, A7, A8;
 
-    COLUMN_MIN('A'),
-    COLUMN_MAX('H'),
+    private static final Coordinate[] coordinates = Coordinate.values();
 
-    ROW_MIN(1),
-    ROW_MAX(8);
-
-    Coordinate() {}
-    Coordinate(char column) {}
-    Coordinate(int row) {}
-
-    public static char getColumn(Coordinate c) {
-        return c.toString().substring(0, 1).charAt(0);
+    public static Coordinate getCoordinate(int ordinal) {
+        return coordinates[ordinal];
     }
-
-    public static int getRow(Coordinate c) {
-        return Integer.parseInt(c.toString().substring(1));
-    }
-
 }
