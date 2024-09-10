@@ -71,7 +71,7 @@ public class Game {
         HashMap<Coordinate, Figure> map = new HashMap<>();
 
         list.forEach(figure -> map.put(
-                board.getCoordinate(figure.getPosition()), figure));
+                board.getCoordinate(figure.getLocation()), figure));
 
         return map;
     }

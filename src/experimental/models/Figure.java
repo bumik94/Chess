@@ -1,7 +1,5 @@
 package experimental.models;
 
-import experimental.figures.Pawn;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -45,11 +43,11 @@ public class Figure {
 
     }
 
-    public void setPosition(Point position) {
+    public void setLocation(Point position) {
         this.position = position;
     }
 
-    public Point getPosition() {
+    public Point getLocation() {
         return this.position;
     }
 

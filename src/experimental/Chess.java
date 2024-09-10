@@ -51,8 +51,9 @@ public class Chess extends JPanel {
                         System.out.println(board.getCoordinate(p));
                         setSelectedSquare(square);
                         selectFigure(p);
-                        if (selectedFigure != null) {
+                        if (selectedFigure != null && !selectedFigure.getLocation().equals(p)) {
                             game.move(selectedFigure, selectedSquare.getLocation());
+
                         }
 
                         System.out.println("selected figure: " + selectedFigure);
