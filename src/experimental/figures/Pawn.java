@@ -18,16 +18,11 @@ public class Pawn implements Movable {
         this.coordinates = coordinates;
     }
 
-    public void move(Figure figure,
-                            Coordinate destination) {
-
-        switch (figure.getSide()) {
-            case WHITE -> {
-                // Valid move is one step ahead from current position
-//                if (figure.getPosition())
-            }
-        }
-
+    public void move(Figure figure, Point destination) {
+        // Check for valid move
+        // If true, remove figure from map
+        // If opposing figure occupied the destination, replace moving figure with the
+        // opposing figure
     }
 
 }

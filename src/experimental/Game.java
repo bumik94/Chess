@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class Game {
     private final Board board;
     private final HashMap<Coordinate, Figure> figures;
-    private final HashMap<Rank, Movable> moves;
+    private final HashMap<Rank, Movable> movables;
 
     private Side turn;  // will be used in game loop
 
@@ -25,7 +25,7 @@ public class Game {
     public Game(int resolution) {
         this.board = new Board(resolution);
         this.figures = setFiguresMap(setFigures(resolution));
-        this.moves = setMoves();
+        this.movables = setMovables();
         // Temporary - implement loop to change player turns
         this.turn = Side.WHITE;
     }
@@ -34,21 +34,28 @@ public class Game {
     // Methods
     //
     public void move(Figure figure, Point destination) {
-        Movable movable;
-        switch (figure.getRank()) {
-            case PAWN -> {
-                movable = moves.get(Rank.PAWN);
-                movable.move(figure, );
-            }
+        if (figure.getSide().equals(getTurn())) {
+            Movable movable = movables.get(figure.getRank());
+            movable.move(figure, destination);
         }
+    }
 
+    public void changeTurn() {
+        switch (getTurn()) {
+            case WHITE -> setTurn(Side.BLACK);
+            case BLACK -> setTurn(Side.WHITE);
+        }
+    }
+
+    private void setTurn(Side side) {
+        this.turn = side;
     }
 
     public Side getTurn() {
         return this.turn;
     }
 
-    HashMap<Rank, Movable> setMoves() {
+    HashMap<Rank, Movable> setMovables() {
         HashMap<Rank, Movable> map = new HashMap<>();
 
         map.put(Rank.PAWN, new Pawn(getFiguresMap(), getCoordinatesMap()));

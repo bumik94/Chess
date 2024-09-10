@@ -1,6 +1,8 @@
 package experimental.models;
 
+import java.awt.*;
+
 public interface Movable {
 
-    void move(Figure figure, Coordinate destination);
+    void move(Figure figure, Point destination);
 }
