@@ -1,5 +1,6 @@
 package experimental;
 
+import experimental.figures.Pawn;
 import experimental.models.Coordinate;
 import experimental.models.Figure;
 import experimental.models.Rank;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO instantiate figure classes, pass them fields of this class and develop move methods
 /**
  * This class should construct all objects
  * and handle game logic
@@ -17,6 +19,7 @@ public class Game {
     private final Board board;
     private final HashMap<Coordinate, Figure> figures;
 
+    private final Pawn pawn;
     private Side turn;  // will be used in game loop
 
     //
@@ -24,13 +27,14 @@ public class Game {
     //
     public Game(int resolution) {
         this.board = new Board(resolution);
-        this.figures = putFigures(initFigures(resolution));
+        this.figures = setFigures(initializeFigures(resolution));
+        this.pawn = new Pawn(getFigures(), getCoordinates());
     }
 
     //
     // Methods
     //
-    private HashMap<Coordinate, Figure> putFigures(ArrayList<Figure> list) {
+    private HashMap<Coordinate, Figure> setFigures(ArrayList<Figure> list) {
         HashMap<Coordinate, Figure> map = new HashMap<>();
 
         list.forEach(figure -> map.put(
@@ -39,7 +43,11 @@ public class Game {
         return map;
     }
 
-    private ArrayList<Figure> initFigures(int resolution) {
+    private HashMap<Coordinate, Figure> getFigures() {
+        return this.figures;
+    }
+
+    private ArrayList<Figure> initializeFigures(int resolution) {
         ArrayList<Figure> list = new ArrayList<>();
 
         // White
@@ -71,7 +79,7 @@ public class Game {
         return list;
     }
 
-    public Figure getFigure(Point p) {
+    public Figure getFigureAt(Point p) {
         Figure figure = figures.get(board.getCoordinate(p));
 //        System.out.println(figure);
 

@@ -107,7 +107,7 @@ public class Chess extends JPanel {
      * @return <code>Figure</code> if present on square, otherwise <code>null</code>
      */
     private Figure getFigureAt(Point p) {
-        return game.getFigure(p);
+        return game.getFigureAt(p);
     }
 
     private void setSelectedFigure(Figure figure) {
