@@ -3,22 +3,22 @@ package experimental.figures;
 
 import experimental.models.Coordinate;
 import experimental.models.Figure;
-import experimental.models.Side;
+import experimental.models.Movable;
 
 import java.awt.*;
 import java.util.HashMap;
 
-public class Pawn {
+public class Pawn implements Movable {
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
 
-    public Pawn(HashMap<Coordinate, Figure> figures, HashMap<Point, Coordinate> coordinates) {
+    public Pawn(HashMap<Coordinate, Figure> figures,
+                HashMap<Point, Coordinate> coordinates) {
         this.figures = figures;
         this.coordinates = coordinates;
     }
 
-    public static void move(Figure figure,
-                            HashMap<Coordinate, Figure> figures,
+    public void move(Figure figure,
                             Coordinate destination) {
 
         switch (figure.getSide()) {

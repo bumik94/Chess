@@ -1,6 +1,7 @@
 package experimental;
 
 import experimental.models.Figure;
+import experimental.models.Side;
 import experimental.models.Square;
 
 import javax.swing.*;
@@ -50,6 +51,7 @@ public class Chess extends JPanel {
                         System.out.println(board.getCoordinate(p));
                         setSelectedSquare(square);
                         selectFigure(p);
+//                         game.move(selectedFigure, selectedSquare.getLocation());
 
                         System.out.println("selected figure: " + selectedFigure);
                     }
@@ -78,12 +80,19 @@ public class Chess extends JPanel {
     private void selectFigure(Point p) {
         Figure figure = getFigureAt(p);
 
-        if (selectedFigure == null) {
-            setSelectedFigure(figure);
+        switch (game.getTurn()) {
+            case WHITE -> {
+                if (figure.getSide() == Side.WHITE) {
+                    setSelectedFigure(figure);
+                }
+            }
+            case BLACK -> {
+                if (figure.getSide() == Side.BLACK) {
+                    setSelectedFigure(figure);
+                }
+            }
         }
-        else {
-//            selectedFigure.move(p);
-        }
+
 
 
 //        else if (figure == null) {

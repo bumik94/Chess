@@ -42,9 +42,7 @@ public class Figure {
      */
     public void move(Coordinate destination,
                      HashMap<Coordinate, Figure> figures) {
-        switch (rank) {
-            case PAWN -> Pawn.move(this, figures, destination);
-        }
+
     }
 
     public void setPosition(Point position) {
