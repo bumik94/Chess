@@ -25,7 +25,11 @@ public enum Coordinate {
     private static final HashSet<Coordinate> bounds = new HashSet<>(setBounds());
 
     public static Coordinate getCoordinate(int ordinal) {
-        return coordinates[ordinal];
+        try {
+            return coordinates[ordinal];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public static boolean getBounds(Coordinate c) {
@@ -35,12 +39,13 @@ public enum Coordinate {
     /**
      * <p>Extract bounding coordinates for left and right side of the board.
      * Modulus operation determines the side.</p>
+     *
      * @return A set of coordinates
      */
     private static HashSet<Coordinate> setBounds() {
         HashSet<Coordinate> set = new HashSet<>();
 
-        for (int i = 0; i < 64;) {
+        for (int i = 0; i < coordinates.length; ) {
             set.add(getCoordinate(i));
             set.add(getCoordinate(i + 7));
             i += 8;
@@ -48,4 +53,5 @@ public enum Coordinate {
 
         return set;
     }
+
 }

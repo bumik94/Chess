@@ -1,5 +1,6 @@
 package main.components;
 
+import main.models.movables.Knight;
 import main.models.movables.Pawn;
 import main.models.*;
 
@@ -101,7 +102,8 @@ public class Board {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
-//        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.C4), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.C1), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.C8), resolution));
 
         // White
         for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {
@@ -141,6 +143,7 @@ public class Board {
         HashMap<Rank, Movable> map = new HashMap<>();
 
         map.put(Rank.PAWN, new Pawn(figures, coordinates));
+        map.put(Rank.KNIGHT, new Knight(figures, coordinates));
 
         return map;
     }
@@ -148,7 +151,6 @@ public class Board {
     //
     // Getters
     //
-
     public ArrayList<Square> getBoard() {
         return this.board;
     }

@@ -128,8 +128,10 @@ public class Chess extends JPanel {
      * <p>Repaint selected square and assign null</p>
      */
     private void repaintSelectedSquare() {
-        repaint(selectedSquare);
-        selectedSquare = null;
+        if (selectedSquare != null) {
+            repaint(selectedSquare);
+            selectedSquare = null;
+        }
     }
 
     /**
@@ -221,6 +223,8 @@ public class Chess extends JPanel {
                             f.setLocation(p);
                             board.getFigures().put(c, f);
                             repaint(board.getSquareAt(c));
+
+                            changeTurn();
                         } else {
                             System.out.println("invalid move");
                         }

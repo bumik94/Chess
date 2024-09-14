@@ -4,6 +4,7 @@ package main.models.movables;
 import main.models.Coordinate;
 import main.models.Figure;
 import main.models.Movable;
+import main.models.Rank;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,14 +22,18 @@ public class Pawn implements Movable {
 
     /**
      * <p>Evaluates if a figure occupies a coordinate
-     * and is opposite side to the selected figure.</p>
+     * and is opposite side to the selected figure.
+     * King cannot be removed.</p>
      * @param selected <code>Figure</code> to move
      * @param c <code>Coordinate</code> to move to
      * @return
      */
     private boolean isRemovable(Figure selected, Coordinate c) {
         Figure contested = figures.get(c);
-        return contested != null && (!contested.getSide().equals(selected.getSide()));
+
+        return contested != null
+                && !(contested.getSide().equals(selected.getSide()))
+                && !(contested.getRank().equals(Rank.KING));
     }
 
     /**
@@ -50,9 +55,16 @@ public class Pawn implements Movable {
         Coordinate c;
 
         switch (figure.getSide()) {
+
             case WHITE -> {
                 // Move in subtractive way by 8
                 c = Coordinate.getCoordinate(position.ordinal() - 8);
+                if (c == null) {
+                    // TODO pawn promotion
+                    System.out.println("Cannot move further");
+                    return null;
+                }
+
                 if (isEmpty(c)) {
                     moves.add(c);
                 }
@@ -80,15 +92,21 @@ public class Pawn implements Movable {
                     moves.add(c);
                 }
             }
+
             case BLACK -> {
                 // Move in additive way by 8
-                // Remove in additive way by 7 or 9
                 c = Coordinate.getCoordinate(position.ordinal() + 8);
+                if (c == null) {
+                    // TODO pawn promotion
+                    System.out.println("Cannot move further");
+                    return null;
+                }
+
                 if (isEmpty(c)) {
                     moves.add(c);
                 }
 
-                // Remove in subtractive way by 7 or 9
+                // Remove in additive way by 7 or 9
                 if (Coordinate.getBounds(position)) {
                     if (position.ordinal() % 2 == 0) { // left edge
                         // Remove one step forward and right
