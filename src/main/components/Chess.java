@@ -224,7 +224,7 @@ public class Chess extends JPanel {
                         board.getFigures().put(c, f);
                         repaint(board.getSquareAt(c));
 
-//                        changeTurn();
+                        changeTurn();
 
                     } else {
                         System.out.println("invalid move");
