@@ -61,7 +61,7 @@ public class Knight implements Movable {
         HashSet<Integer> rightIntervals = new HashSet<>(List.of(-15, -6, 10, 17));
         Coordinate c;
 
-        if (Coordinate.getBounds(position)) {
+        if (Coordinate.isBoundary(position)) {
             // Boundary intervals
             if (position.ordinal() % 2 == 0) { // left edge
                 for (int interval : rightIntervals) {
@@ -85,7 +85,7 @@ public class Knight implements Movable {
                 System.out.println("interval -17");
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.getBounds(c))) {
+            if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -104,7 +104,7 @@ public class Knight implements Movable {
                 System.out.println("interval -17");
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.getBounds(c))) {
+            if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -124,7 +124,7 @@ public class Knight implements Movable {
                 System.out.println("interval -17");
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.getBounds(c))) {
+            if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -143,7 +143,7 @@ public class Knight implements Movable {
                 System.out.println("interval -17");
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.getBounds(c))) {
+            if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {

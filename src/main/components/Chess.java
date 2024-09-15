@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Chess extends JPanel {
     // TODO Stockfish chess AI
     protected static final Color YELLOW = new Color(191, 191, 29);
-    protected static final Color GREEN = new Color(0, 255, 0);
+    protected static final Color GREEN = new Color(50, 205, 50);
 
     protected final Board board;
     private   final   int RESOLUTION;
@@ -210,24 +210,24 @@ public class Chess extends JPanel {
                     if (setSelectedFigure(p)) {
                         setSelectedSquare(square);
                         System.out.println(selectedFigure);
+
+                    } else if (moves.contains(c)) {
+                        // remove figure from old position and repaint
+                        Coordinate old = board.getCoordinate(selectedFigure.getLocation());
+                        Figure f = board.getFigures().remove(old);
+                        repaintMoves(null);
+                        repaintSelectedSquare();
+                        repaint(board.getSquareAt(old));
+
+                        // Assign figure to new position and repaint
+                        f.setLocation(p);
+                        board.getFigures().put(c, f);
+                        repaint(board.getSquareAt(c));
+
+//                        changeTurn();
+
                     } else {
-                        if (moves.contains(c)) {
-                            // remove figure from old position and repaint
-                            Coordinate old = board.getCoordinate(selectedFigure.getLocation());
-                            Figure f = board.getFigures().remove(old);
-                            repaintMoves(null);
-                            repaintSelectedSquare();
-                            repaint(board.getSquareAt(old));
-
-                            // Assign figure to new position and repaint
-                            f.setLocation(p);
-                            board.getFigures().put(c, f);
-                            repaint(board.getSquareAt(c));
-
-                            changeTurn();
-                        } else {
-                            System.out.println("invalid move");
-                        }
+                        System.out.println("invalid move");
                     }
                 }
 

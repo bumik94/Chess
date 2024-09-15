@@ -22,7 +22,7 @@ public enum Coordinate {
 //  56, 57, 58, 59, 60, 61, 62, 63;
 
     private static final Coordinate[] coordinates = Coordinate.values();
-    private static final HashSet<Coordinate> bounds = new HashSet<>(setBounds());
+    private static final HashSet<Coordinate> boundaries = new HashSet<>(setBoundaries());
 
     public static Coordinate getCoordinate(int ordinal) {
         try {
@@ -32,8 +32,8 @@ public enum Coordinate {
         }
     }
 
-    public static boolean getBounds(Coordinate c) {
-        return bounds.contains(c);
+    public static boolean isBoundary(Coordinate c) {
+        return boundaries.contains(c);
     }
 
     /**
@@ -42,7 +42,7 @@ public enum Coordinate {
      *
      * @return A set of coordinates
      */
-    private static HashSet<Coordinate> setBounds() {
+    private static HashSet<Coordinate> setBoundaries() {
         HashSet<Coordinate> set = new HashSet<>();
 
         for (int i = 0; i < coordinates.length; ) {

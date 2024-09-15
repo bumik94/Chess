@@ -70,7 +70,7 @@ public class Pawn implements Movable {
                 }
 
                 // Remove in subtractive way by 7 or 9
-                if (Coordinate.getBounds(position)) {
+                if (Coordinate.isBoundary(position)) {
                     if (position.ordinal() % 2 == 0) { // left edge
                         // Remove one step forward and right
                         c = Coordinate.getCoordinate(position.ordinal() - 7);
@@ -107,7 +107,7 @@ public class Pawn implements Movable {
                 }
 
                 // Remove in additive way by 7 or 9
-                if (Coordinate.getBounds(position)) {
+                if (Coordinate.isBoundary(position)) {
                     if (position.ordinal() % 2 == 0) { // left edge
                         // Remove one step forward and right
                         c = Coordinate.getCoordinate(position.ordinal() + 9);
