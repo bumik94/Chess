@@ -52,7 +52,8 @@ public class Chess extends JPanel {
         Order of draw:
             1) board
             2) selection
-            3) figures
+            3) moves
+            4) figures
          */
         paintBoard(g);
         paintSelectedSquare(g);
