@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * The main game class that draws UI and handles action events.
@@ -18,13 +18,13 @@ public class Chess extends JPanel {
     protected static final Color YELLOW = new Color(191, 191, 29);
     protected static final Color GREEN = new Color(50, 205, 50);
 
-    protected final Board board;
+    protected final PlayingField board;
     private   final   int RESOLUTION;
 
     protected Square selectedSquare;
     protected Figure selectedFigure;
     private     Side turn;  // will be used in game loop
-    private ArrayList<Coordinate> moves;
+    private HashSet<Coordinate> moves;
 
     //
     // Constructor
@@ -32,8 +32,7 @@ public class Chess extends JPanel {
     public Chess(int RESOLUTION) {
         this.addMouseListener(new Listener());
         this.RESOLUTION = RESOLUTION;
-        this.board = new Board(RESOLUTION);
-        // Temporary - implement loop to change player turns
+        this.board = new PlayingField(RESOLUTION);
         this.turn = Side.WHITE;
     }
 
@@ -66,7 +65,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintBoard(Graphics g) {
-        board.getBoard().forEach(square -> square.paintSquare(g));
+        board.getField().forEach(square -> square.paintSquare(g));
     }
 
     /**
@@ -92,7 +91,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      * @param movesList a list returned from <code>Movable</code>
      */
-    private void paintMoves(Graphics g, ArrayList<Coordinate> movesList) {
+    private void paintMoves(Graphics g, HashSet<Coordinate> movesList) {
         if (movesList != null) {
             movesList.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
@@ -119,7 +118,7 @@ public class Chess extends JPanel {
      * to <code>moves</code> and repaints again
      * @param movesList a list returned from <code>Movable</code>
      */
-    private void repaintMoves(ArrayList<Coordinate> movesList) {
+    private void repaintMoves(HashSet<Coordinate> movesList) {
         repaintMoves();
         moves = movesList;
         repaintMoves();

@@ -54,9 +54,9 @@ public class Knight implements Movable {
      *
      * @param figure to be moved
      */
-    public ArrayList<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
-        ArrayList<Coordinate> moves = new ArrayList<>();
+        HashSet<Coordinate> moves = new HashSet<>();
         HashSet<Integer> leftIntervals = new HashSet<>(List.of(-17, -10, 6, 15));
         HashSet<Integer> rightIntervals = new HashSet<>(List.of(-15, -6, 10, 17));
         Coordinate c;

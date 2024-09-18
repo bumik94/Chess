@@ -1,61 +1,23 @@
 package main.components;
 
-import main.models.movables.*;
 import main.models.*;
+import main.models.movables.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Board {
-    private static final Color WHITE = new Color(222, 221, 219);
-    private static final Color BROWN = new Color(150, 75, 0);
-
-    private final ArrayList<Square>           board;
+public class Game {
+    private final PlayingField board;
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate>  coordinates;
     private final HashMap<Rank, Movable>      movables;
 
-
-    //
-    // Constructor
-    //
-    public Board(int resolution) {
-        this.board = setBoard(resolution);
+    public Game(int resolution) {
+        this.board = new PlayingField(resolution);
         this.coordinates = setCoordinates();
         this.figures = setFigures(getFiguresList(resolution));
         this.movables = setMovables();
-    }
-
-    //
-    // Field initializers
-    //
-    /**
-     * <p>Initialize board for drawing.</p>
-     * @param resolution resolution of the frame
-     * @return <code>ArrayList</code> containing <code>Square</code> objects
-     *         with specified position and dimension
-     */
-    private ArrayList<Square> setBoard(int resolution) {
-        ArrayList<Square> list = new ArrayList<>();
-        int SQUARE_SIZE = resolution / 8;
-        int alt = 1;  // Alternate color pattern
-
-        for (int y = 0; y < resolution; y += SQUARE_SIZE) {
-            for (int x = 0; x < resolution; x += SQUARE_SIZE) {
-
-                Color color;
-                if (alt++ % 2 == 0) {
-                    color = BROWN; }
-                else {  color = WHITE; }
-
-                Square square = new Square(x, y, SQUARE_SIZE, color);
-                list.add(square);
-            }
-            alt++;
-        }
-
-        return list;
     }
 
     /**
@@ -90,6 +52,10 @@ public class Board {
                 getCoordinate(figure.getLocation()), figure));
 
         return figureMap;
+    }
+
+    public HashMap<Coordinate, Figure> getFigures() {
+        return this.figures;
     }
 
     /**
@@ -151,87 +117,4 @@ public class Board {
         return map;
     }
 
-    //
-    // Getters
-    //
-    public ArrayList<Square> getBoard() {
-        return this.board;
-    }
-
-    public HashMap<Coordinate, Figure> getFigures() {
-        return this.figures;
-    }
-
-    //
-    // Location methods
-    //
-    /**
-     * <p>Retrieves square with origin at X and Y</p>
-     *
-     * @param x Square origin X
-     * @param y Square origin Y
-     * @return Square located at X and Y
-     */
-    public Square getSquareAt(int x, int y) {
-        Point p = new Point(x, y);
-        Square square = null;
-
-        for (Square s : board) {
-            if (s.contains(p)) {
-                square = s;
-            }
-        }
-
-        return square;
-    }
-
-    /**
-     * <p>Retrieves square with origin at Point</p>
-     * @param p Square origin <code>Point</code>
-     * @return Square located at <code>Point</code>
-     */
-    public Square getSquareAt(Point p) {
-        return getSquareAt((int) p.getX(), (int) p.getY());
-    }
-
-    /**
-     * <p>Retrieves square with origin at Coordinate</p>
-     * @param c Square origin <code>Coordinate</code>
-     * @return Square located at <code>Coordinate</code>
-     */
-    public Square getSquareAt(Coordinate c) {
-        return getSquareAt(getPointAt(c));
-    }
-
-    public Coordinate getCoordinate(Point p) {
-        return coordinates.get(p);
-    }
-
-    public Point getPointAt(int index) {
-        return board.get(index).getLocation();
-    }
-
-    public Point getPointAt(Coordinate c) {
-        return getPointAt(c.ordinal());
-    }
-
-    public HashMap<Point, Coordinate> getCoordinates() {
-        return coordinates;
-    }
-
-    public Figure getFigureAt(Point p) {
-        Figure figure = figures.get(getCoordinate(p));
-//        System.out.println(figure);
-
-        return figure;
-    }
-
-    /**
-     * <p>Calculates available moves for a given figure.</p>
-     * @param figure selected figure on board
-     * @return a list of available moves
-     */
-    public ArrayList<Coordinate> getMoves(Figure figure) {
-        return movables.get(figure.getRank()).moves(figure);
-    }
 }

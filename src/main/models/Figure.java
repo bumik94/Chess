@@ -9,16 +9,18 @@ import java.util.HashMap;
 
 public class Figure {
     final int SQUARE_SIZE;
+    boolean moved;
     Side side;
     Rank rank;
-    BufferedImage figureImage;
     Point position;
+    BufferedImage figureImage;
 
 
     //
     // Constructor
     //
     public Figure(Side side, Rank rank, Point position, int resolution) {
+        this.moved = false;
         this.side = side;
         this.rank = rank;
         this.position = position;
@@ -43,8 +45,19 @@ public class Figure {
 
     }
 
+    /**
+     * When <code>setLocation</code> is called, this method sets flag
+     * to determine that the figure has moved.
+     */
+    public void moved() {
+        if (! moved) {
+            this.moved = true;
+        }
+    }
+
     public void setLocation(Point position) {
         this.position = position;
+        moved();
     }
 
     public Point getLocation() {

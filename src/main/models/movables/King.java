@@ -8,6 +8,7 @@ import main.models.Rank;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class King implements Movable {
     private final HashMap<Coordinate, Figure> figures;
@@ -52,9 +53,9 @@ public class King implements Movable {
      *
      * @param figure to be moved
      */
-    public ArrayList<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
-        ArrayList<Coordinate> moves = new ArrayList<>();
+        HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
 
