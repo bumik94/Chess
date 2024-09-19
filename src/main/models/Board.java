@@ -8,20 +8,18 @@ public class Board {
     private static final Color WHITE = new Color(222, 221, 219);
     private static final Color BROWN = new Color(150, 75, 0);
 
-    private final ArrayList<Square> board;
-//    private final HashMap<Coordinate, Figure> figures;
+    private final int resolution;
+    private final ArrayList<Square> squares;
     private final HashMap<Point, Coordinate>  coordinates;
-//    private final HashMap<Rank, Movable>      movables;
 
 
     //
     // Constructor
     //
     public Board(int resolution) {
-        this.board = setBoard(resolution);
+        this.resolution = resolution;
+        this.squares = setSquares();
         this.coordinates = setCoordinates();
-//        this.figures = getFigures(resolution);
-//        this.movables = setMovables();
     }
 
     //
@@ -29,11 +27,10 @@ public class Board {
     //
     /**
      * <p>Initialize board for drawing.</p>
-     * @param resolution resolution of the frame
      * @return <code>ArrayList</code> containing <code>Square</code> objects
      *         with specified position and dimension
      */
-    private ArrayList<Square> setBoard(int resolution) {
+    private ArrayList<Square> setSquares() {
         ArrayList<Square> list = new ArrayList<>();
         int SQUARE_SIZE = resolution / 8;
         int alt = 1;  // Alternate color pattern
@@ -55,6 +52,10 @@ public class Board {
         return list;
     }
 
+    public ArrayList<Square> getSquares() {
+        return this.squares;
+    }
+
     /**
      * <p>Initialize <code>Coordinate</code> mapped to corresponding
      * <code>Square</code> on the <code>board</code>.
@@ -62,40 +63,42 @@ public class Board {
      * and dimension of <code>Square</code>.</p>
      * @return map of <code>Coordinate, Rectangle</code>
      */
-    public HashMap<Point, Coordinate> setCoordinates() {
+    private HashMap<Point, Coordinate> setCoordinates() {
         final int BOARD_AREA = 64;
         HashMap<Point, Coordinate> map = new HashMap<>();
         Coordinate[] coordinateArray = Coordinate.values();
 
         for (int i = 0; i < BOARD_AREA; i++) {
-            map.put(board.get(i).getLocation(),
+            map.put(squares.get(i).getLocation(),
                     coordinateArray[i]);
         }
 
         return map;
     }
-//
-//    /**
-//     * <p>Maps instantiated figures to their location's coordinate for direct access.</p>
-//     * @param resolution size at which to draw figures
-//     * @return Coordinates mapped to figures
-//     */
-//    public HashMap<Coordinate, Figure> getFigures(int resolution) {
-//        ArrayList<Figure> figureList = getFiguresList(resolution);
-//        HashMap<Coordinate, Figure> figureMap = new HashMap<>();
-//
-//        figureList.forEach(figure -> figureMap.put(
-//                getCoordinate(figure.getLocation()), figure));
-//
-//        return figureMap;
-//    }
+
+    public HashMap<Point, Coordinate> getCoordinates() {
+        return this.coordinates;
+    }
+
+    /**
+     * <p>Maps instantiated figures to their location's coordinate for direct access.</p>
+     * @return Coordinates mapped to figures
+     */
+    public HashMap<Coordinate, Figure> getFiguresMap() {
+        HashMap<Coordinate, Figure> figureMap = new HashMap<>();
+        ArrayList<Figure> figureList = getFiguresList();
+
+        figureList.forEach(figure -> figureMap.put(
+                getCoordinateAt(figure.getLocation()), figure));
+
+        return figureMap;
+    }
 
     /**
      * <p>Instantiates Figure objects to a default location on the board.</p>
-     * @param resolution at which the figures will be drawn
      * @return a list of instantiated figures
      */
-    public ArrayList<Figure> getFiguresList(int resolution) {
+    private ArrayList<Figure> getFiguresList() {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
@@ -130,35 +133,6 @@ public class Board {
 
         return list;
     }
-//
-//    /**
-//     * <p>Instantiates abstract representations of figures that will process
-//     * validating moves over the board.</p>
-//     * @return A map of Movable figure representations
-//     */
-//    private HashMap<Rank, Movable> setMovables() {
-//        HashMap<Rank, Movable> map = new HashMap<>();
-//
-//        map.put(Rank.PAWN, new Pawn(figures, coordinates));
-//        map.put(Rank.KNIGHT, new Knight(figures, coordinates));
-//        map.put(Rank.ROOK, new Rook(figures, coordinates));
-//        map.put(Rank.BISHOP, new Bishop(figures, coordinates));
-//        map.put(Rank.QUEEN, new Queen(figures, coordinates));
-//        map.put(Rank.KING, new King(figures, coordinates));
-//
-//        return map;
-//    }
-
-    //
-    // Getters
-    //
-    public ArrayList<Square> getBoard() {
-        return this.board;
-    }
-
-    public HashMap<Point, Coordinate> getCoordinates() {
-        return this.coordinates;
-    }
 
     //
     // Location methods
@@ -174,7 +148,7 @@ public class Board {
         Point p = new Point(x, y);
         Square square = null;
 
-        for (Square s : board) {
+        for (Square s : squares) {
             if (s.contains(p)) {
                 square = s;
             }
@@ -201,31 +175,16 @@ public class Board {
         return getSquareAt(getPointAt(c));
     }
 
-    public Coordinate getCoordinate(Point p) {
+    public Coordinate getCoordinateAt(Point p) {
         return coordinates.get(p);
     }
 
     public Point getPointAt(int index) {
-        return board.get(index).getLocation();
+        return squares.get(index).getLocation();
     }
 
     public Point getPointAt(Coordinate c) {
         return getPointAt(c.ordinal());
     }
-//
-//    public Figure getFigureAt(Point p) {
-//        Figure figure = figures.get(getCoordinate(p));
-////        System.out.println(figure);
-//
-//        return figure;
-//    }
-//
-//    /**
-//     * <p>Calculates available moves for a given figure.</p>
-//     * @param figure selected figure on board
-//     * @return a list of available moves
-//     */
-//    public HashSet<Coordinate> getMoves(Figure figure) {
-//        return movables.get(figure.getRank()).moves(figure);
-//    }
+
 }

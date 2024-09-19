@@ -58,10 +58,30 @@ public class King implements Movable {
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        // Check all possible attack vectors for opponent presence.
-        // Reference Queen, Knight, and make special conditions to
-        // check for pawn attack vectors.
-        // Put
+        /*
+        King moves
+
+        Check for Bishop/Queen diagonal moves.
+        Check for Rook/Queen vertical + horizontal moves
+        Check for Knight moves
+        Check for Pawn moves and attack vectors
+        Put al of the above in a set
+        If King's destination isn't contained in any of these sets,
+        the move is valid and King can proceed.
+
+        ----
+
+        King check
+
+        Before any figure of the same color as the King can move,
+        a lookup must be made if it opens an attack vector for
+        Bishop, Rook or Queen.
+        At the same time if a King is in Check, only moves that
+        save the King may be performed.
+        Since Knight can jump over figures, a special check must
+        be made there.
+
+         */
 
         return moves;
     }

@@ -18,9 +18,9 @@ public class Chess extends JPanel {
     protected static final Color YELLOW = new Color(191, 191, 29);
     protected static final Color GREEN = new Color(50, 205, 50);
 
+    protected final  Game game;
     protected final Board board;
-    protected final Game game;
-    private   final   int RESOLUTION;
+    private   final   int resolution;
 
     protected Square selectedSquare;
     protected Figure selectedFigure;
@@ -30,11 +30,11 @@ public class Chess extends JPanel {
     //
     // Constructor
     //
-    public Chess(int RESOLUTION) {
+    public Chess(int resolution) {
         this.addMouseListener(new Listener());
-        this.RESOLUTION = RESOLUTION;
-        this.board = new Board(RESOLUTION);
-        this.game = new Game(RESOLUTION);
+        this.resolution = resolution;
+        this.game = new Game(resolution);
+        this.board = game.getBoard();
         this.turn = Side.WHITE;
     }
 
@@ -67,7 +67,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintBoard(Graphics g) {
-        board.getBoard().forEach(square -> square.paintSquare(g));
+        board.getSquares().forEach(square -> square.paintSquare(g));
     }
 
     /**
@@ -153,8 +153,16 @@ public class Chess extends JPanel {
         repaint(selectedSquare);
     }
 
-    private boolean setSelectedFigure(Point p) {
-        Figure figure = game.getFigureAt(p);
+    /**
+     * <p>Selects and repaints a square if it contains a <code>Figure</code>
+     * of the current side on turn. Also repaints all square with legal
+     * moves to green.</p>
+     * @param c <code>Coordinate</code> position of the <code>Figure</code>
+     *          on the board
+     * @return
+     */
+    private boolean setSelectedFigure(Coordinate c) {
+        Figure figure = game.getFigureAt(c);
 
         if (figure != null && getTurn().equals(figure.getSide())) {
             selectedFigure = figure;
@@ -187,7 +195,7 @@ public class Chess extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(RESOLUTION, RESOLUTION);
+        return new Dimension(resolution, resolution);
     }
 
 
@@ -207,15 +215,15 @@ public class Chess extends JPanel {
                     // Draw selection
                     Square square = board.getSquareAt(e.getX(), e.getY());
                     Point p = square.getLocation();
-                    Coordinate c = board.getCoordinate(p);
+                    Coordinate c = board.getCoordinateAt(p);
 
-                    if (setSelectedFigure(p)) {
+                    if (setSelectedFigure(c)) {
                         setSelectedSquare(square);
                         System.out.println(selectedFigure);
 
                     } else if (moves.contains(c)) {
                         // remove figure from old position and repaint
-                        Coordinate old = board.getCoordinate(selectedFigure.getLocation());
+                        Coordinate old = board.getCoordinateAt(selectedFigure.getLocation());
                         Figure f = game.getFigures().remove(old);
                         repaintMoves(null);
                         repaintSelectedSquare();

@@ -4,7 +4,6 @@ import main.models.*;
 import main.models.movables.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -15,8 +14,12 @@ public class Game {
 
     public Game(int resolution) {
         this.board = new Board(resolution);
-        this.figures = setFigures(board.getFiguresList(resolution));
-        this.movables = setMovables();
+        this.figures = board.getFiguresMap();
+        this.movables = setMovables(board.getCoordinates());
+    }
+
+    public Board getBoard() {
+        return this.board;
     }
 
     /**
@@ -24,41 +27,25 @@ public class Game {
      * validating moves over the board.</p>
      * @return A map of Movable figure representations
      */
-    private HashMap<Rank, Movable> setMovables() {
+    private HashMap<Rank, Movable> setMovables(HashMap<Point, Coordinate> coordinates) {
         HashMap<Rank, Movable> map = new HashMap<>();
 
-        map.put(Rank.PAWN, new Pawn(figures, board.getCoordinates()));
-        map.put(Rank.KNIGHT, new Knight(figures, board.getCoordinates()));
-        map.put(Rank.ROOK, new Rook(figures, board.getCoordinates()));
-        map.put(Rank.BISHOP, new Bishop(figures, board.getCoordinates()));
-        map.put(Rank.QUEEN, new Queen(figures, board.getCoordinates()));
-        map.put(Rank.KING, new King(figures, board.getCoordinates()));
+        map.put(Rank.PAWN, new Pawn(figures, coordinates));
+        map.put(Rank.KNIGHT, new Knight(figures, coordinates));
+        map.put(Rank.ROOK, new Rook(figures, coordinates));
+        map.put(Rank.BISHOP, new Bishop(figures, coordinates));
+        map.put(Rank.QUEEN, new Queen(figures, coordinates));
+        map.put(Rank.KING, new King(figures, coordinates));
 
         return map;
-    }
-
-    /**
-     * <p>Maps instantiated figures to their location's coordinate for direct access.</p>
-     * @return Coordinates mapped to figures
-     */
-    public HashMap<Coordinate, Figure> setFigures(ArrayList<Figure> figureList) {
-        HashMap<Coordinate, Figure> figureMap = new HashMap<>();
-
-        figureList.forEach(figure -> figureMap.put(
-                board.getCoordinate(figure.getLocation()), figure));
-
-        return figureMap;
     }
 
     public HashMap<Coordinate, Figure> getFigures() {
         return this.figures;
     }
 
-    public Figure getFigureAt(Point p) {
-        Figure figure = figures.get(board.getCoordinate(p));
-//        System.out.println(figure);
-
-        return figure;
+    public Figure getFigureAt(Coordinate c) {
+        return figures.get(c);
     }
 
     /**
