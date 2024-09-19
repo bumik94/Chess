@@ -18,7 +18,8 @@ public class Chess extends JPanel {
     protected static final Color YELLOW = new Color(191, 191, 29);
     protected static final Color GREEN = new Color(50, 205, 50);
 
-    protected final PlayingField board;
+    protected final Board board;
+    protected final Game game;
     private   final   int RESOLUTION;
 
     protected Square selectedSquare;
@@ -32,7 +33,8 @@ public class Chess extends JPanel {
     public Chess(int RESOLUTION) {
         this.addMouseListener(new Listener());
         this.RESOLUTION = RESOLUTION;
-        this.board = new PlayingField(RESOLUTION);
+        this.board = new Board(RESOLUTION);
+        this.game = new Game(RESOLUTION);
         this.turn = Side.WHITE;
     }
 
@@ -65,7 +67,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintBoard(Graphics g) {
-        board.getField().forEach(square -> square.paintSquare(g));
+        board.getBoard().forEach(square -> square.paintSquare(g));
     }
 
     /**
@@ -73,7 +75,7 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      */
     private void paintFigures(Graphics g) {
-        board.getFigures().values().forEach(figure -> figure.paintFigure(g));
+        game.getFigures().values().forEach(figure -> figure.paintFigure(g));
     }
 
     /**
@@ -152,11 +154,11 @@ public class Chess extends JPanel {
     }
 
     private boolean setSelectedFigure(Point p) {
-        Figure figure = board.getFigureAt(p);
+        Figure figure = game.getFigureAt(p);
 
         if (figure != null && getTurn().equals(figure.getSide())) {
             selectedFigure = figure;
-            repaintMoves(board.getMoves(figure));
+            repaintMoves(game.getMoves(figure));
 
             return true;
         }
@@ -214,14 +216,14 @@ public class Chess extends JPanel {
                     } else if (moves.contains(c)) {
                         // remove figure from old position and repaint
                         Coordinate old = board.getCoordinate(selectedFigure.getLocation());
-                        Figure f = board.getFigures().remove(old);
+                        Figure f = game.getFigures().remove(old);
                         repaintMoves(null);
                         repaintSelectedSquare();
                         repaint(board.getSquareAt(old));
 
                         // Assign figure to new position and repaint
                         f.setLocation(p);
-                        board.getFigures().put(c, f);
+                        game.getFigures().put(c, f);
                         repaint(board.getSquareAt(c));
 
                         changeTurn();

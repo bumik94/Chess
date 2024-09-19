@@ -58,7 +58,10 @@ public class King implements Movable {
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-
+        // Check all possible attack vectors for opponent presence.
+        // Reference Queen, Knight, and make special conditions to
+        // check for pawn attack vectors.
+        // Put
 
         return moves;
     }
