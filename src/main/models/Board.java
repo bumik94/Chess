@@ -4,6 +4,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * contains information about layout and positions of the board.
+ */
 public class Board {
     private static final Color WHITE = new Color(222, 221, 219);
     private static final Color BROWN = new Color(150, 75, 0);
