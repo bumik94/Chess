@@ -109,8 +109,13 @@ public class Chess extends JPanel {
     private void repaintMoves() {
         if (moves != null) {
             moves.forEach(coordinate -> {
-                Square s = board.getSquareAt(coordinate);
-                repaint(s);
+//                Figure f = figures.getFigureAt(coordinate);
+//                if (f != null && f.getRank().equals(Rank.KING)) {
+//                    System.out.println("KING");
+//                } else {
+                    Square s = board.getSquareAt(coordinate);
+                    repaint(s);
+//                }
             });
         }
     }
@@ -164,7 +169,8 @@ public class Chess extends JPanel {
     private boolean setSelectedFigure(Coordinate c) {
         Figure figure = figures.getFigureAt(c);
 
-        if (figure != null && getTurn().equals(figure.getSide())) {
+        if (figure != null
+                && getTurn().equals(figure.getSide())) {
             selectedFigure = figure;
             repaintMoves(figures.getMoves(figure));
 
@@ -234,7 +240,7 @@ public class Chess extends JPanel {
                         figures.getFiguresMap().put(c, f);
                         repaint(board.getSquareAt(c));
 
-                        changeTurn();
+//                        changeTurn();
 
                     } else {
                         System.out.println("invalid move");

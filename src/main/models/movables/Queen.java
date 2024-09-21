@@ -6,7 +6,6 @@ import main.models.Movable;
 import main.models.Rank;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -34,8 +33,8 @@ public class Queen implements Movable {
         Figure contested = figures.get(c);
 
         return contested != null
-                && !(contested.getSide().equals(selected.getSide()))
-                && !(contested.getRank().equals(Rank.KING));
+                && !(contested.getSide().equals(selected.getSide()));
+//                && !(contested.getRank().equals(Rank.KING));
     }
 
     /**

@@ -41,6 +41,26 @@ public class Figures {
         return map;
     }
 
+    /**
+     * <p>Instantiates abstract representations of figures that will process
+     * validating moves over the board.</p>
+     * @return A map of Movable figure representations
+     */
+    public static HashMap<Rank, Movable> setMovables(
+            HashMap<Coordinate, Figure> figuresMap,
+            HashMap<Point, Coordinate>  coordinates) {
+        HashMap<Rank, Movable> map = new HashMap<>();
+
+        map.put(Rank.PAWN, new Pawn(figuresMap, coordinates));
+        map.put(Rank.KNIGHT, new Knight(figuresMap, coordinates));
+        map.put(Rank.ROOK, new Rook(figuresMap, coordinates));
+        map.put(Rank.BISHOP, new Bishop(figuresMap, coordinates));
+        map.put(Rank.QUEEN, new Queen(figuresMap, coordinates));
+        map.put(Rank.KING, new King(figuresMap, coordinates));
+
+        return map;
+    }
+
     public HashMap<Coordinate, Figure> getFiguresMap() {
         return this.figuresMap;
     }

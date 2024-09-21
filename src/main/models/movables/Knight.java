@@ -6,7 +6,6 @@ import main.models.Movable;
 import main.models.Rank;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

@@ -7,7 +7,6 @@ import main.models.Movable;
 import main.models.Rank;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -58,7 +57,7 @@ public class Pawn implements Movable {
         switch (figure.getSide()) {
 
             case WHITE -> {
-                // Move in subtractive way by 8
+                // Move up
                 c = Coordinate.getCoordinate(position.ordinal() - 8);
                 if (c == null) {
                     // TODO pawn promotion
@@ -70,7 +69,7 @@ public class Pawn implements Movable {
                     moves.add(c);
                 }
 
-                // Remove in subtractive way by 7 or 9
+                // Remove diagonally up
                 if (Coordinate.isBoundary(position)) {
                     if (position.ordinal() % 2 == 0) { // left edge
                         // Remove one step forward and right

@@ -1,12 +1,12 @@
 package main.models.movables;
 
+import main.components.Figures;
 import main.models.Coordinate;
 import main.models.Figure;
 import main.models.Movable;
 import main.models.Rank;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -15,11 +15,10 @@ public class King implements Movable {
     private final HashMap<Point, Coordinate> coordinates;
 
     public King(HashMap<Coordinate, Figure> figures,
-                 HashMap<Point, Coordinate> coordinates) {
+                HashMap<Point, Coordinate> coordinates) {
         this.figures = figures;
         this.coordinates = coordinates;
     }
-
 
     /**
      * <p>Evaluates if a figure occupies a coordinate
@@ -48,6 +47,10 @@ public class King implements Movable {
         return figures.get(c) == null;
     }
 
+    private boolean isCheck() {
+        return false;
+    }
+
     /**
      * <p>Checks for valid moves for a given figure.</p>
      *
@@ -55,34 +58,101 @@ public class King implements Movable {
      */
     public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
+//        HashMap<Rank, Movable> movables = Figures.setMovables(figures, coordinates);
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        /*
-        King moves
+        // Move up
+        c = Coordinate.getCoordinate(position.ordinal() + 8);
+        if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+        }
 
-        Check for Bishop/Queen diagonal moves.
-        Check for Rook/Queen vertical + horizontal moves
-        Check for Knight moves
-        Check for Pawn moves and attack vectors
-        Put al of the above in a set
-        If King's destination isn't contained in any of these sets,
-        the move is valid and King can proceed.
+        // Move down
+        c = Coordinate.getCoordinate(position.ordinal() - 8);
+        if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+        }
 
-        ----
-
-        King check
-
-        Before any figure of the same color as the King can move,
-        a lookup must be made if it opens an attack vector for
-        Bishop, Rook or Queen.
-        At the same time if a King is in Check, only moves that
-        save the King may be performed.
-        Since Knight can jump over figures, a special check must
-        be made there.
-
-         */
+        // Move left, right, diagonally
+        if (Coordinate.isBoundary(position)) {
+            // left edge
+            if (position.ordinal() % 2 == 0) {
+                // Right
+                c = Coordinate.getCoordinate(position.ordinal() + 1);
+                if (isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+                // Right-up
+                c = Coordinate.getCoordinate(position.ordinal() - 7);
+                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+                // Right-down
+                c = Coordinate.getCoordinate(position.ordinal() + 9);
+                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+            }
+            // Right edge
+            else {
+                // Left
+                c = Coordinate.getCoordinate(position.ordinal() - 1);
+                if (isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+                // Left-up
+                c = Coordinate.getCoordinate(position.ordinal() - 9);
+                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+                // Left-down
+                c = Coordinate.getCoordinate(position.ordinal() + 7);
+                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                    moves.add(c);
+                }
+            }
+        }
+        else {
+            // Right
+            c = Coordinate.getCoordinate(position.ordinal() + 1);
+            if (isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Right-up
+            c = Coordinate.getCoordinate(position.ordinal() - 7);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Right-down
+            c = Coordinate.getCoordinate(position.ordinal() + 9);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Left
+            c = Coordinate.getCoordinate(position.ordinal() - 1);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Left-up
+            c = Coordinate.getCoordinate(position.ordinal() - 9);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Left-down
+            c = Coordinate.getCoordinate(position.ordinal() + 7);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+        }
 
         return moves;
     }
+
+    /*
+    King check
+
+    Checks for moves of opposing figures and removes matching
+    positions by set difference on King's moves.
+     */
 }
