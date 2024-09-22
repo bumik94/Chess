@@ -75,6 +75,111 @@ public class Figures {
      * @return a set of available moves
      */
     public HashSet<Coordinate> getMoves(Figure figure) {
-        return movables.get(figure.getRank()).moves(figure);
+        HashSet<Coordinate> movesSet = movables.get(figure.getRank()).moves(figure);
+
+        if (figure.getRank().equals(Rank.KING)) {
+            HashSet<Coordinate> oppositeMovesSet = getOppositeMoves(figure);
+            // TODO Doesn't beam behind King allowing for illegal move
+            movesSet.removeAll(oppositeMovesSet);
+        }
+
+        return movesSet;
+    }
+
+    public HashSet<Coordinate> getOppositeMoves(Figure selected) {
+        Coordinate c = null;
+        HashSet<Coordinate> set = new HashSet<>();
+
+        for (Figure opposite : figuresMap.values()) {
+            if (! opposite.getSide().equals(selected.getSide())) {
+
+                if (opposite.getRank().equals(Rank.PAWN)) {
+                    c = coordinates.get(opposite.getLocation());
+                    switch (opposite.getSide()) {
+                        case WHITE -> {
+                            if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                                // Left-up
+                                set.add(Coordinate.getCoordinate(c.ordinal() - 9));
+                            }
+                            if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                                // Right-up
+                                set.add(Coordinate.getCoordinate(c.ordinal() - 7));
+                            }
+                        }
+                        case BLACK -> {
+                            if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                                // Left-down
+                                set.add(Coordinate.getCoordinate(c.ordinal() + 7));
+                            }
+                            if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                                // Right-down
+                                set.add(Coordinate.getCoordinate(c.ordinal() + 9));
+                            }
+                        }
+                    }
+                }
+
+                else if (opposite.getRank().equals(Rank.KING)) {
+                    c = coordinates.get(opposite.getLocation());
+
+                    // Up
+                    set.add(Coordinate.getCoordinate(c.ordinal() + 8));
+                    // Down
+                    set.add(Coordinate.getCoordinate(c.ordinal() - 8));
+
+                    if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        // Left
+                        set.add(Coordinate.getCoordinate(c.ordinal() - 1));
+                        // Left-up
+                        set.add(Coordinate.getCoordinate(c.ordinal() - 9));
+                        // Left-down
+                        set.add(Coordinate.getCoordinate(c.ordinal() + 7));
+                    }
+                    if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                        // Right
+                        set.add(Coordinate.getCoordinate(c.ordinal() + 1));
+                        // Right-up
+                        set.add(Coordinate.getCoordinate(c.ordinal() - 7));
+                        // Right-down
+                        set.add(Coordinate.getCoordinate(c.ordinal() + 9));
+                    }
+
+                } else if (opposite.getRank().equals(Rank.ROOK)
+                        || opposite.getRank().equals(Rank.QUEEN)) {
+                    // Up
+                    c = Coordinate.getCoordinate(coordinates.get(opposite.getLocation()).ordinal() - 8);
+                    while (c != null) {
+                        set.add(c);
+                        c = Coordinate.getCoordinate(c.ordinal() - 8);
+                    }
+                    // Down
+                    c = Coordinate.getCoordinate(coordinates.get(opposite.getLocation()).ordinal() + 8);
+                    while (c != null) {
+                        set.add(c);
+                        c = Coordinate.getCoordinate(c.ordinal() + 8);
+                    }
+                    // Left
+                    c = coordinates.get(opposite.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() - 1);
+                        set.add(c);
+                    }
+                    // Right
+                    c = coordinates.get(opposite.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() + 1);
+                        set.add(c);
+                    }
+
+                } else if (opposite.getRank().equals(Rank.BISHOP)
+                        || opposite.getRank().equals(Rank.QUEEN)) {
+
+                } else {
+                    set.addAll(getMoves(opposite));
+                }
+            }
+        }
+
+        return set;
     }
 }

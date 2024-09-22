@@ -62,58 +62,36 @@ public class King implements Movable {
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        // Move up
+        // Up
         c = Coordinate.getCoordinate(position.ordinal() + 8);
         if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
         }
 
-        // Move down
+        // Down
         c = Coordinate.getCoordinate(position.ordinal() - 8);
         if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
         }
 
-        // Move left, right, diagonally
-        if (Coordinate.isBoundary(position)) {
-            // left edge
-            if (position.ordinal() % 2 == 0) {
-                // Right
-                c = Coordinate.getCoordinate(position.ordinal() + 1);
-                if (isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
-                // Right-up
-                c = Coordinate.getCoordinate(position.ordinal() - 7);
-                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
-                // Right-down
-                c = Coordinate.getCoordinate(position.ordinal() + 9);
-                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
+        if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 == 0)) {
+            // Left
+            c = Coordinate.getCoordinate(position.ordinal() - 1);
+            if (isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
             }
-            // Right edge
-            else {
-                // Left
-                c = Coordinate.getCoordinate(position.ordinal() - 1);
-                if (isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
-                // Left-up
-                c = Coordinate.getCoordinate(position.ordinal() - 9);
-                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
-                // Left-down
-                c = Coordinate.getCoordinate(position.ordinal() + 7);
-                if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                    moves.add(c);
-                }
+            // Left-up
+            c = Coordinate.getCoordinate(position.ordinal() - 9);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
+            }
+            // Left-down
+            c = Coordinate.getCoordinate(position.ordinal() + 7);
+            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+                moves.add(c);
             }
         }
-        else {
+        if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 != 0)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + 1);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -129,30 +107,8 @@ public class King implements Movable {
             if (c != null && isEmpty(c) || isRemovable(figure, c)) {
                 moves.add(c);
             }
-            // Left
-            c = Coordinate.getCoordinate(position.ordinal() - 1);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                moves.add(c);
-            }
-            // Left-up
-            c = Coordinate.getCoordinate(position.ordinal() - 9);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                moves.add(c);
-            }
-            // Left-down
-            c = Coordinate.getCoordinate(position.ordinal() + 7);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
-                moves.add(c);
-            }
         }
 
         return moves;
     }
-
-    /*
-    King check
-
-    Checks for moves of opposing figures and removes matching
-    positions by set difference on King's moves.
-     */
 }

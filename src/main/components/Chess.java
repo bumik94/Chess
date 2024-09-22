@@ -27,6 +27,9 @@ public class Chess extends JPanel {
     private     Side turn;  // will be used in game loop
     private HashSet<Coordinate> moves;
 
+    // TEST
+    private HashSet<Coordinate> oppositeMoves;
+
     //
     // Constructor
     //
@@ -58,7 +61,9 @@ public class Chess extends JPanel {
          */
         paintBoard(g);
         paintSelectedSquare(g);
-        paintMoves(g, moves);
+//        paintMoves(g, moves);
+        // TEST
+        paintMoves(g, moves, oppositeMoves);
         paintFigures(g);
     }
 
@@ -91,16 +96,36 @@ public class Chess extends JPanel {
     /**
      * <p>Paints available moves for currently selected figure.</p>
      * @param g paintComponent graphics
-     * @param movesList a list returned from <code>Movable</code>
+     * @param movesSet a list returned from <code>Movable</code>
      */
-    private void paintMoves(Graphics g, HashSet<Coordinate> movesList) {
-        if (movesList != null) {
-            movesList.forEach(coordinate -> {
+    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet) {
+        if (movesSet != null) {
+            movesSet.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
                 Square s = new Square(board.getSquareAt(p), GREEN);
                 s.paintSquare(g);
             });
         }
+    }
+
+    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet, HashSet<Coordinate> oppositeMovesSet) {
+        if (movesSet != null) {
+            movesSet.forEach(coordinate -> {
+                Point p = board.getPointAt(coordinate);
+                Square s = new Square(board.getSquareAt(p), GREEN);
+                s.paintSquare(g);
+            });
+        }
+
+        // TEST
+        // Comment out to disable opposite moves highlight
+//        if (oppositeMovesSet != null) {
+//            oppositeMovesSet.forEach(coordinate -> {
+//                Point p = board.getPointAt(coordinate);
+//                Square s = new Square(board.getSquareAt(p), Color.RED);
+//                s.paintSquare(g);
+//            });
+//        }
     }
 
     /**
@@ -118,16 +143,31 @@ public class Chess extends JPanel {
 //                }
             });
         }
+
+        // TEST
+//        if (oppositeMoves != null) {
+//            oppositeMoves.forEach(coordinate -> {
+//                Square s = board.getSquareAt(coordinate);
+//                repaint(s);
+//            });
+//        }
     }
 
     /**
      * <p>Repaint old <code>moves</code>, assigns new list</p>
      * to <code>moves</code> and repaints again
-     * @param movesList a list returned from <code>Movable</code>
+     * @param movesSet a list returned from <code>Movable</code>
      */
-    private void repaintMoves(HashSet<Coordinate> movesList) {
+    private void repaintMoves(HashSet<Coordinate> movesSet) {
         repaintMoves();
-        moves = movesList;
+        moves = movesSet;
+        repaintMoves();
+    }
+
+    private void repaintMoves(HashSet<Coordinate> movesSet, HashSet<Coordinate> oppositeMovesSet) {
+        repaintMoves();
+        moves = movesSet;
+        oppositeMoves = oppositeMovesSet;
         repaintMoves();
     }
 
@@ -169,10 +209,11 @@ public class Chess extends JPanel {
     private boolean setSelectedFigure(Coordinate c) {
         Figure figure = figures.getFigureAt(c);
 
-        if (figure != null
-                && getTurn().equals(figure.getSide())) {
+        if (figure != null && getTurn().equals(figure.getSide())) {
             selectedFigure = figure;
-            repaintMoves(figures.getMoves(figure));
+//            repaintMoves(figures.getMoves(figure));
+            // TEST
+            repaintMoves(figures.getMoves(figure), figures.getOppositeMoves(figure));
 
             return true;
         }
@@ -231,7 +272,9 @@ public class Chess extends JPanel {
                         // remove figure from old position and repaint
                         Coordinate old = board.getCoordinateAt(selectedFigure.getLocation());
                         Figure f = figures.getFiguresMap().remove(old);
-                        repaintMoves(null);
+//                        repaintMoves(null);
+                        // TEST
+                        repaintMoves(null, null);
                         repaintSelectedSquare();
                         repaint(board.getSquareAt(old));
 
@@ -240,7 +283,7 @@ public class Chess extends JPanel {
                         figures.getFiguresMap().put(c, f);
                         repaint(board.getSquareAt(c));
 
-//                        changeTurn();
+                        changeTurn();
 
                     } else {
                         System.out.println("invalid move");
@@ -252,7 +295,9 @@ public class Chess extends JPanel {
                 case MouseEvent.BUTTON3 -> {
                     // Clear selection
                     selectedFigure = null;
-                    repaintMoves(null);
+//                    repaintMoves(null);
+                    // TEST
+                    repaintMoves(null, null);
                     repaintSelectedSquare();
                 }
             }

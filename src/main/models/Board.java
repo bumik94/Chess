@@ -105,34 +105,34 @@ public class Board {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
-        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.B4), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A4), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H8), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A7), resolution));
 
         // White
-//        for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {
-//            list.add(new Figure(Side.WHITE, Rank.PAWN,  getPointAt(i), resolution));
-//        }
-//        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A1), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A8), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,    getPointAt(Coordinate.A2), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,    getPointAt(Coordinate.A7), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.BISHOP,    getPointAt(Coordinate.A3), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.BISHOP,    getPointAt(Coordinate.A6), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.QUEEN,     getPointAt(Coordinate.A4), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A5), resolution));
-//
-//        // Black
-//        for (int i = Coordinate.G1.ordinal(); i < Coordinate.F1.ordinal(); i++) {
-//            list.add(new Figure(Side.BLACK, Rank.PAWN,  getPointAt(i), resolution));
-//        }
-//        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H1), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H8), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,    getPointAt(Coordinate.H2), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,    getPointAt(Coordinate.H7), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.BISHOP,    getPointAt(Coordinate.H3), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.BISHOP,    getPointAt(Coordinate.H6), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.QUEEN,     getPointAt(Coordinate.H4), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.H5), resolution));
+        for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {
+            list.add(new Figure(Side.WHITE, Rank.PAWN,  getPointAt(i), resolution));
+        }
+        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A1), resolution));
+        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A8), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KNIGHT,    getPointAt(Coordinate.A2), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KNIGHT,    getPointAt(Coordinate.A7), resolution));
+        list.add(new Figure(Side.WHITE, Rank.BISHOP,    getPointAt(Coordinate.A3), resolution));
+        list.add(new Figure(Side.WHITE, Rank.BISHOP,    getPointAt(Coordinate.A6), resolution));
+        list.add(new Figure(Side.WHITE, Rank.QUEEN,     getPointAt(Coordinate.A4), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A5), resolution));
+
+        // Black
+        for (int i = Coordinate.G1.ordinal(); i < Coordinate.F1.ordinal(); i++) {
+            list.add(new Figure(Side.BLACK, Rank.PAWN,  getPointAt(i), resolution));
+        }
+        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H1), resolution));
+        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H8), resolution));
+        list.add(new Figure(Side.BLACK, Rank.KNIGHT,    getPointAt(Coordinate.H2), resolution));
+        list.add(new Figure(Side.BLACK, Rank.KNIGHT,    getPointAt(Coordinate.H7), resolution));
+        list.add(new Figure(Side.BLACK, Rank.BISHOP,    getPointAt(Coordinate.H3), resolution));
+        list.add(new Figure(Side.BLACK, Rank.BISHOP,    getPointAt(Coordinate.H6), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,     getPointAt(Coordinate.H4), resolution));
+        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.H5), resolution));
 
         return list;
     }
@@ -182,8 +182,8 @@ public class Board {
         return coordinates.get(p);
     }
 
-    public Point getPointAt(int index) {
-        return squares.get(index).getLocation();
+    public Point getPointAt(int i) {
+        return squares.get(i).getLocation();
     }
 
     public Point getPointAt(Coordinate c) {
