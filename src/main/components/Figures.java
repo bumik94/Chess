@@ -78,24 +78,29 @@ public class Figures {
         HashSet<Coordinate> movesSet = movables.get(figure.getRank()).moves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
-            HashSet<Coordinate> oppositeMovesSet = getOppositeMoves(figure);
-            // TODO Doesn't beam behind King allowing for illegal move
-            movesSet.removeAll(oppositeMovesSet);
+            HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure.getSide());
+            movesSet.removeAll(controlledMovesSet);
         }
 
         return movesSet;
     }
 
-    public HashSet<Coordinate> getOppositeMoves(Figure selected) {
-        Coordinate c = null;
+    /**
+     * <p>Provides all positions of every figure for each possible direction.
+     * Used in asymmetric difference on King's moves to determine safe move.</p>
+     * @param side <code>Side</code> of the selected <code>Figure</code>
+     * @return a set of all moves of the opposite side
+     */
+    public HashSet<Coordinate> getControlledMoves(Side side) {
+        Coordinate c;// = null;
         HashSet<Coordinate> set = new HashSet<>();
 
-        for (Figure opposite : figuresMap.values()) {
-            if (! opposite.getSide().equals(selected.getSide())) {
+        for (Figure figure : figuresMap.values()) {
+            if (! figure.getSide().equals(side)) {
 
-                if (opposite.getRank().equals(Rank.PAWN)) {
-                    c = coordinates.get(opposite.getLocation());
-                    switch (opposite.getSide()) {
+                if (figure.getRank().equals(Rank.PAWN)) {
+                    c = coordinates.get(figure.getLocation());
+                    switch (figure.getSide()) {
                         case WHITE -> {
                             if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
                                 // Left-up
@@ -119,8 +124,8 @@ public class Figures {
                     }
                 }
 
-                else if (opposite.getRank().equals(Rank.KING)) {
-                    c = coordinates.get(opposite.getLocation());
+                else if (figure.getRank().equals(Rank.KING)) {
+                    c = coordinates.get(figure.getLocation());
 
                     // Up
                     set.add(Coordinate.getCoordinate(c.ordinal() + 8));
@@ -144,42 +149,68 @@ public class Figures {
                         set.add(Coordinate.getCoordinate(c.ordinal() + 9));
                     }
 
-                } else if (opposite.getRank().equals(Rank.ROOK)
-                        || opposite.getRank().equals(Rank.QUEEN)) {
+                } else if (figure.getRank().equals(Rank.ROOK)
+                        || figure.getRank().equals(Rank.QUEEN)) {
                     // Up
-                    c = Coordinate.getCoordinate(coordinates.get(opposite.getLocation()).ordinal() - 8);
+                    c = Coordinate.getCoordinate(
+                            coordinates.get(figure.getLocation()).ordinal() - 8);
                     while (c != null) {
                         set.add(c);
                         c = Coordinate.getCoordinate(c.ordinal() - 8);
                     }
                     // Down
-                    c = Coordinate.getCoordinate(coordinates.get(opposite.getLocation()).ordinal() + 8);
+                    c = Coordinate.getCoordinate(
+                            coordinates.get(figure.getLocation()).ordinal() + 8);
                     while (c != null) {
                         set.add(c);
                         c = Coordinate.getCoordinate(c.ordinal() + 8);
                     }
                     // Left
-                    c = coordinates.get(opposite.getLocation());
+                    c = coordinates.get(figure.getLocation());
                     while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
                         c = Coordinate.getCoordinate(c.ordinal() - 1);
                         set.add(c);
                     }
                     // Right
-                    c = coordinates.get(opposite.getLocation());
+                    c = coordinates.get(figure.getLocation());
                     while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
                         c = Coordinate.getCoordinate(c.ordinal() + 1);
                         set.add(c);
                     }
 
-                } else if (opposite.getRank().equals(Rank.BISHOP)
-                        || opposite.getRank().equals(Rank.QUEEN)) {
+                } else if (figure.getRank().equals(Rank.BISHOP)
+                        || figure.getRank().equals(Rank.QUEEN)) {
+                    // Left-up
+                    c = coordinates.get(figure.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() - 9);
+                        set.add(c);
+                    }
+                    // Left-down
+                    c = coordinates.get(figure.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() + 7);
+                        set.add(c);
+                    }
+                    // Right-up
+                    c = coordinates.get(figure.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() - 7);
+                        set.add(c);
+                    }
+                    // Right-down
+                    c = coordinates.get(figure.getLocation());
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                        c = Coordinate.getCoordinate(c.ordinal() + 9);
+                        set.add(c);
+                    }
 
                 } else {
-                    set.addAll(getMoves(opposite));
+                    set.addAll(getMoves(figure));
                 }
             }
         }
-
+        set.remove(null);
         return set;
     }
 }

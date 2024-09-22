@@ -74,6 +74,7 @@ public class King implements Movable {
             moves.add(c);
         }
 
+        c = coordinates.get(figure.getLocation());
         if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 == 0)) {
             // Left
             c = Coordinate.getCoordinate(position.ordinal() - 1);
@@ -91,6 +92,8 @@ public class King implements Movable {
                 moves.add(c);
             }
         }
+
+        c = coordinates.get(figure.getLocation());
         if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 != 0)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + 1);

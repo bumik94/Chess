@@ -81,78 +81,62 @@ public class Knight implements Movable {
             // Right intervals
             c = Coordinate.getCoordinate(position.ordinal() - 17);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                System.out.println("interval -17");
                 moves.add(c);
             }
             if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println("interval -10");
                     moves.add(c);
                 }
                 c = Coordinate.getCoordinate(position.ordinal() + 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println(c);
-                    System.out.println("interval +6");
                     moves.add(c);
                 }
             }
             c = Coordinate.getCoordinate(position.ordinal() + 15);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                System.out.println("interval -17");
                 moves.add(c);
             }
             if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println("interval -10");
                     moves.add(c);
                 }
                 c = Coordinate.getCoordinate(position.ordinal() + 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println(c);
-                    System.out.println("interval +6");
                     moves.add(c);
                 }
             }
             // Left intervals
             c = Coordinate.getCoordinate(position.ordinal() - 15);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                System.out.println("interval -17");
                 moves.add(c);
             }
             if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println("interval -10");
                     moves.add(c);
                 }
                 c = Coordinate.getCoordinate(position.ordinal() + 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println(c);
-                    System.out.println("interval +6");
                     moves.add(c);
                 }
             }
             c = Coordinate.getCoordinate(position.ordinal() + 17);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                System.out.println("interval -17");
                 moves.add(c);
             }
             if (c != null && (! Coordinate.isBoundary(c))) {
                 // Next to boundary
                 c = Coordinate.getCoordinate(position.ordinal() - 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println("interval -10");
                     moves.add(c);
                 }
                 c = Coordinate.getCoordinate(position.ordinal() + 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    System.out.println(c);
-                    System.out.println("interval +6");
                     moves.add(c);
                 }
             }

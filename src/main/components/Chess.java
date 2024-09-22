@@ -28,7 +28,7 @@ public class Chess extends JPanel {
     private HashSet<Coordinate> moves;
 
     // TEST
-    private HashSet<Coordinate> oppositeMoves;
+    private HashSet<Coordinate> controlledMoves;
 
     //
     // Constructor
@@ -61,9 +61,9 @@ public class Chess extends JPanel {
          */
         paintBoard(g);
         paintSelectedSquare(g);
-//        paintMoves(g, moves);
+        paintMoves(g, moves);
         // TEST
-        paintMoves(g, moves, oppositeMoves);
+//        paintMoves(g, moves, oppositeMoves);
         paintFigures(g);
     }
 
@@ -108,7 +108,7 @@ public class Chess extends JPanel {
         }
     }
 
-    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet, HashSet<Coordinate> oppositeMovesSet) {
+    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet, HashSet<Coordinate> controlledMovesSet) {
         if (movesSet != null) {
             movesSet.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
@@ -117,15 +117,13 @@ public class Chess extends JPanel {
             });
         }
 
-        // TEST
-        // Comment out to disable opposite moves highlight
-//        if (oppositeMovesSet != null) {
-//            oppositeMovesSet.forEach(coordinate -> {
-//                Point p = board.getPointAt(coordinate);
-//                Square s = new Square(board.getSquareAt(p), Color.RED);
-//                s.paintSquare(g);
-//            });
-//        }
+        if (controlledMovesSet != null) {
+            controlledMovesSet.forEach(coordinate -> {
+                Point p = board.getPointAt(coordinate);
+                Square s = new Square(board.getSquareAt(p), Color.RED);
+                s.paintSquare(g);
+            });
+        }
     }
 
     /**
@@ -145,12 +143,12 @@ public class Chess extends JPanel {
         }
 
         // TEST
-//        if (oppositeMoves != null) {
-//            oppositeMoves.forEach(coordinate -> {
-//                Square s = board.getSquareAt(coordinate);
-//                repaint(s);
-//            });
-//        }
+        if (controlledMoves != null) {
+            controlledMoves.forEach(coordinate -> {
+                Square s = board.getSquareAt(coordinate);
+                repaint(s);
+            });
+        }
     }
 
     /**
@@ -167,7 +165,7 @@ public class Chess extends JPanel {
     private void repaintMoves(HashSet<Coordinate> movesSet, HashSet<Coordinate> oppositeMovesSet) {
         repaintMoves();
         moves = movesSet;
-        oppositeMoves = oppositeMovesSet;
+        controlledMoves = oppositeMovesSet;
         repaintMoves();
     }
 
@@ -213,7 +211,7 @@ public class Chess extends JPanel {
             selectedFigure = figure;
 //            repaintMoves(figures.getMoves(figure));
             // TEST
-            repaintMoves(figures.getMoves(figure), figures.getOppositeMoves(figure));
+            repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure.getSide()));
 
             return true;
         }
@@ -283,7 +281,7 @@ public class Chess extends JPanel {
                         figures.getFiguresMap().put(c, f);
                         repaint(board.getSquareAt(c));
 
-                        changeTurn();
+//                        changeTurn();
 
                     } else {
                         System.out.println("invalid move");
