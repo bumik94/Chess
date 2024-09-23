@@ -8,7 +8,6 @@ import main.models.Rank;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 public class Knight implements Movable {
     private final HashMap<Coordinate, Figure> figures;
@@ -56,92 +55,67 @@ public class Knight implements Movable {
     public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
-        HashSet<Integer> leftIntervals = new HashSet<>(List.of(-17, -10, 6, 15));
-        HashSet<Integer> rightIntervals = new HashSet<>(List.of(-15, -6, 10, 17));
+//        HashSet<Integer> leftIntervals = new HashSet<>(List.of(-17, -10, 6, 15));
+//        HashSet<Integer> rightIntervals = new HashSet<>(List.of(-15, -6, 10, 17));
         Coordinate c;
 
-        if (Coordinate.isBoundary(position)) {
-            // Boundary intervals
-            if (position.ordinal() % 2 == 0) { // left edge
-                for (int interval : rightIntervals) {
-                    c = Coordinate.getCoordinate(position.ordinal() + (interval));
-                    if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                        moves.add(c);
-                    }
-                }
-            } else { // right edge
-                for (int interval : leftIntervals) {
-                    c = Coordinate.getCoordinate(position.ordinal() + (interval));
-                    if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                        moves.add(c);
-                    }
-                }
-            }
-        } else {
-            // Right intervals
-            c = Coordinate.getCoordinate(position.ordinal() - 17);
+
+        // Left side
+        c = coordinates.get(figure.getLocation());
+        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            // Up-left
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 17);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.isBoundary(c))) {
-                // Next to boundary
-                c = Coordinate.getCoordinate(position.ordinal() - 10);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-                c = Coordinate.getCoordinate(position.ordinal() + 6);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-            }
-            c = Coordinate.getCoordinate(position.ordinal() + 15);
+            // Down-left
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 15);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
-            if (c != null && (! Coordinate.isBoundary(c))) {
-                // Next to boundary
-                c = Coordinate.getCoordinate(position.ordinal() - 10);
+
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 1);
+            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                // Left-up
+                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 10);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
-                c = Coordinate.getCoordinate(position.ordinal() + 6);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-            }
-            // Left intervals
-            c = Coordinate.getCoordinate(position.ordinal() - 15);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                moves.add(c);
-            }
-            if (c != null && (! Coordinate.isBoundary(c))) {
-                // Next to boundary
-                c = Coordinate.getCoordinate(position.ordinal() - 6);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-                c = Coordinate.getCoordinate(position.ordinal() + 10);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-            }
-            c = Coordinate.getCoordinate(position.ordinal() + 17);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                moves.add(c);
-            }
-            if (c != null && (! Coordinate.isBoundary(c))) {
-                // Next to boundary
-                c = Coordinate.getCoordinate(position.ordinal() - 6);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
-                    moves.add(c);
-                }
-                c = Coordinate.getCoordinate(position.ordinal() + 10);
+                // Left-down
+                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 6);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
             }
         }
+        // Right side
+        c = coordinates.get(figure.getLocation());
+        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            // Up-right
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 15);
+            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                moves.add(c);
+            }
+            // Down-right
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 17);
+            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                moves.add(c);
+            }
 
+            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 1);
+            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                // Right-up
+                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 6);
+                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                    moves.add(c);
+                }
+                // Right-down
+                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 10);
+                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                    moves.add(c);
+                }
+            }
+        }
         return moves;
     }
 }

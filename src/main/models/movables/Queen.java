@@ -33,8 +33,8 @@ public class Queen implements Movable {
         Figure contested = figures.get(c);
 
         return contested != null
-                && !(contested.getSide().equals(selected.getSide()));
-//                && !(contested.getRank().equals(Rank.KING));
+                && !(contested.getSide().equals(selected.getSide()))
+                && !(contested.getRank().equals(Rank.KING));
     }
 
     /**
@@ -58,6 +58,26 @@ public class Queen implements Movable {
         Coordinate c;
 
         // Rook model
+        // Up
+        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 8);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+            c = Coordinate.getCoordinate(c.ordinal() - 8);
+        }
+        // Down
+        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 8);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+            c = Coordinate.getCoordinate(c.ordinal() + 8);
+        }
+        // Left
+        c = Coordinate.getCoordinate(position.ordinal() - 1);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))
+                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
+            c = Coordinate.getCoordinate(c.ordinal() - 1);
+        }
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + 1);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
@@ -67,42 +87,8 @@ public class Queen implements Movable {
             c = Coordinate.getCoordinate(c.ordinal() + 1);
         }
 
-        // Left
-        c = Coordinate.getCoordinate(position.ordinal() - 1);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
-            moves.add(c);
-            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() - 1);
-        }
-
-        // Down
-        c = Coordinate.getCoordinate(position.ordinal() + 8);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
-            moves.add(c);
-            if (isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() + 8);
-        }
-
-        // Up
-        c = Coordinate.getCoordinate(position.ordinal() - 8);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
-            moves.add(c);
-            if (isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() - 8);
-        }
-
         // Bishop model
-        // Diagonal left-down
-        c = Coordinate.getCoordinate(position.ordinal() + 7);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
-            moves.add(c);
-            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() + 7);
-        }
-
-        // Diagonal left-up
+        // Left-up
         c = Coordinate.getCoordinate(position.ordinal() - 9);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
                 && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
@@ -110,17 +96,15 @@ public class Queen implements Movable {
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() - 9);
         }
-
-        // Diagonal right-down
-        c = Coordinate.getCoordinate(position.ordinal() + 9);
+        // Left-down
+        c = Coordinate.getCoordinate(position.ordinal() + 7);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() + 9);
+            c = Coordinate.getCoordinate(c.ordinal() + 7);
         }
-
-        // Diagonal right-up
+        // Right-up
         c = Coordinate.getCoordinate(position.ordinal() - 7);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
                 && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
@@ -128,7 +112,14 @@ public class Queen implements Movable {
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() - 7);
         }
-
+        // Right-down
+        c = Coordinate.getCoordinate(position.ordinal() + 9);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))
+                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
+            c = Coordinate.getCoordinate(c.ordinal() + 9);
+        }
 
         return moves;
     }

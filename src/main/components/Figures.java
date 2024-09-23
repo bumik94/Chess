@@ -149,7 +149,8 @@ public class Figures {
                         set.add(Coordinate.getCoordinate(c.ordinal() + 9));
                     }
 
-                } else if (figure.getRank().equals(Rank.ROOK)
+                }
+                else if (figure.getRank().equals(Rank.ROOK)
                         || figure.getRank().equals(Rank.QUEEN)) {
                     // Up
                     c = Coordinate.getCoordinate(
@@ -173,12 +174,13 @@ public class Figures {
                     }
                     // Right
                     c = coordinates.get(figure.getLocation());
-                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                    while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
                         c = Coordinate.getCoordinate(c.ordinal() + 1);
                         set.add(c);
                     }
 
-                } else if (figure.getRank().equals(Rank.BISHOP)
+                }
+                else if (figure.getRank().equals(Rank.BISHOP)
                         || figure.getRank().equals(Rank.QUEEN)) {
                     // Left-up
                     c = coordinates.get(figure.getLocation());
@@ -205,8 +207,48 @@ public class Figures {
                         set.add(c);
                     }
 
-                } else {
-                    set.addAll(getMoves(figure));
+                }
+                else if (figure.getRank().equals(Rank.KNIGHT)) {
+                    // Left side
+                    c = coordinates.get(figure.getLocation());
+                    if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                        // Up-left
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 17);
+                        set.add(c);
+                        // Down-left
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 15);
+                        set.add(c);
+
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 1);
+                        if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                            // Left-up
+                            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 10);
+                            set.add(c);
+                            // Left-down
+                            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 6);
+                            set.add(c);
+                        }
+                    }
+                    // Right side
+                    c = coordinates.get(figure.getLocation());
+                    if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                        // Up-right
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 15);
+                        set.add(c);
+                        // Down-right
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 17);
+                        set.add(c);
+
+                        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 1);
+                        if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                            // Right-up
+                            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 6);
+                            set.add(c);
+                            // Right-down
+                            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 10);
+                            set.add(c);
+                        }
+                    }
                 }
             }
         }

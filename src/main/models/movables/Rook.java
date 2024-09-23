@@ -57,15 +57,19 @@ public class Rook implements Movable {
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        // Right
-        c = Coordinate.getCoordinate(position.ordinal() + 1);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
-            moves.add(c);
-            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() + 1);
-        }
 
+        // Up
+        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 8);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+            c = Coordinate.getCoordinate(c.ordinal() - 8);
+        }
+        // Down
+        c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 8);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+            moves.add(c);
+            c = Coordinate.getCoordinate(c.ordinal() + 8);
+        }
         // Left
         c = Coordinate.getCoordinate(position.ordinal() - 1);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
@@ -74,21 +78,13 @@ public class Rook implements Movable {
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() - 1);
         }
-
-        // Down
-        c = Coordinate.getCoordinate(position.ordinal() + 8);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
+        // Right
+        c = Coordinate.getCoordinate(position.ordinal() + 1);
+        while (c != null && (isEmpty(c) || isRemovable(figure, c))
+                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
             moves.add(c);
-            if (isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() + 8);
-        }
-
-        // Up
-        c = Coordinate.getCoordinate(position.ordinal() - 8);
-        while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
-            moves.add(c);
-            if (isRemovable(figure, c)) { break; }
-            c = Coordinate.getCoordinate(c.ordinal() - 8);
+            if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
+            c = Coordinate.getCoordinate(c.ordinal() + 1);
         }
 
         return moves;
