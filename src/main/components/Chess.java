@@ -63,7 +63,7 @@ public class Chess extends JPanel {
         paintSelectedSquare(g);
         paintMoves(g, moves);
         // TEST
-//        paintMoves(g, moves, oppositeMoves);
+//        paintMoves(g, moves, controlledMoves);
         paintFigures(g);
     }
 
@@ -162,10 +162,10 @@ public class Chess extends JPanel {
         repaintMoves();
     }
 
-    private void repaintMoves(HashSet<Coordinate> movesSet, HashSet<Coordinate> oppositeMovesSet) {
+    private void repaintMoves(HashSet<Coordinate> movesSet, HashSet<Coordinate> controlledMovesSet) {
         repaintMoves();
         moves = movesSet;
-        controlledMoves = oppositeMovesSet;
+        controlledMoves = controlledMovesSet;
         repaintMoves();
     }
 

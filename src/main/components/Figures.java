@@ -31,12 +31,31 @@ public class Figures {
     private HashMap<Rank, Movable> setMovables() {
         HashMap<Rank, Movable> map = new HashMap<>();
 
-        map.put(Rank.PAWN, new Pawn(figuresMap, coordinates));
-        map.put(Rank.KNIGHT, new Knight(figuresMap, coordinates));
-        map.put(Rank.ROOK, new Rook(figuresMap, coordinates));
-        map.put(Rank.BISHOP, new Bishop(figuresMap, coordinates));
-        map.put(Rank.QUEEN, new Queen(figuresMap, coordinates));
-        map.put(Rank.KING, new King(figuresMap, coordinates));
+        map.put(Rank.PAWN,
+                new Pawn(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.KNIGHT,
+                new Knight(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.ROOK,
+                new Rook(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.BISHOP,
+                new Bishop(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.KING,
+                new King(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.QUEEN,
+                new Queen(
+                        figuresMap,
+                        coordinates,
+                        map.get(Rank.BISHOP), map.get(Rank.ROOK)));
 
         return map;
     }
@@ -51,12 +70,31 @@ public class Figures {
             HashMap<Point, Coordinate>  coordinates) {
         HashMap<Rank, Movable> map = new HashMap<>();
 
-        map.put(Rank.PAWN, new Pawn(figuresMap, coordinates));
-        map.put(Rank.KNIGHT, new Knight(figuresMap, coordinates));
-        map.put(Rank.ROOK, new Rook(figuresMap, coordinates));
-        map.put(Rank.BISHOP, new Bishop(figuresMap, coordinates));
-        map.put(Rank.QUEEN, new Queen(figuresMap, coordinates));
-        map.put(Rank.KING, new King(figuresMap, coordinates));
+        map.put(Rank.PAWN,
+                new Pawn(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.KNIGHT,
+                new Knight(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.ROOK,
+                new Rook(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.BISHOP,
+                new Bishop(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.KING,
+                new King(
+                        figuresMap,
+                        coordinates));
+        map.put(Rank.QUEEN,
+                new Queen(
+                        figuresMap,
+                        coordinates,
+                        map.get(Rank.BISHOP), map.get(Rank.ROOK)));
 
         return map;
     }
@@ -78,7 +116,8 @@ public class Figures {
         HashSet<Coordinate> movesSet = movables.get(figure.getRank()).moves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
-            HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure.getSide());
+//            HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure.getSide());
+            HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure);
             movesSet.removeAll(controlledMovesSet);
         }
 
@@ -86,11 +125,28 @@ public class Figures {
     }
 
     /**
-     * <p>Provides all positions of every figure for each possible direction.
-     * Used in asymmetric difference on King's moves to determine safe move.</p>
-     * @param side <code>Side</code> of the selected <code>Figure</code>
-     * @return a set of all moves of the opposite side
+     * <p>Calculates available moves for all figures of the opposite side.</p>
+     * @param figure a selected figure of the current turn
+     * @return a set of all opponent's controlled moves
      */
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
+        HashSet<Coordinate> set = new HashSet<>();
+
+        for (Figure opponent : figuresMap.values()) {
+            if (! opponent.getSide().equals(figure.getSide())) {
+                set.addAll(movables.get(opponent.getRank()).controlledMoves(opponent));
+            }
+        }
+
+        return set;
+    }
+
+        /**
+         * <p>Provides all positions of every figure for each possible direction.
+         * Used in asymmetric difference on King's moves to determine safe move.</p>
+         * @param side <code>Side</code> of the selected <code>Figure</code>
+         * @return a set of all moves of the opposite side
+         */
     public HashSet<Coordinate> getControlledMoves(Side side) {
         Coordinate c;// = null;
         HashSet<Coordinate> set = new HashSet<>();

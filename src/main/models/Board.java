@@ -105,10 +105,12 @@ public class Board {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
-        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.D5), resolution));
-        list.add(new Figure(Side.BLACK, Rank.PAWN,      getPointAt(Coordinate.F5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.G5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.E6), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.B4), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.PAWN,      getPointAt(Coordinate.F5), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.G5), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H1), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.D3), resolution));
+
 
         // White
 //        for (int i = Coordinate.B1.ordinal(); i < Coordinate.A1.ordinal(); i++) {

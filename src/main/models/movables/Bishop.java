@@ -96,4 +96,37 @@ public class Bishop implements Movable {
 
         return moves;
     }
+
+    public HashSet<Coordinate> controlledMoves(Figure figure) {
+        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate c;
+
+        // Left-up
+        c = coordinates.get(figure.getLocation());
+        while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            c = Coordinate.getCoordinate(c.ordinal() - 9);
+            set.add(c);
+        }
+        // Left-down
+        c = coordinates.get(figure.getLocation());
+        while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            c = Coordinate.getCoordinate(c.ordinal() + 7);
+            set.add(c);
+        }
+        // Right-up
+        c = coordinates.get(figure.getLocation());
+        while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            c = Coordinate.getCoordinate(c.ordinal() - 7);
+            set.add(c);
+        }
+        // Right-down
+        c = coordinates.get(figure.getLocation());
+        while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            c = Coordinate.getCoordinate(c.ordinal() + 9);
+            set.add(c);
+        }
+
+        set.remove(null);
+        return set;
+    }
 }

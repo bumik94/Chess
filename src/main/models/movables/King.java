@@ -75,7 +75,7 @@ public class King implements Movable {
         }
 
         c = coordinates.get(figure.getLocation());
-        if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 == 0)) {
+        if (!(Coordinate.isBoundary(c) && position.ordinal() % 2 == 0)) {
             // Left
             c = Coordinate.getCoordinate(position.ordinal() - 1);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -94,7 +94,7 @@ public class King implements Movable {
         }
 
         c = coordinates.get(figure.getLocation());
-        if (! (Coordinate.isBoundary(c) && position.ordinal() % 2 != 0)) {
+        if (!(Coordinate.isBoundary(c) && position.ordinal() % 2 != 0)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + 1);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -113,5 +113,37 @@ public class King implements Movable {
         }
 
         return moves;
+    }
+
+
+    public HashSet<Coordinate> controlledMoves(Figure figure) {
+        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate c;
+
+        c = coordinates.get(figure.getLocation());
+        // Up
+        set.add(Coordinate.getCoordinate(c.ordinal() + 8));
+        // Down
+        set.add(Coordinate.getCoordinate(c.ordinal() - 8));
+
+        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            // Left
+            set.add(Coordinate.getCoordinate(c.ordinal() - 1));
+            // Left-up
+            set.add(Coordinate.getCoordinate(c.ordinal() - 9));
+            // Left-down
+            set.add(Coordinate.getCoordinate(c.ordinal() + 7));
+        }
+        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            // Right
+            set.add(Coordinate.getCoordinate(c.ordinal() + 1));
+            // Right-up
+            set.add(Coordinate.getCoordinate(c.ordinal() - 7));
+            // Right-down
+            set.add(Coordinate.getCoordinate(c.ordinal() + 9));
+        }
+
+        set.remove(null);
+        return set;
     }
 }

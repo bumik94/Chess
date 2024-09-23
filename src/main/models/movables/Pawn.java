@@ -1,16 +1,17 @@
 package main.models.movables;
 
 
-import main.models.Coordinate;
-import main.models.Figure;
-import main.models.Movable;
-import main.models.Rank;
+import main.models.*;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Pawn implements Movable {
+    private static final int LEFT_UP = -9;
+    private static final int RIGHT_UP = -7;
+    private static final int LEFT_DOWN = 7;
+    private static final int RIGHT_DOWN = 9;
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
 
@@ -134,4 +135,35 @@ public class Pawn implements Movable {
         return moves;
     }
 
+    public HashSet<Coordinate> controlledMoves(Figure figure) {
+        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate c;
+
+        c = coordinates.get(figure.getLocation());
+        switch (figure.getSide()) {
+            case WHITE -> {
+                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                    // Left-up
+                    set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_UP));
+                }
+                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                    // Right-up
+                    set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_UP));
+                }
+            }
+            case BLACK -> {
+                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+                    // Left-down
+                    set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN));
+                }
+                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+                    // Right-down
+                    set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN));
+                }
+            }
+        }
+
+        set.remove(null);
+        return set;
+    }
 }
