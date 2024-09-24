@@ -47,15 +47,17 @@ public class Figures {
                 new Bishop(
                         figuresMap,
                         coordinates));
+        map.put(Rank.QUEEN,
+                new Queen(
+                        map.get(Rank.BISHOP),
+                        map.get(Rank.ROOK)));
         map.put(Rank.KING,
                 new King(
                         figuresMap,
-                        coordinates));
-        map.put(Rank.QUEEN,
-                new Queen(
-                        figuresMap,
                         coordinates,
-                        map.get(Rank.BISHOP), map.get(Rank.ROOK)));
+                        map.get(Rank.PAWN),
+                        map.get(Rank.KNIGHT),
+                        map.get(Rank.QUEEN)));
 
         return map;
     }
@@ -86,15 +88,17 @@ public class Figures {
                 new Bishop(
                         figuresMap,
                         coordinates));
+        map.put(Rank.QUEEN,
+                new Queen(
+                        map.get(Rank.BISHOP),
+                        map.get(Rank.ROOK)));
         map.put(Rank.KING,
                 new King(
                         figuresMap,
-                        coordinates));
-        map.put(Rank.QUEEN,
-                new Queen(
-                        figuresMap,
                         coordinates,
-                        map.get(Rank.BISHOP), map.get(Rank.ROOK)));
+                        map.get(Rank.PAWN),
+                        map.get(Rank.KNIGHT),
+                        map.get(Rank.QUEEN)));
 
         return map;
     }
@@ -309,6 +313,20 @@ public class Figures {
             }
         }
         set.remove(null);
+        return set;
+    }
+
+    public HashSet<Coordinate> getCheck(Side side) {
+        HashSet<Coordinate> set = new HashSet<>();
+        Figure figure = null;
+
+        for (Figure f : figuresMap.values()) {
+            if (f.getRank().equals(Rank.KING) && f.getSide().equals(side)) {
+                figure = f;
+            }
+        }
+        set.addAll(movables.get(figure.getRank()).check(figure));
+
         return set;
     }
 }

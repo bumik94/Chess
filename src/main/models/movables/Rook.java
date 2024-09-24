@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Rook implements Movable {
+    private static final int UP = -8;
+    private static final int DOWN = 8;
+    private static final int LEFT = -1;
+    private static final int RIGHT = 1;
+
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
 
@@ -62,33 +67,33 @@ public class Rook implements Movable {
         c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 8);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
-            c = Coordinate.getCoordinate(c.ordinal() - 8);
+            c = Coordinate.getCoordinate(c.ordinal() + UP);
         }
         // Down
         c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 8);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
-            c = Coordinate.getCoordinate(c.ordinal() + 8);
+            c = Coordinate.getCoordinate(c.ordinal() + DOWN);
         }
         // Left
-        c = Coordinate.getCoordinate(position.ordinal() - 1);
+        c = Coordinate.getCoordinate(position.ordinal() + LEFT);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
                 && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) {
                 break;
             }
-            c = Coordinate.getCoordinate(c.ordinal() - 1);
+            c = Coordinate.getCoordinate(c.ordinal() + LEFT);
         }
         // Right
-        c = Coordinate.getCoordinate(position.ordinal() + 1);
+        c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
                 && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) {
                 break;
             }
-            c = Coordinate.getCoordinate(c.ordinal() + 1);
+            c = Coordinate.getCoordinate(c.ordinal() + RIGHT);
         }
 
         return moves;
@@ -100,32 +105,36 @@ public class Rook implements Movable {
 
         // Up
         c = Coordinate.getCoordinate(
-                coordinates.get(figure.getLocation()).ordinal() - 8);
+                coordinates.get(figure.getLocation()).ordinal() + UP);
         while (c != null) {
             set.add(c);
-            c = Coordinate.getCoordinate(c.ordinal() - 8);
+            c = Coordinate.getCoordinate(c.ordinal() + UP);
         }
         // Down
         c = Coordinate.getCoordinate(
-                coordinates.get(figure.getLocation()).ordinal() + 8);
+                coordinates.get(figure.getLocation()).ordinal() + DOWN);
         while (c != null) {
             set.add(c);
-            c = Coordinate.getCoordinate(c.ordinal() + 8);
+            c = Coordinate.getCoordinate(c.ordinal() + DOWN);
         }
         // Left
         c = coordinates.get(figure.getLocation());
         while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
-            c = Coordinate.getCoordinate(c.ordinal() - 1);
+            c = Coordinate.getCoordinate(c.ordinal() + LEFT);
             set.add(c);
         }
         // Right
         c = coordinates.get(figure.getLocation());
         while (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
-            c = Coordinate.getCoordinate(c.ordinal() + 1);
+            c = Coordinate.getCoordinate(c.ordinal() + RIGHT);
             set.add(c);
         }
 
         set.remove(null);
         return set;
+    }
+
+    public HashSet<Coordinate> check(Figure figure) {
+        return null;
     }
 }

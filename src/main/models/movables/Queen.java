@@ -10,16 +10,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Queen implements Movable {
-    private final HashMap<Coordinate, Figure> figures;
-    private final HashMap<Point, Coordinate> coordinates;
     private final Movable bishop;
     private final Movable rook;
 
-    public Queen(HashMap<Coordinate, Figure> figures,
-                HashMap<Point, Coordinate> coordinates,
-                 Movable bishop, Movable rook) {
-        this.figures = figures;
-        this.coordinates = coordinates;
+    public Queen(Movable bishop, Movable rook) {
         this.bishop = bishop;
         this.rook = rook;
     }
@@ -74,6 +68,11 @@ public class Queen implements Movable {
         set.addAll(rook.controlledMoves(figure));
 
         return set;
+    }
+
+    @Override
+    public HashSet<Coordinate> check(Figure figure) {
+        return null;
     }
 
 //    public HashSet<Coordinate> moves(Figure figure) {

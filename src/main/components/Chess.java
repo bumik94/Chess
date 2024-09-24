@@ -212,6 +212,7 @@ public class Chess extends JPanel {
 //            repaintMoves(figures.getMoves(figure));
             // TEST
             repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure.getSide()));
+            figures.getCheck(figure.getSide());
 
             return true;
         }
