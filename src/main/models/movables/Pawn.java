@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Pawn implements Movable {
+    private static final int UP = -8;
+    private static final int DOWN = 8;
     private static final int LEFT_UP = -9;
     private static final int RIGHT_UP = -7;
     private static final int LEFT_DOWN = 7;
     private static final int RIGHT_DOWN = 9;
+
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
 
@@ -56,79 +59,49 @@ public class Pawn implements Movable {
         Coordinate c;
 
         switch (figure.getSide()) {
-
+            // TODO IsRemovable
             case WHITE -> {
                 // Move up
-                c = Coordinate.getCoordinate(position.ordinal() - 8);
-                if (c == null) {
-                    // TODO pawn promotion
-                    System.out.println("Cannot move further");
-                    return null;
-                }
-
-                if (isEmpty(c)) {
+                c = Coordinate.getCoordinate(position.ordinal() + UP);
+                if (c != null && isEmpty(c)) {
                     moves.add(c);
                 }
-
-                // Remove diagonally up
-                if (Coordinate.isBoundary(position)) {
-                    if (position.ordinal() % 2 == 0) { // left edge
-                        // Remove one step forward and right
-                        c = Coordinate.getCoordinate(position.ordinal() - 7);
-                    } else { // right edge
-                        // Remove one step forward and left
-                        c = Coordinate.getCoordinate(position.ordinal() - 9);
-                    }
-                } else {
-                    // Remove one step forward and right
-                    c = Coordinate.getCoordinate(position.ordinal() - 7);
+                // Remove left-up
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
                     }
-
-                    // Remove one step forward and left
-                    c = Coordinate.getCoordinate(position.ordinal() - 9);
                 }
-                if (isRemovable(figure, c)) {
-                    moves.add(c);
+                // Remove right-up
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+                    if (isRemovable(figure, c)) {
+                        moves.add(c);
+                    }
                 }
             }
-
             case BLACK -> {
-                // Move in additive way by 8
-                c = Coordinate.getCoordinate(position.ordinal() + 8);
-                if (c == null) {
-                    // TODO pawn promotion
-                    System.out.println("Cannot move further");
-                    return null;
-                }
-
-                if (isEmpty(c)) {
+                // Move down
+                c = Coordinate.getCoordinate(position.ordinal() + DOWN);
+                if (c != null && isEmpty(c)) {
                     moves.add(c);
                 }
-
-                // Remove in additive way by 7 or 9
-                if (Coordinate.isBoundary(position)) {
-                    if (position.ordinal() % 2 == 0) { // left edge
-                        // Remove one step forward and right
-                        c = Coordinate.getCoordinate(position.ordinal() + 9);
-                    } else { // right edge
-                        // Remove one step forward and left
-                        c = Coordinate.getCoordinate(position.ordinal() + 7);
-                    }
-                } else {
-                    // Remove one step forward and right
-                    c = Coordinate.getCoordinate(position.ordinal() + 9);
+                // Remove left-down
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
                     }
+                }
+                // Remove right-down
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+                    if (isRemovable(figure, c)) {
+                        moves.add(c);
+                    }
+                }
 
-                    // Remove one step forward and left
-                    c = Coordinate.getCoordinate(position.ordinal() + 7);
-                }
-                if (isRemovable(figure, c)) {
-                    moves.add(c);
-                }
             }
         }
 

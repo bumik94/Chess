@@ -10,6 +10,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Knight implements Movable {
+    private static final int UP_LEFT = -8;
+    private static final int LEFT_UP = -9;
+    private static final int LEFT_DOWN = 7;
+    private static final int DOWN_LEFT = 8;
+    private static final int DOWN_RIGHT = 1;
+    private static final int RIGHT_DOWN = 9;
+    private static final int LEFT = -1;
+    private static final int RIGHT_UP = -7;
+
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
 
