@@ -170,6 +170,7 @@ public class King implements Movable {
         Right now this method returns all occurrences of
         opponent figures for each possible move.
         Filter the moves in respect to evaluated figure.
+
          */
         set.addAll(pawn.moves(figure));
         set.addAll(knight.moves(figure));
