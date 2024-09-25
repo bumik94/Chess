@@ -106,7 +106,7 @@ public class Board {
 
         // TEST
 //        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.B4), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.PAWN,      getPointAt(Coordinate.F5), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H1), resolution));
 //        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.G5), resolution));
 //        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.G2), resolution));
         list.add(new Figure(Side.BLACK, Rank.PAWN,      getPointAt(Coordinate.F7), resolution));

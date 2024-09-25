@@ -61,9 +61,9 @@ public class Chess extends JPanel {
          */
         paintBoard(g);
         paintSelectedSquare(g);
-        paintMoves(g, moves);
+//        paintMoves(g, moves);
         // TEST
-//        paintMoves(g, moves, controlledMoves);
+        paintMoves(g, moves, controlledMoves);
         paintFigures(g);
     }
 
@@ -211,7 +211,7 @@ public class Chess extends JPanel {
             selectedFigure = figure;
 //            repaintMoves(figures.getMoves(figure));
             // TEST
-            repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure.getSide()));
+            repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure));
             figures.getCheck(figure.getSide());
 
             return true;
