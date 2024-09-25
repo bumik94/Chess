@@ -1,7 +1,5 @@
 package main.models;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 
 public interface Movable {

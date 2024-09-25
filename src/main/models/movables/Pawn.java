@@ -28,9 +28,11 @@ public class Pawn implements Movable {
      * <p>Evaluates if a figure occupies a coordinate
      * and is opposite side to the selected figure.
      * King cannot be removed.</p>
+     *
      * @param selected <code>Figure</code> to move
-     * @param c <code>Coordinate</code> to move to
-     * @return
+     * @param c        <code>Coordinate</code> to move to
+     * @return true if the figure at the <code>Coordinate</code>
+     * is opposite side and not a king
      */
     private boolean isRemovable(Figure selected, Coordinate c) {
         Figure contested = figures.get(c);
@@ -59,7 +61,6 @@ public class Pawn implements Movable {
         Coordinate c;
 
         switch (figure.getSide()) {
-            // TODO IsRemovable
             case WHITE -> {
                 // Move up
                 c = Coordinate.getCoordinate(position.ordinal() + UP);
@@ -101,7 +102,6 @@ public class Pawn implements Movable {
                         moves.add(c);
                     }
                 }
-
             }
         }
 
@@ -109,35 +109,46 @@ public class Pawn implements Movable {
     }
 
     public HashSet<Coordinate> controlledMoves(Figure figure) {
-        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        c = coordinates.get(figure.getLocation());
         switch (figure.getSide()) {
             case WHITE -> {
-                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
-                    // Left-up
-                    set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_UP));
+                // Remove left-up
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+                    if (c != null) {
+                        moves.add(c);
+                    }
                 }
-                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
-                    // Right-up
-                    set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_UP));
+                // Remove right-up
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+                    if (c != null) {
+                        moves.add(c);
+                    }
                 }
             }
             case BLACK -> {
-                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
-                    // Left-down
-                    set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN));
+                // Remove left-down
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+                    if (c != null) {
+                        moves.add(c);
+                    }
                 }
-                if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
-                    // Right-down
-                    set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN));
+                // Remove right-down
+                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+                    if (c != null) {
+                        moves.add(c);
+                    }
                 }
             }
         }
 
-        set.remove(null);
-        return set;
+        return moves;
     }
 
     @Override

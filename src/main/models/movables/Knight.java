@@ -10,14 +10,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Knight implements Movable {
-    private static final int UP_LEFT = -8;
-    private static final int LEFT_UP = -9;
-    private static final int LEFT_DOWN = 7;
-    private static final int DOWN_LEFT = 8;
-    private static final int DOWN_RIGHT = 1;
-    private static final int RIGHT_DOWN = 9;
+    private static final int UP_LEFT = -17;
+    private static final int LEFT_UP = -10;
+    private static final int LEFT_DOWN = 6;
+    private static final int DOWN_LEFT = 15;
+    private static final int UP_RIGHT = -15;
+    private static final int RIGHT_UP = -6;
+    private static final int RIGHT_DOWN = 10;
+    private static final int DOWN_RIGHT = 17;
     private static final int LEFT = -1;
-    private static final int RIGHT_UP = -7;
+    private static final int RIGHT = 1;
 
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
@@ -28,7 +30,6 @@ public class Knight implements Movable {
         this.coordinates = coordinates;
     }
 
-
     /**
      * <p>Evaluates if a figure occupies a coordinate
      * and is opposite side to the selected figure.
@@ -36,7 +37,8 @@ public class Knight implements Movable {
      *
      * @param selected <code>Figure</code> to move
      * @param c        <code>Coordinate</code> to move to
-     * @return
+     * @return true if the figure at the <code>Coordinate</code>
+     * is opposite side and not a king
      */
     private boolean isRemovable(Figure selected, Coordinate c) {
         Figure contested = figures.get(c);
@@ -64,62 +66,58 @@ public class Knight implements Movable {
     public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
-//        HashSet<Integer> leftIntervals = new HashSet<>(List.of(-17, -10, 6, 15));
-//        HashSet<Integer> rightIntervals = new HashSet<>(List.of(-15, -6, 10, 17));
         Coordinate c;
 
-
         // Left side
-        c = coordinates.get(figure.getLocation());
-        if (!(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             // Up-left
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 17);
+            c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
             // Down-left
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 15);
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_LEFT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
 
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 1);
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT); // Offset
             if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
                 // Left-up
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 10);
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
                 // Left-down
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 6);
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
             }
         }
+
         // Right side
-        c = coordinates.get(figure.getLocation());
-        if (!(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
             // Up-right
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 15);
+            c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
             // Down-right
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 17);
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_RIGHT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                 moves.add(c);
             }
 
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 1);
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT); // Offset
             if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
                 // Right-up
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 6);
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
                 // Right-down
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 10);
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
@@ -130,52 +128,67 @@ public class Knight implements Movable {
     }
 
     public HashSet<Coordinate> controlledMoves(Figure figure) {
-        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
         // Left side
-        c = coordinates.get(figure.getLocation());
-        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             // Up-left
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 17);
-            set.add(c);
+            c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
+            if (c != null) {
+                moves.add(c);
+            }
             // Down-left
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 15);
-            set.add(c);
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_LEFT);
+            if (c != null) {
+                moves.add(c);
+            }
 
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 1);
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT); // Offset
             if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
                 // Left-up
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 10);
-                set.add(c);
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+                if (c != null) {
+                    moves.add(c);
+                }
                 // Left-down
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 6);
-                set.add(c);
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+                if (c != null) {
+                    moves.add(c);
+                }
             }
         }
-        // Right side
-        c = coordinates.get(figure.getLocation());
-        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
-            // Up-right
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 15);
-            set.add(c);
-            // Down-right
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 17);
-            set.add(c);
 
-            c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 1);
+        // Right side
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+            // Up-right
+            c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
+            if (c != null) {
+                moves.add(c);
+            }
+            // Down-right
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_RIGHT);
+            if (c != null) {
+                moves.add(c);
+            }
+
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT); // Offset
             if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
                 // Right-up
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() - 6);
-                set.add(c);
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+                if (c != null) {
+                    moves.add(c);
+                }
                 // Right-down
-                c = Coordinate.getCoordinate(coordinates.get(figure.getLocation()).ordinal() + 10);
-                set.add(c);
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+                if (c != null) {
+                    moves.add(c);
+                }
             }
         }
 
-        set.remove(null);
-        return set;
+        return moves;
     }
 
     @Override

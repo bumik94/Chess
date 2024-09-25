@@ -1,6 +1,5 @@
 package main.models.movables;
 
-import main.components.Figures;
 import main.models.Coordinate;
 import main.models.Figure;
 import main.models.Movable;
@@ -63,10 +62,6 @@ public class King implements Movable {
         return figures.get(c) == null;
     }
 
-    private boolean isCheck() {
-        return false;
-    }
-
     /**
      * <p>Checks for valid moves for a given figure.</p>
      *
@@ -74,7 +69,6 @@ public class King implements Movable {
      */
     public HashSet<Coordinate> moves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
-//        HashMap<Rank, Movable> movables = Figures.setMovables(figures, coordinates);
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
@@ -83,15 +77,14 @@ public class King implements Movable {
         if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
         }
-
         // Down
         c = Coordinate.getCoordinate(position.ordinal() + DOWN);
         if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
             moves.add(c);
         }
 
-        c = coordinates.get(figure.getLocation());
-        if (!(Coordinate.isBoundary(c) && position.ordinal() % 2 == 0)) {
+        // Left boundary
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             // Left
             c = Coordinate.getCoordinate(position.ordinal() + LEFT);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -109,8 +102,8 @@ public class King implements Movable {
             }
         }
 
-        c = coordinates.get(figure.getLocation());
-        if (!(Coordinate.isBoundary(c) && position.ordinal() % 2 != 0)) {
+        // Right boundary
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -133,34 +126,56 @@ public class King implements Movable {
 
 
     public HashSet<Coordinate> controlledMoves(Figure figure) {
-        HashSet<Coordinate> set = new HashSet<>();
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        c = coordinates.get(figure.getLocation());
         // Up
-        set.add(Coordinate.getCoordinate(c.ordinal() + UP));
+        c = Coordinate.getCoordinate(position.ordinal() + UP);
+        if (c != null) {
+            moves.add(c);
+        }
         // Down
-        set.add(Coordinate.getCoordinate(c.ordinal() + DOWN));
+        c = Coordinate.getCoordinate(position.ordinal() + DOWN);
+        if (c != null) {
+            moves.add(c);
+        }
 
-        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+        // Left boundary
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
             // Left
-            set.add(Coordinate.getCoordinate(c.ordinal() + LEFT));
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT);
+            moves.add(c);
             // Left-up
-            set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_UP));
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+            if (c != null) {
+                moves.add(c);
+            }
             // Left-down
-            set.add(Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN));
-        }
-        if (! (Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
-            // Right
-            set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT));
-            // Right-up
-            set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_UP));
-            // Right-down
-            set.add(Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN));
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+            if (c != null) {
+                moves.add(c);
+            }
         }
 
-        set.remove(null);
-        return set;
+        // Right boundary
+        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+            // Right
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
+            moves.add(c);
+            // Right-up
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+            if (c != null) {
+                moves.add(c);
+            }
+            // Right-down
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+            if (c != null) {
+                moves.add(c);
+            }
+        }
+
+        return moves;
     }
 
     public HashSet<Coordinate> check(Figure figure) {
@@ -170,7 +185,6 @@ public class King implements Movable {
         Right now this method returns all occurrences of
         opponent figures for each possible move.
         Filter the moves in respect to evaluated figure.
-
          */
         set.addAll(pawn.moves(figure));
         set.addAll(knight.moves(figure));

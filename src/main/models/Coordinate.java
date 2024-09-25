@@ -24,6 +24,11 @@ public enum Coordinate {
     private static final Coordinate[] coordinates = Coordinate.values();
     private static final HashSet<Coordinate> boundaries = new HashSet<>(setBoundaries());
 
+    /**
+     * <p>Obtains <code>Coordinate</code> from ordinal value.</p>
+     * @param ordinal index of the <code>Coordinate</code> in an array
+     * @return actual <code>Coordinate</code> value
+     */
     public static Coordinate getCoordinate(int ordinal) {
         try {
             return coordinates[ordinal];
@@ -32,6 +37,12 @@ public enum Coordinate {
         }
     }
 
+    /**
+     * <p>Evaluates if a coordinate is on the left <code>(c.ordinal() % 2 == 0)</code>
+     * or right <code>(c.ordinal() % 2 != 0)</code> boundary.</p>
+     * @param c <code>Coordinate</code> to evaluate
+     * @return true if <code>Coordinate</code> is on either side of boundary
+     */
     public static boolean isBoundary(Coordinate c) {
         return boundaries.contains(c);
     }

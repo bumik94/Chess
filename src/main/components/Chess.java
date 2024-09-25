@@ -202,7 +202,7 @@ public class Chess extends JPanel {
      * moves to green.</p>
      * @param c <code>Coordinate</code> position of the <code>Figure</code>
      *          on the board
-     * @return
+     * @return true when a square is occupied by friendly figure
      */
     private boolean setSelectedFigure(Coordinate c) {
         Figure figure = figures.getFigureAt(c);
@@ -210,7 +210,7 @@ public class Chess extends JPanel {
         if (figure != null && getTurn().equals(figure.getSide())) {
             selectedFigure = figure;
 //            repaintMoves(figures.getMoves(figure));
-            // TEST
+//             TEST
             repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure));
             figures.getCheck(figure.getSide());
 
