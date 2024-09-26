@@ -47,6 +47,14 @@ public enum Coordinate {
         return boundaries.contains(c);
     }
 
+    public static boolean isLeftBoundary(Coordinate c) {
+        return isBoundary(c) && c.ordinal() % 2 == 0;
+    }
+
+    public static boolean isRightBoundary(Coordinate c) {
+        return isBoundary(c) && c.ordinal() % 2 != 0;
+    }
+
     /**
      * <p>Extract bounding coordinates for left and right side of the board.
      * Modulus operation determines the side.</p>

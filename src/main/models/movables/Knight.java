@@ -69,7 +69,7 @@ public class Knight implements Movable {
         Coordinate c;
 
         // Left side
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+        if (! Coordinate.isLeftBoundary(position)) {
             // Up-left
             c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -82,7 +82,7 @@ public class Knight implements Movable {
             }
 
             c = Coordinate.getCoordinate(position.ordinal() + LEFT); // Offset
-            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            if (c != null && !Coordinate.isLeftBoundary(position)) {
                 // Left-up
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -97,7 +97,7 @@ public class Knight implements Movable {
         }
 
         // Right side
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+        if (! Coordinate.isRightBoundary(position)) {
             // Up-right
             c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
             if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -110,7 +110,7 @@ public class Knight implements Movable {
             }
 
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT); // Offset
-            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            if (c != null && !Coordinate.isRightBoundary(position)) {
                 // Right-up
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                 if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
@@ -133,7 +133,7 @@ public class Knight implements Movable {
         Coordinate c;
 
         // Left side
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+        if (! Coordinate.isLeftBoundary(position)) {
             // Up-left
             c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
             if (c != null) {
@@ -146,7 +146,7 @@ public class Knight implements Movable {
             }
 
             c = Coordinate.getCoordinate(position.ordinal() + LEFT); // Offset
-            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 == 0)) {
+            if (c != null && !Coordinate.isLeftBoundary(c)) {
                 // Left-up
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                 if (c != null) {
@@ -161,7 +161,7 @@ public class Knight implements Movable {
         }
 
         // Right side
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+        if (! Coordinate.isRightBoundary(position)) {
             // Up-right
             c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
             if (c != null) {
@@ -174,7 +174,7 @@ public class Knight implements Movable {
             }
 
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT); // Offset
-            if (c != null && !(Coordinate.isBoundary(c) && c.ordinal() % 2 != 0)) {
+            if (c != null && !Coordinate.isRightBoundary(c)) {
                 // Right-up
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                 if (c != null) {

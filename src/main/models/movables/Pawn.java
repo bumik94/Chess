@@ -4,6 +4,7 @@ package main.models.movables;
 import main.models.*;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -68,14 +69,14 @@ public class Pawn implements Movable {
                     moves.add(c);
                 }
                 // Remove left-up
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
                     }
                 }
                 // Remove right-up
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
@@ -89,14 +90,14 @@ public class Pawn implements Movable {
                     moves.add(c);
                 }
                 // Remove left-down
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
                     }
                 }
                 // Remove right-down
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
                     if (isRemovable(figure, c)) {
                         moves.add(c);
@@ -116,14 +117,14 @@ public class Pawn implements Movable {
         switch (figure.getSide()) {
             case WHITE -> {
                 // Remove left-up
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                     if (c != null) {
                         moves.add(c);
                     }
                 }
                 // Remove right-up
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                     if (c != null) {
                         moves.add(c);
@@ -132,14 +133,14 @@ public class Pawn implements Movable {
             }
             case BLACK -> {
                 // Remove left-down
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) { // left edge
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                     if (c != null) {
                         moves.add(c);
                     }
                 }
                 // Remove right-down
-                if (! (Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) { // left edge
+                if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
                     if (c != null) {
                         moves.add(c);
@@ -153,6 +154,25 @@ public class Pawn implements Movable {
 
     @Override
     public HashSet<Coordinate> check(Figure figure) {
+        HashSet<Coordinate> moves = new HashSet<>();
+        HashSet<Coordinate> pawnCheck = new HashSet<>();
+        Coordinate kingPosition = null;
+
+        for (Figure f : figures.values()) {
+            // get controlled moves of the opposite side's pawns
+            if ((! f.getSide().equals(figure.getSide()))
+                    && f.getRank().equals(Rank.PAWN)) {
+                pawnCheck.addAll(controlledMoves(f));
+            }
+            // retrieve friendly king figure
+            if (f.getSide().equals(figure.getSide())
+                    && f.getRank().equals(Rank.KING)) {
+                kingPosition = coordinates.get(f.getLocation());
+            }
+        }
+        // Filter moves in check
+        pawnCheck.retainAll(Collections.singleton(kingPosition));
+
         return null;
     }
 }

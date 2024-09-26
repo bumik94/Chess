@@ -84,7 +84,7 @@ public class King implements Movable {
         }
 
         // Left boundary
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+        if (!Coordinate.isLeftBoundary(position)) {
             // Left
             c = Coordinate.getCoordinate(position.ordinal() + LEFT);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -103,7 +103,7 @@ public class King implements Movable {
         }
 
         // Right boundary
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+        if (!Coordinate.isRightBoundary(position)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
             if (isEmpty(c) || isRemovable(figure, c)) {
@@ -142,7 +142,7 @@ public class King implements Movable {
         }
 
         // Left boundary
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+        if (! Coordinate.isLeftBoundary(position)) {
             // Left
             c = Coordinate.getCoordinate(position.ordinal() + LEFT);
             moves.add(c);
@@ -159,7 +159,7 @@ public class King implements Movable {
         }
 
         // Right boundary
-        if (!(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+        if (! Coordinate.isRightBoundary(position)) {
             // Right
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
             moves.add(c);

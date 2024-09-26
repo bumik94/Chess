@@ -81,7 +81,7 @@ public class Bishop implements Movable {
         // Left-up
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_UP);
@@ -90,7 +90,7 @@ public class Bishop implements Movable {
         // Left-down
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN);
@@ -99,7 +99,7 @@ public class Bishop implements Movable {
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
@@ -108,7 +108,7 @@ public class Bishop implements Movable {
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);
@@ -130,7 +130,7 @@ public class Bishop implements Movable {
         // Left-up
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_UP);
@@ -139,7 +139,7 @@ public class Bishop implements Movable {
         // Left-down
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN);
@@ -148,7 +148,7 @@ public class Bishop implements Movable {
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
@@ -157,7 +157,7 @@ public class Bishop implements Movable {
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);

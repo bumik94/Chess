@@ -93,7 +93,7 @@ public class Rook implements Movable {
         // Left
         c = Coordinate.getCoordinate(position.ordinal() + LEFT);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) {
                 break;
@@ -103,7 +103,7 @@ public class Rook implements Movable {
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) {
                 break;
@@ -134,7 +134,7 @@ public class Rook implements Movable {
         // Left
         c = Coordinate.getCoordinate(position.ordinal() + LEFT);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 == 0)) {
+                && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) {
                 break;
@@ -144,7 +144,7 @@ public class Rook implements Movable {
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
         while (c != null && (isEmpty(c) || isFriendly(figure, c))
-                && !(Coordinate.isBoundary(position) && position.ordinal() % 2 != 0)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isFriendly(figure, c)) {
                 break;
