@@ -21,26 +21,26 @@ public class Queen implements Movable {
      *
      * @param figure to be moved
      */
-    public HashSet<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        moves.addAll(bishop.moves(figure));
-        moves.addAll(rook.moves(figure));
+        moves.addAll(bishop.getMoves(figure));
+        moves.addAll(rook.getMoves(figure));
 
         return moves;
     }
 
-    public HashSet<Coordinate> controlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        moves.addAll(bishop.controlledMoves(figure));
-        moves.addAll(rook.controlledMoves(figure));
+        moves.addAll(bishop.getControlledMoves(figure));
+        moves.addAll(rook.getControlledMoves(figure));
 
         return moves;
     }
 
 
-    public HashSet<Coordinate> check(Figure figure) {
+    public HashSet<Coordinate> getCheck(Figure figure) {
         return null;
     }
 

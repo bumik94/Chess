@@ -56,7 +56,7 @@ public class Pawn implements Movable {
      * <p>Checks for valid moves for a given figure.</p>
      * @param figure to be moved
      */
-    public HashSet<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -109,7 +109,7 @@ public class Pawn implements Movable {
         return moves;
     }
 
-    public HashSet<Coordinate> controlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -153,7 +153,7 @@ public class Pawn implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> check(Figure figure) {
+    public HashSet<Coordinate> getCheck(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
         HashSet<Coordinate> pawnCheck = new HashSet<>();
         Coordinate kingPosition = null;
@@ -162,7 +162,7 @@ public class Pawn implements Movable {
             // get controlled moves of the opposite side's pawns
             if ((! f.getSide().equals(figure.getSide()))
                     && f.getRank().equals(Rank.PAWN)) {
-                pawnCheck.addAll(controlledMoves(f));
+                pawnCheck.addAll(getControlledMoves(f));
             }
             // retrieve friendly king figure
             if (f.getSide().equals(figure.getSide())

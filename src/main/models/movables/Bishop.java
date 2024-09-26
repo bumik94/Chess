@@ -58,6 +58,13 @@ public class Bishop implements Movable {
                 && contested.getSide().equals(selected.getSide());
     }
 
+    public HashSet<Coordinate> Check(Figure selected, Coordinate c) {
+        HashSet<Coordinate> moves = new HashSet<>();
+
+
+        return moves;
+    }
+
     /**
      * Checks if any figure occupies a given position.
      *
@@ -73,7 +80,7 @@ public class Bishop implements Movable {
      *
      * @param figure to be moved
      */
-    public HashSet<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -122,7 +129,7 @@ public class Bishop implements Movable {
      *
      * @param figure to be moved
      */
-    public HashSet<Coordinate> controlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -167,7 +174,7 @@ public class Bishop implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> check(Figure figure) {
+    public HashSet<Coordinate> getCheck(Figure figure) {
         return null;
     }
 }

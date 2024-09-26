@@ -67,7 +67,7 @@ public class King implements Movable {
      *
      * @param figure to be moved
      */
-    public HashSet<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -125,7 +125,7 @@ public class King implements Movable {
     }
 
 
-    public HashSet<Coordinate> controlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -178,7 +178,7 @@ public class King implements Movable {
         return moves;
     }
 
-    public HashSet<Coordinate> check(Figure figure) {
+    public HashSet<Coordinate> getCheck(Figure figure) {
         HashSet<Coordinate> set = new HashSet<>();
 
         /*
@@ -186,9 +186,9 @@ public class King implements Movable {
         opponent figures for each possible move.
         Filter the moves in respect to evaluated figure.
          */
-        set.addAll(pawn.moves(figure));
-        set.addAll(knight.moves(figure));
-        set.addAll(queen.moves(figure));
+        set.addAll(pawn.getMoves(figure));
+        set.addAll(knight.getMoves(figure));
+        set.addAll(queen.getMoves(figure));
 
         set.retainAll(figures.keySet());
         System.out.println(set);

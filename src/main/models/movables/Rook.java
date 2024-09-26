@@ -73,7 +73,7 @@ public class Rook implements Movable {
      *
      * @param figure to be moved
      */
-    public HashSet<Coordinate> moves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -114,7 +114,7 @@ public class Rook implements Movable {
         return moves;
     }
 
-    public HashSet<Coordinate> controlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
@@ -155,7 +155,7 @@ public class Rook implements Movable {
         return moves;
     }
 
-    public HashSet<Coordinate> check(Figure figure) {
+    public HashSet<Coordinate> getCheck(Figure figure) {
         return null;
     }
 }

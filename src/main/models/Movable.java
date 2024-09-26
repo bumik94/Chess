@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public interface Movable {
 
-    HashSet<Coordinate> moves(Figure figure);
-    HashSet<Coordinate> controlledMoves(Figure figure);
-    HashSet<Coordinate> check(Figure figure);
+    HashSet<Coordinate> getMoves(Figure figure);
+    HashSet<Coordinate> getControlledMoves(Figure figure);
+    HashSet<Coordinate> getCheck(Figure figure);
 }

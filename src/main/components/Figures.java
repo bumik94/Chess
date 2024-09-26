@@ -86,7 +86,7 @@ public class Figures {
      * @return a set of available moves
      */
     public HashSet<Coordinate> getMoves(Figure figure) {
-        HashSet<Coordinate> movesSet = movables.get(figure.getRank()).moves(figure);
+        HashSet<Coordinate> movesSet = movables.get(figure.getRank()).getMoves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
             HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure);
@@ -109,7 +109,7 @@ public class Figures {
 
         for (Figure opponent : figuresMap.values()) {
             if (! opponent.getSide().equals(figure.getSide())) {
-                set.addAll(movables.get(opponent.getRank()).controlledMoves(opponent));
+                set.addAll(movables.get(opponent.getRank()).getControlledMoves(opponent));
             }
         }
 
@@ -118,17 +118,20 @@ public class Figures {
 
     // TODO make this method be a part of moves method to restrict moves when king is in check
     //      to moves that would lead to saving king
-    public HashSet<Coordinate> getCheck(Side side) {
-        HashSet<Coordinate> set = new HashSet<>();
-        Figure figure = null;
+    public HashSet<Coordinate> getCheckMoves(Figure figure) {
+        HashSet<Coordinate> moves = new HashSet<>();
+        Figure king = null;
 
         for (Figure f : figuresMap.values()) {
-            if (f.getRank().equals(Rank.KING) && f.getSide().equals(side)) {
-                figure = f;
+            if (f.getRank().equals(Rank.KING)) {
+                assert false;
+                if (f.getSide().equals(king.getSide())) {
+                    king = f;
+                }
             }
         }
-        assert figure != null;
-        set.addAll(movables.get(figure.getRank()).check(figure));
+        assert false;
+        moves.addAll(movables.get(king.getRank()).getCheck(king));
 
         movables.forEach((rank, movable) -> {
             // iterate trough every movable and determine
@@ -136,6 +139,6 @@ public class Figures {
             // Return a set for the selected figure to filter
             // moves that save their king
         });
-        return set;
+        return moves;
     }
 }
