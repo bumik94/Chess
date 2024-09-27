@@ -43,6 +43,22 @@ public class Bishop implements Movable {
     }
 
     /**
+     * <p>Evaluates if a figure occupies a coordinate
+     * and is on the same side to the selected figure.
+     * King cannot be removed.</p>
+     *
+     * @param selected <code>Figure</code> to move
+     * @param c        <code>Coordinate</code> to move to
+     * @return true if opposing figure occupies position
+     */
+    private boolean isProtected(Figure selected, Coordinate c) {
+        Figure contested = figures.get(c);
+
+        return contested != null
+                && contested.getSide().equals(selected.getSide());
+    }
+
+    /**
      * <p>Evaluates if opposite side king occupies a coordinate.</p>
      * @param selected selected figure on board
      * @param c currently evaluated position
@@ -54,29 +70,6 @@ public class Bishop implements Movable {
         return contested != null
                 && contested.getRank().equals(Rank.KING)
                 && !(contested.getSide().equals(selected.getSide()));
-    }
-
-    /**
-     * <p>Evaluates if a figure occupies a coordinate
-     * and is on the same side to the selected figure.
-     * King cannot be removed.</p>
-     *
-     * @param selected <code>Figure</code> to move
-     * @param c        <code>Coordinate</code> to move to
-     * @return true if opposing figure occupies position
-     */
-    private boolean isFriendly(Figure selected, Coordinate c) {
-        Figure contested = figures.get(c);
-
-        return contested != null
-                && contested.getSide().equals(selected.getSide());
-    }
-
-    public HashSet<Coordinate> Check(Figure selected, Coordinate c) {
-        HashSet<Coordinate> moves = new HashSet<>();
-
-
-        return moves;
     }
 
     /**
@@ -150,37 +143,37 @@ public class Bishop implements Movable {
 
         // Left-up
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_UP);
         }
 
         // Left-down
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN);
         }
 
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
         }
 
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) { break; }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);
         }
 

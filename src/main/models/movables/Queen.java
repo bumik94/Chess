@@ -41,7 +41,12 @@ public class Queen implements Movable {
 
 
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        return null;
+        HashSet<Coordinate> moves = new HashSet<>();
+
+        moves.addAll(bishop.getCheckMoves(figure));
+        moves.addAll(rook.getCheckMoves(figure));
+
+        return moves;
     }
 
 }

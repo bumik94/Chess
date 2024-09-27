@@ -51,11 +51,25 @@ public class Rook implements Movable {
      * @param c        <code>Coordinate</code> to move to
      * @return true if opposing figure occupies position
      */
-    private boolean isFriendly(Figure selected, Coordinate c) {
+    private boolean isProtected(Figure selected, Coordinate c) {
         Figure contested = figures.get(c);
 
         return contested != null
                 && contested.getSide().equals(selected.getSide());
+    }
+
+    /**
+     * <p>Evaluates if opposite side king occupies a coordinate.</p>
+     * @param selected selected figure on board
+     * @param c currently evaluated position
+     * @return true if an opposite king occupies position
+     */
+    private boolean isOppositeKing(Figure selected, Coordinate c) {
+        Figure contested = figures.get(c);
+
+        return contested != null
+                && contested.getRank().equals(Rank.KING)
+                && !(contested.getSide().equals(selected.getSide()));
     }
 
     /**
@@ -121,32 +135,32 @@ public class Rook implements Movable {
 
         // Up
         c = Coordinate.getCoordinate(position.ordinal() + UP);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))) {
+        while (c != null && (isEmpty(c) || isProtected(figure, c))) {
             moves.add(c);
             c = Coordinate.getCoordinate(c.ordinal() + UP);
         }
         // Down
         c = Coordinate.getCoordinate(position.ordinal() + DOWN);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))) {
+        while (c != null && (isEmpty(c) || isProtected(figure, c))) {
             moves.add(c);
             c = Coordinate.getCoordinate(c.ordinal() + DOWN);
         }
         // Left
         c = Coordinate.getCoordinate(position.ordinal() + LEFT);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) {
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
                 break;
             }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT);
         }
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
-        while (c != null && (isEmpty(c) || isFriendly(figure, c))
+        while (c != null && (isEmpty(c) || isProtected(figure, c))
                 && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isFriendly(figure, c)) {
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
                 break;
             }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT);
@@ -156,6 +170,72 @@ public class Rook implements Movable {
     }
 
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        return null;
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
+        Coordinate c;
+
+        // Up
+        c = Coordinate.getCoordinate(position.ordinal() + UP);
+        while (c != null) {
+            if (isEmpty(c)) {
+                moves.add(c);
+            }
+            else if (isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + UP);
+        }
+        moves.clear();
+
+        // Down
+        c = Coordinate.getCoordinate(position.ordinal() + DOWN);
+        while (c != null) {
+            if (isEmpty(c)) {
+                moves.add(c);
+            }
+            else if (isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + DOWN);
+        }
+        moves.clear();
+
+        // Left
+        c = Coordinate.getCoordinate(position.ordinal() + LEFT);
+        while (c != null && !Coordinate.isLeftBoundary(position)) {
+            if (isEmpty(c)) {
+                moves.add(c);
+            }
+            else if (isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + LEFT);
+        }
+        moves.clear();
+
+        // Right
+        c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
+        while (c != null && !Coordinate.isRightBoundary(position)) {
+            if (isEmpty(c)) {
+                moves.add(c);
+            }
+            else if (isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + RIGHT);
+        }
+        moves.clear();
+
+        return moves;
     }
 }

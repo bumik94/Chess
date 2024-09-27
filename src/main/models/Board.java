@@ -107,14 +107,14 @@ public class Board {
         // TEST
 //        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.A8), resolution));
 //        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H1), resolution));
-        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.C7), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.C7), resolution));
         list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.A1), resolution));
-        list.add(new Figure(Side.BLACK, Rank.BISHOP,      getPointAt(Coordinate.H1), resolution));
-        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.C4), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.A5), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.A1), resolution));
+        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H8), resolution));
+        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.C8), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.A5), resolution));
+        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.D8), resolution));
 //        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.D5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A7), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A8), resolution));
 
 
         // White

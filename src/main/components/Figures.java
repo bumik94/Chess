@@ -87,13 +87,21 @@ public class Figures {
      * @return a set of available moves
      */
     public HashSet<Coordinate> getMoves(Figure figure) {
-        HashSet<Coordinate> movesSet = movables.get(figure.getRank()).getMoves(figure);
+        HashSet<Coordinate> moves = movables.get(figure.getRank()).getMoves(figure);
         HashSet<Coordinate> checkMoves = getCheckMoves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
-            HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure);
-            movesSet.removeAll(controlledMovesSet);
+            HashSet<Coordinate> controlledMoves = getControlledMoves(figure);
+            moves.removeAll(controlledMoves);
         }
+        /*
+        Evaluates if any opposite figure checks the king.
+        When only one figure checks, either king can move
+        or the opposite figure can be blocked or removed,
+        otherwise the king must move.
+
+        TODO when no moves are left for checked king, the game's over.
+         */
         else if (! checkMoves.isEmpty()) {
             int checks = 0;
 
@@ -103,15 +111,14 @@ public class Figures {
                     checks++;
                 }
             }
-
             if (checks == 1) {
-                movesSet.retainAll(checkMoves);
+                moves.retainAll(checkMoves);
             } else {
-                movesSet.clear();
+                moves.clear();
             }
         }
 
-        return movesSet;
+        return moves;
     }
 
     /**
@@ -120,15 +127,15 @@ public class Figures {
      * @return a set of all opponent's controlled moves
      */
     public HashSet<Coordinate> getControlledMoves(Figure figure) {
-        HashSet<Coordinate> set = new HashSet<>();
+        HashSet<Coordinate> moves = new HashSet<>();
 
         for (Figure opponent : figuresMap.values()) {
             if (! opponent.getSide().equals(figure.getSide())) {
-                set.addAll(movables.get(opponent.getRank()).getControlledMoves(opponent));
+                moves.addAll(movables.get(opponent.getRank()).getControlledMoves(opponent));
             }
         }
 
-        return set;
+        return moves;
     }
 
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
