@@ -49,6 +49,20 @@ public class Knight implements Movable {
     }
 
     /**
+     * <p>Evaluates if opposite side king occupies a coordinate.</p>
+     * @param selected selected figure on board
+     * @param c currently evaluated position
+     * @return true if an opposite king occupies position
+     */
+    private boolean isOppositeKing(Figure selected, Coordinate c) {
+        Figure contested = figures.get(c);
+
+        return contested != null
+                && contested.getRank().equals(Rank.KING)
+                && !(contested.getSide().equals(selected.getSide()));
+    }
+
+    /**
      * Checks if any figure occupies a given position.
      *
      * @param c <code>Coordinate</code> to move to
@@ -193,6 +207,66 @@ public class Knight implements Movable {
 
     @Override
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        return null;
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
+        Coordinate c;
+
+        // Left side
+        if (! Coordinate.isLeftBoundary(position)) {
+            // Up-left
+            c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
+            if (c != null && isOppositeKing(figure, c)) {
+                moves.add(position);
+            }
+            // Down-left
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_LEFT);
+            if (c != null && isOppositeKing(figure, c)) {
+                moves.add(position);
+            }
+
+            c = Coordinate.getCoordinate(position.ordinal() + LEFT); // Offset
+            if (c != null && !Coordinate.isLeftBoundary(c)) {
+                // Left-up
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+                if (c != null  && isOppositeKing(figure, c)) {
+                    moves.add(position);
+                }
+                // Left-down
+                c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+                if (c != null  && isOppositeKing(figure, c)) {
+                    moves.add(position);
+                }
+            }
+        }
+
+        // Right side
+        if (! Coordinate.isRightBoundary(position)) {
+            // Up-right
+            c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
+            if (c != null  && isOppositeKing(figure, c)) {
+                moves.add(position);
+            }
+            // Down-right
+            c = Coordinate.getCoordinate(position.ordinal() + DOWN_RIGHT);
+            if (c != null  && isOppositeKing(figure, c)) {
+                moves.add(position);
+            }
+
+            c = Coordinate.getCoordinate(position.ordinal() + RIGHT); // Offset
+            if (c != null && !Coordinate.isRightBoundary(c)) {
+                // Right-up
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+                if (c != null  && isOppositeKing(figure, c)) {
+                    moves.add(position);
+                }
+                // Right-down
+                c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+                if (c != null  && isOppositeKing(figure, c)) {
+                    moves.add(position);
+                }
+            }
+        }
+
+        return moves;
     }
 }

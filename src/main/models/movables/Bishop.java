@@ -43,6 +43,20 @@ public class Bishop implements Movable {
     }
 
     /**
+     * <p>Evaluates if opposite side king occupies a coordinate.</p>
+     * @param selected selected figure on board
+     * @param c currently evaluated position
+     * @return true if an opposite king occupies position
+     */
+    private boolean isOppositeKing(Figure selected, Coordinate c) {
+        Figure contested = figures.get(c);
+
+        return contested != null
+                && contested.getRank().equals(Rank.KING)
+                && !(contested.getSide().equals(selected.getSide()));
+    }
+
+    /**
      * <p>Evaluates if a figure occupies a coordinate
      * and is on the same side to the selected figure.
      * King cannot be removed.</p>
@@ -106,7 +120,7 @@ public class Bishop implements Movable {
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !Coordinate.isLeftBoundary(position)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
@@ -115,7 +129,7 @@ public class Bishop implements Movable {
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
         while (c != null && (isEmpty(c) || isRemovable(figure, c))
-                && !Coordinate.isLeftBoundary(position)) {
+                && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isRemovable(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);
@@ -173,8 +187,63 @@ public class Bishop implements Movable {
         return moves;
     }
 
-    @Override
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        return null;
+        Coordinate position = coordinates.get(figure.getLocation());
+        HashSet<Coordinate> moves = new HashSet<>();
+        Coordinate c;
+
+        // Left-up
+        c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+        while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
+                && !Coordinate.isLeftBoundary(position)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + LEFT_UP);
+        }
+        moves.clear();
+
+        // Left-down
+        c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+        while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
+                && !Coordinate.isLeftBoundary(position)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN);
+        }
+        moves.clear();
+
+        // Right-up
+        c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+        while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
+                && !Coordinate.isRightBoundary(position)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
+        }
+        moves.clear();
+
+        // Right-down
+        c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+        while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
+                && !Coordinate.isRightBoundary(position)) {
+            moves.add(c);
+            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+                moves.add(position);
+                return moves;
+            }
+            c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);
+        }
+        moves.clear();
+
+        return moves;
     }
 }

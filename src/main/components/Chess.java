@@ -61,9 +61,9 @@ public class Chess extends JPanel {
          */
         paintBoard(g);
         paintSelectedSquare(g);
-//        paintMoves(g, moves);
+        paintMoves(g, moves);
         // TEST
-        paintMoves(g, moves, controlledMoves);
+//        paintMoves(g, moves, controlledMoves);
         paintFigures(g);
     }
 
@@ -282,7 +282,7 @@ public class Chess extends JPanel {
                         figures.getFiguresMap().put(c, f);
                         repaint(board.getSquareAt(c));
 
-//                        changeTurn();
+                        changeTurn();
 
                     } else {
                         System.out.println("invalid move");

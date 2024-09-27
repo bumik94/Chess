@@ -43,6 +43,12 @@ public class Pawn implements Movable {
                 && !(contested.getRank().equals(Rank.KING));
     }
 
+    /**
+     * <p>Evaluates if opposite side king occupies a coordinate.</p>
+     * @param selected selected figure on board
+     * @param c currently evaluated position
+     * @return true if an opposite king occupies position
+     */
     private boolean isOppositeKing(Figure selected, Coordinate c) {
         Figure contested = figures.get(c);
 

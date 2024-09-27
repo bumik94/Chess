@@ -178,21 +178,12 @@ public class King implements Movable {
         return moves;
     }
 
+    /**
+     * King cannot check on his own.
+     * @param figure selected figure
+     * @return empty set
+     */
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        HashSet<Coordinate> set = new HashSet<>();
-
-        /*
-        Right now this method returns all occurrences of
-        opponent figures for each possible move.
-        Filter the moves in respect to evaluated figure.
-         */
-        set.addAll(pawn.getMoves(figure));
-        set.addAll(knight.getMoves(figure));
-        set.addAll(queen.getMoves(figure));
-
-        set.retainAll(figures.keySet());
-        System.out.println(set);
-
-        return set;
+        return new HashSet<>();
     }
 }

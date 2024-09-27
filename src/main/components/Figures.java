@@ -6,6 +6,7 @@ import main.models.movables.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Contains information about figures and their methods
@@ -93,13 +94,22 @@ public class Figures {
             HashSet<Coordinate> controlledMovesSet = getControlledMoves(figure);
             movesSet.removeAll(controlledMovesSet);
         }
+        else if (! checkMoves.isEmpty()) {
+            int checks = 0;
 
-        if (! checkMoves.isEmpty() && !figure.getRank().equals(Rank.KING)) {
-            movesSet.retainAll(checkMoves);
+            for (Coordinate c : checkMoves) {
+                Figure f = getFigureAt(c);
+                if (f != null && ! f.getSide().equals(figure.getSide())) {
+                    checks++;
+                }
+            }
+
+            if (checks == 1) {
+                movesSet.retainAll(checkMoves);
+            } else {
+                movesSet.clear();
+            }
         }
-
-//        System.out.println(whiteKing);
-//        System.out.println(blackKing);
 
         return movesSet;
     }
@@ -121,12 +131,12 @@ public class Figures {
         return set;
     }
 
-
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
         for (Figure opponent : figuresMap.values()) {
             if (! opponent.getSide().equals(figure.getSide())) {
+
                 moves.addAll(movables.get(opponent.getRank()).getCheckMoves(opponent));
             }
         }
@@ -134,29 +144,4 @@ public class Figures {
         return moves;
     }
 
-    // TODO make this method be a part of moves method to restrict moves when king is in check
-    //      to moves that would lead to saving king
-//    public HashSet<Coordinate> getCheckMoves(Figure figure) {
-//        HashSet<Coordinate> moves = new HashSet<>();
-//        Figure king = null;
-//
-//        for (Figure f : figuresMap.values()) {
-//            if (f.getRank().equals(Rank.KING)) {
-//                assert false;
-//                if (f.getSide().equals(king.getSide())) {
-//                    king = f;
-//                }
-//            }
-//        }
-//        assert false;
-//        moves.addAll(movables.get(king.getRank()).getCheckMoves(king));
-//
-//        movables.forEach((rank, movable) -> {
-//            // iterate trough every movable and determine
-//            // if opposite figures check the current turn king
-//            // Return a set for the selected figure to filter
-//            // moves that save their king
-//        });
-//        return moves;
-//    }
 }
