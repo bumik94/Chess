@@ -197,7 +197,10 @@ public class Bishop implements Movable {
         while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
                 && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            if (isOppositeKing(figure, c)) {
                 moves.add(position);
                 return moves;
             }
@@ -210,7 +213,10 @@ public class Bishop implements Movable {
         while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
                 && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            if (isOppositeKing(figure, c)) {
                 moves.add(position);
                 return moves;
             }
@@ -223,7 +229,10 @@ public class Bishop implements Movable {
         while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
                 && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            if (isOppositeKing(figure, c)) {
                 moves.add(position);
                 return moves;
             }
@@ -236,7 +245,10 @@ public class Bishop implements Movable {
         while (c != null && (isEmpty(c) || isOppositeKing(figure, c))
                 && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isOppositeKing(figure, c)) {
+            if (Coordinate.isBoundary(c)) {
+                break;
+            }
+            if (isOppositeKing(figure, c)) {
                 moves.add(position);
                 return moves;
             }

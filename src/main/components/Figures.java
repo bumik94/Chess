@@ -99,7 +99,7 @@ public class Figures {
 
             for (Coordinate c : checkMoves) {
                 Figure f = getFigureAt(c);
-                if (f != null && ! f.getSide().equals(figure.getSide())) {
+                if (f != null && !(f.getSide().equals(figure.getSide()))) {
                     checks++;
                 }
             }
