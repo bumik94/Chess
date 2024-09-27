@@ -178,7 +178,7 @@ public class King implements Movable {
         return moves;
     }
 
-    public HashSet<Coordinate> getCheck(Figure figure) {
+    public HashSet<Coordinate> getCheckMoves(Figure figure) {
         HashSet<Coordinate> set = new HashSet<>();
 
         /*

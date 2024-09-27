@@ -6,5 +6,5 @@ public interface Movable {
 
     HashSet<Coordinate> getMoves(Figure figure);
     HashSet<Coordinate> getControlledMoves(Figure figure);
-    HashSet<Coordinate> getCheck(Figure figure);
+    HashSet<Coordinate> getCheckMoves(Figure figure);
 }

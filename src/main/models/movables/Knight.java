@@ -192,7 +192,7 @@ public class Knight implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getCheck(Figure figure) {
+    public HashSet<Coordinate> getCheckMoves(Figure figure) {
         return null;
     }
 }

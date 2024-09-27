@@ -43,6 +43,14 @@ public class Pawn implements Movable {
                 && !(contested.getRank().equals(Rank.KING));
     }
 
+    private boolean isOppositeKing(Figure selected, Coordinate c) {
+        Figure contested = figures.get(c);
+
+        return contested != null
+                && contested.getRank().equals(Rank.KING)
+                && !(contested.getSide().equals(selected.getSide()));
+    }
+
     /**
      * Checks if any figure occupies a given position.
      * @param c <code>Coordinate</code> to move to
@@ -153,26 +161,46 @@ public class Pawn implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getCheck(Figure figure) {
+    public HashSet<Coordinate> getCheckMoves(Figure figure) {
+        Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
-        HashSet<Coordinate> pawnCheck = new HashSet<>();
-        Coordinate kingPosition = null;
+        Coordinate c;
 
-        for (Figure f : figures.values()) {
-            // get controlled moves of the opposite side's pawns
-            if ((! f.getSide().equals(figure.getSide()))
-                    && f.getRank().equals(Rank.PAWN)) {
-                pawnCheck.addAll(getControlledMoves(f));
+        switch (figure.getSide()) {
+            case WHITE -> {
+                // Remove left-up
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
+                    if (c != null && isOppositeKing(figure, c)) {
+                        moves.add(position);
+                    }
+                }
+                // Remove right-up
+                if (! Coordinate.isRightBoundary(position)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
+                    if (c != null && isOppositeKing(figure, c)) {
+                        moves.add(position);
+                    }
+                }
             }
-            // retrieve friendly king figure
-            if (f.getSide().equals(figure.getSide())
-                    && f.getRank().equals(Rank.KING)) {
-                kingPosition = coordinates.get(f.getLocation());
+            case BLACK -> {
+                // Remove left-down
+                if (! Coordinate.isLeftBoundary(position)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
+                    if (c != null && isOppositeKing(figure, c)) {
+                        moves.add(position);
+                    }
+                }
+                // Remove right-down
+                if (! Coordinate.isRightBoundary(position)) { // left edge
+                    c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
+                    if (c != null && isOppositeKing(figure, c)) {
+                        moves.add(position);
+                    }
+                }
             }
         }
-        // Filter moves in check
-        pawnCheck.retainAll(Collections.singleton(kingPosition));
 
-        return null;
+        return moves;
     }
 }
