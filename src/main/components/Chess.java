@@ -29,6 +29,7 @@ public class Chess extends JPanel {
 
     // TEST
     private HashSet<Coordinate> controlledMoves;
+    private HashSet<Coordinate> checkMoves;
 
     //
     // Constructor
@@ -61,9 +62,10 @@ public class Chess extends JPanel {
          */
         paintBoard(g);
         paintSelectedSquare(g);
-        paintMoves(g, moves);
+//        paintMoves(g, moves);
         // TEST
-//        paintMoves(g, moves, controlledMoves);
+        paintControlledMoves(g, moves, controlledMoves);
+//        paintCheckMoves(g, moves, checkMoves);
         paintFigures(g);
     }
 
@@ -98,7 +100,8 @@ public class Chess extends JPanel {
      * @param g paintComponent graphics
      * @param movesSet a list returned from <code>Movable</code>
      */
-    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet) {
+    private void paintMoves(Graphics g,
+                            HashSet<Coordinate> movesSet) {
         if (movesSet != null) {
             movesSet.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
@@ -108,7 +111,17 @@ public class Chess extends JPanel {
         }
     }
 
-    private void paintMoves(Graphics g, HashSet<Coordinate> movesSet, HashSet<Coordinate> controlledMovesSet) {
+    private void paintControlledMoves(Graphics g,
+                                      HashSet<Coordinate> movesSet,
+                                      HashSet<Coordinate> controlledMovesSet) {
+        if (controlledMovesSet != null) {
+            controlledMovesSet.forEach(coordinate -> {
+                Point p = board.getPointAt(coordinate);
+                Square s = new Square(board.getSquareAt(p), Color.RED);
+                s.paintSquare(g);
+            });
+        }
+
         if (movesSet != null) {
             movesSet.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
@@ -117,10 +130,23 @@ public class Chess extends JPanel {
             });
         }
 
-        if (controlledMovesSet != null) {
-            controlledMovesSet.forEach(coordinate -> {
+    }
+
+    private void paintCheckMoves(Graphics g,
+                                 HashSet<Coordinate> movesSet,
+                                 HashSet<Coordinate> checkMovesSet) {
+        if (movesSet != null) {
+            movesSet.forEach(coordinate -> {
                 Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), Color.RED);
+                Square s = new Square(board.getSquareAt(p), GREEN);
+                s.paintSquare(g);
+            });
+        }
+
+        if (checkMovesSet != null) {
+            checkMovesSet.forEach(coordinate -> {
+                Point p = board.getPointAt(coordinate);
+                Square s = new Square(board.getSquareAt(p), Color.BLUE);
                 s.paintSquare(g);
             });
         }
@@ -149,6 +175,13 @@ public class Chess extends JPanel {
                 repaint(s);
             });
         }
+
+        if (checkMoves != null) {
+            checkMoves.forEach(coordinate -> {
+                Square s = board.getSquareAt(coordinate);
+                repaint(s);
+            });
+        }
     }
 
     /**
@@ -162,10 +195,19 @@ public class Chess extends JPanel {
         repaintMoves();
     }
 
-    private void repaintMoves(HashSet<Coordinate> movesSet, HashSet<Coordinate> controlledMovesSet) {
+    private void repaintControlledMoves(HashSet<Coordinate> movesSet,
+                                        HashSet<Coordinate> controlledMovesSet) {
         repaintMoves();
         moves = movesSet;
         controlledMoves = controlledMovesSet;
+        repaintMoves();
+    }
+
+    private void repaintCheckMoves(HashSet<Coordinate> movesSet,
+                                   HashSet<Coordinate> checkMovesSet) {
+        repaintMoves();
+        moves = movesSet;
+        checkMoves = checkMovesSet;
         repaintMoves();
     }
 
@@ -211,8 +253,8 @@ public class Chess extends JPanel {
             selectedFigure = figure;
 //            repaintMoves(figures.getMoves(figure));
 //             TEST
-            repaintMoves(figures.getMoves(figure), figures.getControlledMoves(figure));
-            figures.getCheckMoves(figure);
+            repaintControlledMoves(figures.getMoves(figure), figures.getControlledMoves(figure));
+//            repaintCheckMoves(figures.getMoves(figure), figures.getCheckMoves(figure));
 
             return true;
         }
@@ -273,7 +315,7 @@ public class Chess extends JPanel {
                         Figure f = figures.getFiguresMap().remove(old);
 //                        repaintMoves(null);
                         // TEST
-                        repaintMoves(null, null);
+                        repaintControlledMoves(null, null);
                         repaintSelectedSquare();
                         repaint(board.getSquareAt(old));
 
@@ -296,7 +338,7 @@ public class Chess extends JPanel {
                     selectedFigure = null;
 //                    repaintMoves(null);
                     // TEST
-                    repaintMoves(null, null);
+                    repaintControlledMoves(null, null);
                     repaintSelectedSquare();
                 }
             }

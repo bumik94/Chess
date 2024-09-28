@@ -105,16 +105,17 @@ public class Board {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
-//        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.A8), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H1), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.C7), resolution));
-        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.A1), resolution));
-        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H8), resolution));
-        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.C8), resolution));
-//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.A5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.D8), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.D5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A8), resolution));
+        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.G5), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.F5), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.F4), resolution));
+        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H5), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.KNIGHT,      getPointAt(Coordinate.G4), resolution));
+//        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.H5), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.D5), resolution));
+//        list.add(new Figure(Side.WHITE, Rank.KNIGHT,      getPointAt(Coordinate.F3), resolution));
+        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.C1), resolution));
+        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.C5), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A5), resolution));
 
 
         // White

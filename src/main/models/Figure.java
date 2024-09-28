@@ -142,7 +142,9 @@ public class Figure {
         return "Figure{" +
                 "side=" + side +
                 ", rank=" + rank +
-                ", position=" + position +
+                ", position=[x="
+                + position.x + ",y="
+                + position.y + ']' +
                 '}';
     }
 }

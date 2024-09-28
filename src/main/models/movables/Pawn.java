@@ -130,14 +130,14 @@ public class Pawn implements Movable {
 
         switch (figure.getSide()) {
             case WHITE -> {
-                // Remove left-up
+                // Control left-up
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                     if (c != null) {
                         moves.add(c);
                     }
                 }
-                // Remove right-up
+                // Control right-up
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                     if (c != null) {
@@ -146,14 +146,14 @@ public class Pawn implements Movable {
                 }
             }
             case BLACK -> {
-                // Remove left-down
+                // Control left-down
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                     if (c != null) {
                         moves.add(c);
                     }
                 }
-                // Remove right-down
+                // Control right-down
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
                     if (c != null) {
@@ -174,14 +174,14 @@ public class Pawn implements Movable {
 
         switch (figure.getSide()) {
             case WHITE -> {
-                // Remove left-up
+                // Check left-up
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
                     if (c != null && isOppositeKing(figure, c)) {
                         moves.add(position);
                     }
                 }
-                // Remove right-up
+                // Check right-up
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
                     if (c != null && isOppositeKing(figure, c)) {
@@ -190,14 +190,14 @@ public class Pawn implements Movable {
                 }
             }
             case BLACK -> {
-                // Remove left-down
+                // Check left-down
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
                     if (c != null && isOppositeKing(figure, c)) {
                         moves.add(position);
                     }
                 }
-                // Remove right-down
+                // Check right-down
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
                     if (c != null && isOppositeKing(figure, c)) {

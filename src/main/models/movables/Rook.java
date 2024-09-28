@@ -135,30 +135,35 @@ public class Rook implements Movable {
 
         // Up
         c = Coordinate.getCoordinate(position.ordinal() + UP);
-        while (c != null && (isEmpty(c) || isProtected(figure, c))) {
+        while (c != null && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + UP);
         }
+
         // Down
         c = Coordinate.getCoordinate(position.ordinal() + DOWN);
-        while (c != null && (isEmpty(c) || isProtected(figure, c))) {
+        while (c != null && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + DOWN);
         }
+
         // Left
         c = Coordinate.getCoordinate(position.ordinal() + LEFT);
-        while (c != null && (isEmpty(c) || isProtected(figure, c))
-                && !Coordinate.isLeftBoundary(position)) {
+        while (c != null && !Coordinate.isLeftBoundary(position)
+                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
                 break;
             }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT);
         }
+
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
-        while (c != null && (isEmpty(c) || isProtected(figure, c))
-                && !Coordinate.isRightBoundary(position)) {
+        while (c != null && !Coordinate.isRightBoundary(position)
+                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
             if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
                 break;
@@ -173,62 +178,70 @@ public class Rook implements Movable {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
+        int removable = 0;
 
         // Up
         c = Coordinate.getCoordinate(position.ordinal() + UP);
-        while (c != null) {
-            if (isEmpty(c)) {
-                moves.add(c);
+        while (c != null && !(isProtected(figure, c))) {
+            if (isRemovable(figure, c)) {
+                removable++;
             }
-            else if (isOppositeKing(figure, c)) {
+            if (isOppositeKing(figure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
+            moves.add(c);
             c = Coordinate.getCoordinate(c.ordinal() + UP);
         }
         moves.clear();
+        removable = 0;
 
         // Down
         c = Coordinate.getCoordinate(position.ordinal() + DOWN);
-        while (c != null) {
-            if (isEmpty(c)) {
-                moves.add(c);
+        while (c != null && !(isProtected(figure, c))) {
+            if (isRemovable(figure, c)) {
+                removable++;
             }
-            else if (isOppositeKing(figure, c)) {
+            if (isOppositeKing(figure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
+            moves.add(c);
             c = Coordinate.getCoordinate(c.ordinal() + DOWN);
         }
         moves.clear();
+        removable = 0;
 
         // Left
         c = Coordinate.getCoordinate(position.ordinal() + LEFT);
-        while (c != null && !Coordinate.isLeftBoundary(position)) {
-            if (isEmpty(c)) {
-                moves.add(c);
+        while (c != null && !(Coordinate.isLeftBoundary(position) && isProtected(figure, c))) {
+            if (isRemovable(figure, c)) {
+                removable++;
             }
-            else if (isOppositeKing(figure, c)) {
+            if (isOppositeKing(figure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
+            moves.add(c);
             if (Coordinate.isBoundary(c)) {
                 break;
             }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT);
         }
         moves.clear();
+        removable = 0;
 
         // Right
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT);
-        while (c != null && !Coordinate.isRightBoundary(position)) {
-            if (isEmpty(c)) {
-                moves.add(c);
+        while (c != null && !(Coordinate.isRightBoundary(position) || isProtected(figure, c))) {
+            if (isRemovable(figure, c)) {
+                removable++;
             }
-            else if (isOppositeKing(figure, c)) {
+            if (isOppositeKing(figure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
+            moves.add(c);
             if (Coordinate.isBoundary(c)) {
                 break;
             }
