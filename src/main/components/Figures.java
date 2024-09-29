@@ -84,16 +84,16 @@ public class Figures {
      * @return number of blocked checks
      */
     private int getControlledChecks(Figure figure, HashSet<Coordinate> checkMoves) {
-        int blocked = 0;
+        int controlledChecks = 0;
 
         for (Coordinate c : checkMoves) {
             Figure f = getFigureAt(c);
             if (f != null && f.getSide().equals(figure.getSide())) {
-                blocked++;
+                controlledChecks++;
             }
         }
 
-        return blocked;
+        return controlledChecks;
     }
 
     /**

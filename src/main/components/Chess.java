@@ -61,11 +61,11 @@ public class Chess extends JPanel {
             4) figures
          */
         paintBoard(g);
-        paintSelectedSquare(g);
 //        paintMoves(g, moves);
         // TEST
         paintControlledMoves(g, moves, controlledMoves);
 //        paintCheckMoves(g, moves, checkMoves);
+        paintSelectedSquare(g);
         paintFigures(g);
     }
 
