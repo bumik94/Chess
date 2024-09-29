@@ -21,6 +21,7 @@ public class Queen implements Movable {
      *
      * @param figure to be moved
      */
+    @Override
     public HashSet<Coordinate> getMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
@@ -30,6 +31,7 @@ public class Queen implements Movable {
         return moves;
     }
 
+    @Override
     public HashSet<Coordinate> getControlledMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
@@ -40,6 +42,7 @@ public class Queen implements Movable {
     }
 
 
+    @Override
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 

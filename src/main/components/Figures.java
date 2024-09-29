@@ -64,10 +64,7 @@ public class Figures {
         map.put(Rank.KING,
                 new King(
                         figuresMap,
-                        coordinates,
-                        map.get(Rank.PAWN),
-                        map.get(Rank.KNIGHT),
-                        map.get(Rank.QUEEN)));
+                        coordinates));
 
         return map;
     }
@@ -78,6 +75,25 @@ public class Figures {
 
     public Figure getFigureAt(Coordinate c) {
         return figuresMap.get(c);
+    }
+
+    /**
+     * <p>Evaluates how many checks are blocked by friendly figures.</p>
+     * @param figure currently selected figure
+     * @param checkMoves set of all check moves
+     * @return number of blocked checks
+     */
+    private int getControlledChecks(Figure figure, HashSet<Coordinate> checkMoves) {
+        int blocked = 0;
+
+        for (Coordinate c : checkMoves) {
+            Figure f = getFigureAt(c);
+            if (f != null && f.getSide().equals(figure.getSide())) {
+                blocked++;
+            }
+        }
+
+        return blocked;
     }
 
     /**
@@ -103,45 +119,57 @@ public class Figures {
         TODO when no moves are left for checked king, the game's over.
          */
         else if (! checkMoves.isEmpty()) {
-            /*
-            Problem in this function is that when 2 different figures point at king being protected by one figure
-            in both directions, it is still considered a check and no other figure is allowed to move.
-             */
             int checks = 0;
+            int controlledChecks = getControlledChecks(figure, checkMoves);
 
             for (Coordinate c : checkMoves) {
                 Figure f = getFigureAt(c);
                 if (f != null && !(f.getSide().equals(figure.getSide()) || f.getRank().equals(Rank.KING))) {
                     checks++;
-                    System.out.println("Check from " + f);
                 }
             }
-            System.out.println("Checks = " + checks);
             if (checks == 1) {
-                // If friendly figure is in way of check, restrict moves to stay in trajectory
-                if (checkMoves.contains(position)) {
+                // Restrict moves to check trajectory when one opponent figure checks
+                // and either the selected figure or none controls the check
+                if (checkMoves.contains(position) || controlledChecks == 0) {
                     moves.retainAll(checkMoves);
                 }
-                else {
-                    int controlled = 0;
+            }
+            else if ((checks > 1) && (checks == controlledChecks)) {
+                /*
+                Process every single figure that checks and determine if it's blocked.
+                If it is and the blocking figure is the selected, restrict its moves
+                to the check trajectory.
+                 */
 
-                    for (Coordinate c : checkMoves) {
-                        Figure f = getFigureAt(c);
-                        if (f != null && f.getSide().equals(figure.getSide())) {
-                            System.out.println("Counter check = " + f);
-                            controlled++;
-                        }
-                    }
-                    if (controlled == 0) {
-                        moves.retainAll(checkMoves);
+                // Get all checking figure's positions
+                HashSet<Figure> checkingFigures = new HashSet<>();
+                HashSet<Coordinate> tempMoves = new HashSet<>();
+
+                for (Coordinate c : checkMoves) {
+                    Figure f = getFigureAt(c);
+
+                    if (f != null && !(f.getSide().equals(figure.getSide()))) {
+                        checkingFigures.add(f);
                     }
                 }
+
+                // Assess if a friendly figure controls the check move of the checking figure
+//                HashSet<Coordinate> tempMoves = new HashSet<>();
+
+                for (Figure f : checkingFigures) {
+                    tempMoves.addAll(movables.get(f.getRank()).getCheckMoves(f));
+                    if (tempMoves.contains(position)) {
+                        break;
+                    }
+                    tempMoves.clear();
+                }
+
+                if (! tempMoves.isEmpty()) {
+                    moves.retainAll(tempMoves);
+                }
             }
-            else if (checks > 1) {
-                /*
-                Problem seems to be in this block where there's no distinction if the king is protected by one.
-                Maybe borrow "counter check" from previous block?
-                 */
+            else {
                 moves.clear();
             }
         }
@@ -175,6 +203,11 @@ public class Figures {
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
+        /*
+        This method might require more granular control on returning check moves as it allows
+        figures to move to illegal squares exposing king to actual check.
+        Perhaps separating the check moves for singular figure?
+         */
         for (Figure opponent : figuresMap.values()) {
             if (! opponent.getSide().equals(figure.getSide())) {
                 moves.addAll(movables.get(opponent.getRank()).getCheckMoves(opponent));

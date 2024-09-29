@@ -21,18 +21,11 @@ public class King implements Movable {
 
     private final HashMap<Coordinate, Figure> figures;
     private final HashMap<Point, Coordinate> coordinates;
-    private final Movable pawn;
-    private final Movable knight;
-    private final Movable queen;
 
     public King(HashMap<Coordinate, Figure> figures,
-                HashMap<Point, Coordinate> coordinates,
-                Movable pawn, Movable knight, Movable queen) {
+                HashMap<Point, Coordinate> coordinates) {
         this.figures = figures;
         this.coordinates = coordinates;
-        this.pawn = pawn;
-        this.knight = knight;
-        this.queen = queen;
     }
 
     /**

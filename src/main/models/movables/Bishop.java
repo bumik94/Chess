@@ -87,6 +87,7 @@ public class Bishop implements Movable {
      *
      * @param figure to be moved
      */
+    @Override
     public HashSet<Coordinate> getMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
@@ -136,6 +137,7 @@ public class Bishop implements Movable {
      *
      * @param figure to be moved
      */
+    @Override
     public HashSet<Coordinate> getControlledMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
@@ -180,6 +182,7 @@ public class Bishop implements Movable {
         return moves;
     }
 
+    @Override
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
         Coordinate position = coordinates.get(figure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
