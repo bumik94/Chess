@@ -73,8 +73,8 @@ public class Figures {
         return this.figuresMap;
     }
 
-    public Figure getFigureAt(Coordinate c) {
-        return figuresMap.get(c);
+    public Figure getFigureAt(Coordinate selectedCoordinate) {
+        return figuresMap.get(selectedCoordinate);
     }
 
     /**

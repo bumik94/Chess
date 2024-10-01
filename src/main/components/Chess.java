@@ -14,22 +14,65 @@ import java.util.HashSet;
  * components to change their state.
  */
 public class Chess extends JPanel {
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // Mouse Listener
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    class Listener extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            switch (e.getButton()) {
+                // Left-click
+                case MouseEvent.BUTTON1 -> {
+                    // Draw selection
+                    Square selectedSquare = board.getSquareAt(e.getX(), e.getY());
+                    Point selectedPoint = selectedSquare.getLocation();
+                    Coordinate selectedCoordinate = board.getCoordinateAt(selectedPoint);
+
+                    if (setSelectedFigure(selectedCoordinate)) {
+                        setSelectedSquare(selectedSquare);
+
+//                        System.out.println(selectedFigure);
+
+                    } else if (moves != null && moves.contains(selectedCoordinate)) {
+                        moveSelectedFigure(selectedPoint);
+
+                        changeTurn();
+                    }
+                }
+                // Right-click
+                case MouseEvent.BUTTON3 -> {
+                    // Clear selection
+                    selectedFigure = null;
+                    repaintMoves(null);
+                    // TEST
+//                    repaintControlledMoves(null, null);
+                    repaintSelectedSquare();
+                }
+            }
+        }
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // Chess Panel
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     // TODO Stockfish chess AI
     protected static final Color YELLOW = new Color(191, 191, 29);
     protected static final Color GREEN = new Color(50, 205, 50);
 
     protected final Figures figures;
-    protected final   Board board;
-    private   final     int resolution;
+    protected final Board board;
+    private final int resolution;
 
     protected Square selectedSquare;
     protected Figure selectedFigure;
-    private     Side turn;  // will be used in game loop
+    private Side turn;  // will be used in game loop
     private HashSet<Coordinate> moves;
-
     // TEST
     private HashSet<Coordinate> controlledMoves;
-    private HashSet<Coordinate> checkMoves;
 
     //
     // Constructor
@@ -45,8 +88,10 @@ public class Chess extends JPanel {
     //
     // Methods
     //
+
     /**
      * <p>Main painting method</p>
+     *
      * @param graphics the <code>Graphics</code> object to protect
      */
     public void paintComponent(Graphics graphics) {
@@ -61,9 +106,9 @@ public class Chess extends JPanel {
             4) figures
          */
         paintBoard(g);
-//        paintMoves(g, moves);
+        paintMoves(g, moves);
         // TEST
-        paintControlledMoves(g, moves, controlledMoves);
+//        paintControlledMoves(g, moves, controlledMoves);
 //        paintCheckMoves(g, moves, checkMoves);
         paintSelectedSquare(g);
         paintFigures(g);
@@ -71,6 +116,7 @@ public class Chess extends JPanel {
 
     /**
      * <p>Paint playing board</p>
+     *
      * @param g paintComponent graphics
      */
     private void paintBoard(Graphics g) {
@@ -79,6 +125,7 @@ public class Chess extends JPanel {
 
     /**
      * <p>Paint figures on board</p>
+     *
      * @param g paintComponent graphics
      */
     private void paintFigures(Graphics g) {
@@ -87,6 +134,7 @@ public class Chess extends JPanel {
 
     /**
      * <p>Paints the selected square yellow</p>
+     *
      * @param g paintComponent graphics
      */
     private void paintSelectedSquare(Graphics g) {
@@ -97,15 +145,15 @@ public class Chess extends JPanel {
 
     /**
      * <p>Paints available moves for currently selected figure.</p>
-     * @param g paintComponent graphics
+     *
+     * @param g        paintComponent graphics
      * @param movesSet a list returned from <code>Movable</code>
      */
     private void paintMoves(Graphics g,
                             HashSet<Coordinate> movesSet) {
         if (movesSet != null) {
             movesSet.forEach(coordinate -> {
-                Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), GREEN);
+                Square s = new Square(board.getSquareAt(coordinate), GREEN);
                 s.paintSquare(g);
             });
         }
@@ -116,40 +164,12 @@ public class Chess extends JPanel {
                                       HashSet<Coordinate> controlledMovesSet) {
         if (controlledMovesSet != null) {
             controlledMovesSet.forEach(coordinate -> {
-                Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), Color.RED);
+                Square s = new Square(board.getSquareAt(coordinate), Color.RED);
                 s.paintSquare(g);
             });
         }
 
-        if (movesSet != null) {
-            movesSet.forEach(coordinate -> {
-                Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), GREEN);
-                s.paintSquare(g);
-            });
-        }
-
-    }
-
-    private void paintCheckMoves(Graphics g,
-                                 HashSet<Coordinate> movesSet,
-                                 HashSet<Coordinate> checkMovesSet) {
-        if (movesSet != null) {
-            movesSet.forEach(coordinate -> {
-                Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), GREEN);
-                s.paintSquare(g);
-            });
-        }
-
-        if (checkMovesSet != null) {
-            checkMovesSet.forEach(coordinate -> {
-                Point p = board.getPointAt(coordinate);
-                Square s = new Square(board.getSquareAt(p), Color.BLUE);
-                s.paintSquare(g);
-            });
-        }
+        paintMoves(g, movesSet);
     }
 
     /**
@@ -158,17 +178,11 @@ public class Chess extends JPanel {
     private void repaintMoves() {
         if (moves != null) {
             moves.forEach(coordinate -> {
-//                Figure f = figures.getFigureAt(coordinate);
-//                if (f != null && f.getRank().equals(Rank.KING)) {
-//                    System.out.println("KING");
-//                } else {
-                    Square s = board.getSquareAt(coordinate);
-                    repaint(s);
-//                }
+                Square s = board.getSquareAt(coordinate);
+                repaint(s);
             });
         }
 
-        // TEST
         if (controlledMoves != null) {
             controlledMoves.forEach(coordinate -> {
                 Square s = board.getSquareAt(coordinate);
@@ -176,17 +190,12 @@ public class Chess extends JPanel {
             });
         }
 
-        if (checkMoves != null) {
-            checkMoves.forEach(coordinate -> {
-                Square s = board.getSquareAt(coordinate);
-                repaint(s);
-            });
-        }
     }
 
     /**
      * <p>Repaint old <code>moves</code>, assigns new list</p>
      * to <code>moves</code> and repaints again
+     *
      * @param movesSet a list returned from <code>Movable</code>
      */
     private void repaintMoves(HashSet<Coordinate> movesSet) {
@@ -203,14 +212,6 @@ public class Chess extends JPanel {
         repaintMoves();
     }
 
-    private void repaintCheckMoves(HashSet<Coordinate> movesSet,
-                                   HashSet<Coordinate> checkMovesSet) {
-        repaintMoves();
-        moves = movesSet;
-        checkMoves = checkMovesSet;
-        repaintMoves();
-    }
-
     /**
      * <p>Repaint selected square and assign null</p>
      */
@@ -221,40 +222,62 @@ public class Chess extends JPanel {
         }
     }
 
+    public void moveSelectedFigure(Point SelectedPoint) {
+        Coordinate selectedCoordinate = board.getCoordinateAt(SelectedPoint);
+
+        // remove figure from old position and repaint
+        Coordinate oldCoordinate = board.getCoordinateAt(selectedFigure.getLocation());
+        Figure f = figures.getFiguresMap().remove(oldCoordinate);
+        repaintMoves(null);
+        // TEST
+        repaintControlledMoves(null, null);
+        repaintSelectedSquare();
+        repaint(board.getSquareAt(oldCoordinate));
+
+        // Assign figure to new position and repaint
+        f.setLocation(SelectedPoint);
+        figures.getFiguresMap().put(selectedCoordinate, f);
+        repaint(board.getSquareAt(selectedCoordinate));
+
+    }
+
     /**
      * <p>Repaints selected square and its previous position.</p>
-     * @param rectangle from <code>mousePressed</code> method
+     *
+     * @param selectedSquare from <code>mousePressed</code> method
      */
-    private void setSelectedSquare(Rectangle rectangle) {
-        if (selectedSquare != null) {
-            if (selectedSquare.getLocation().equals(rectangle.getLocation())) {
+    private void setSelectedSquare(Rectangle selectedSquare) {
+        if (this.selectedSquare != null) {
+            if (this.selectedSquare.getLocation().equals(selectedSquare.getLocation())) {
                 return;
             }
             // Repaint old position
-            repaint(selectedSquare);
+            repaint(this.selectedSquare);
         }
         // Assign and repaint new position
-        selectedSquare = new Square(rectangle, YELLOW);
-        repaint(selectedSquare);
+        this.selectedSquare = new Square(selectedSquare, YELLOW);
+        repaint(this.selectedSquare);
     }
 
     /**
      * <p>Selects and repaints a square if it contains a <code>Figure</code>
      * of the current side on turn. Also repaints all square with legal
      * moves to green.</p>
-     * @param c <code>Coordinate</code> position of the <code>Figure</code>
-     *          on the board
+     *
+     * @param selectedCoordinate <code>Coordinate</code> position of the <code>Figure</code>
+     *                           on the board
      * @return true when a square is occupied by friendly figure
      */
-    private boolean setSelectedFigure(Coordinate c) {
-        Figure figure = figures.getFigureAt(c);
+    private boolean setSelectedFigure(Coordinate selectedCoordinate) {
+        Figure selectedFigure = figures.getFigureAt(selectedCoordinate);
 
-        if (figure != null && getTurn().equals(figure.getSide())) {
-            selectedFigure = figure;
-//            repaintMoves(figures.getMoves(figure));
+        if (selectedFigure != null && getTurn().equals(selectedFigure.getSide())) {
+            this.selectedFigure = selectedFigure;
+//            repaintMoves(figures.getMoves(selectedFigure));
 //             TEST
-            repaintControlledMoves(figures.getMoves(figure), figures.getControlledMoves(figure));
-//            repaintCheckMoves(figures.getMoves(figure), figures.getCheckMoves(figure));
+            repaintControlledMoves(
+                    figures.getMoves(selectedFigure),
+                    figures.getControlledMoves(selectedFigure));
 
             return true;
         }
@@ -279,70 +302,11 @@ public class Chess extends JPanel {
 
     /**
      * <p>Board size</p>
+     *
      * @return dimension for the panel
      */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(resolution, resolution);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-    // Mouse Listener
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-
-    class Listener extends MouseAdapter {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            switch (e.getButton()) {
-
-
-                // Left-click
-                case MouseEvent.BUTTON1 -> {
-                    // Draw selection
-                    Square square = board.getSquareAt(e.getX(), e.getY());
-                    Point p = square.getLocation();
-                    Coordinate c = board.getCoordinateAt(p);
-
-                    if (setSelectedFigure(c)) {
-                        setSelectedSquare(square);
-                        System.out.println(selectedFigure);
-
-                    } else if (moves.contains(c)) {
-                        // remove figure from old position and repaint
-                        Coordinate old = board.getCoordinateAt(selectedFigure.getLocation());
-                        Figure f = figures.getFiguresMap().remove(old);
-//                        repaintMoves(null);
-                        // TEST
-                        repaintControlledMoves(null, null);
-                        repaintSelectedSquare();
-                        repaint(board.getSquareAt(old));
-
-                        // Assign figure to new position and repaint
-                        f.setLocation(p);
-                        figures.getFiguresMap().put(c, f);
-                        repaint(board.getSquareAt(c));
-
-                        changeTurn();
-
-                    } else {
-                        System.out.println("invalid move");
-                    }
-                }
-
-
-                // Right-click
-                case MouseEvent.BUTTON3 -> {
-                    // Clear selection
-                    selectedFigure = null;
-//                    repaintMoves(null);
-                    // TEST
-                    repaintControlledMoves(null, null);
-                    repaintSelectedSquare();
-                }
-            }
-        }
-
     }
 }

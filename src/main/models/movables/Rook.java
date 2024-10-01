@@ -156,9 +156,7 @@ public class Rook implements Movable {
         while (c != null && !Coordinate.isLeftBoundary(position)
                 && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
-                break;
-            }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT);
         }
 
@@ -167,9 +165,7 @@ public class Rook implements Movable {
         while (c != null && !Coordinate.isRightBoundary(position)
                 && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) {
-                break;
-            }
+            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT);
         }
 
