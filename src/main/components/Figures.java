@@ -15,22 +15,12 @@ public class Figures {
     private final HashMap<Point, Coordinate>  coordinates;
     private final HashMap<Coordinate, Figure> figuresMap;
     private final HashMap<Rank, Movable>      movables;
-    private Figure whiteKing;
-    private Figure blackKing;
 
     public Figures(HashMap<Coordinate, Figure> figuresMap,
                    HashMap<Point, Coordinate> coordinates) {
         this.figuresMap = figuresMap;
         this.coordinates = coordinates;
         this.movables = setMovables();
-        figuresMap.forEach((coordinate, figure) -> {
-            if (figure.getRank().equals(Rank.KING)) {
-                switch (figure.getSide()) {
-                    case WHITE -> whiteKing = figure;
-                    case BLACK -> blackKing = figure;
-                }
-            }
-        });
     }
 
     /**

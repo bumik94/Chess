@@ -85,12 +85,12 @@ public class King implements Movable {
             }
             // Left-up
             c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+            if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
                 moves.add(c);
             }
             // Left-down
             c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+            if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
                 moves.add(c);
             }
         }
@@ -104,12 +104,12 @@ public class King implements Movable {
             }
             // Right-up
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+            if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
                 moves.add(c);
             }
             // Right-down
             c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-            if (c != null && isEmpty(c) || isRemovable(figure, c)) {
+            if (c != null && (isEmpty(c) || isRemovable(figure, c))) {
                 moves.add(c);
             }
         }

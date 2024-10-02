@@ -64,8 +64,8 @@ public class Chess extends JPanel {
     protected static final Color GREEN = new Color(50, 205, 50);
 
     protected final Figures figures;
-    protected final Board board;
-    private final int resolution;
+    protected final   Board board;
+    private   final     int resolution;
 
     protected Square selectedSquare;
     protected Figure selectedFigure;
@@ -101,8 +101,8 @@ public class Chess extends JPanel {
         /*
         Order of draw:
             1) board
+            3) moves (optional)
             2) selection
-            3) moves
             4) figures
          */
         paintBoard(g);
