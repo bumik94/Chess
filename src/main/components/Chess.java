@@ -37,7 +37,6 @@ public class Chess extends JPanel {
 
                     } else if (moves != null && moves.contains(selectedCoordinate)) {
                         moveSelectedFigure(selectedPoint);
-
                         changeTurn();
                     }
                 }
@@ -81,7 +80,9 @@ public class Chess extends JPanel {
         this.addMouseListener(new Listener());
         this.resolution = resolution;
         this.board = new Board(resolution);
-        this.figures = new Figures(board.getFiguresMap(), board.getCoordinates());
+        this.figures = new Figures(
+                board.getFiguresMap(),
+                board.getCoordinates());
         this.turn = Side.WHITE;
     }
 
@@ -239,6 +240,7 @@ public class Chess extends JPanel {
         figures.getFiguresMap().put(selectedCoordinate, f);
         repaint(board.getSquareAt(selectedCoordinate));
 
+        selectedFigure.setMoved();
     }
 
     /**

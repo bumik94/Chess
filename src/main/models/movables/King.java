@@ -179,4 +179,33 @@ public class King implements Movable {
     public HashSet<Coordinate> getCheckMoves(Figure figure) {
         return new HashSet<>();
     }
+
+    // TODO create method for castling here
+    // check if rooks have moved and the path between king
+    // and rook must not be controlled by opposing figure
+    public HashSet<Coordinate> BigCastle(Figure figure) {
+        HashSet<Coordinate> moves = new HashSet<>();
+
+        if (figure.getRank().equals(Rank.KING)) {
+            switch (figure.getSide()) {
+                case WHITE -> {
+                    // TODO add controlled moves check if the path is safe
+                    Figure leftRook = figures.get(Coordinate.A1);
+                    if (! (leftRook.hasMoved() && figure.hasMoved()) ) {
+                        moves.add(Coordinate.A3);
+                        return moves;
+                    }
+                }
+                case BLACK -> {
+                    Figure leftRook = figures.get(Coordinate.H1);
+                    if (! (leftRook.hasMoved() && figure.hasMoved()) ) {
+                        moves.add(Coordinate.H3);
+                        return moves;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 }

@@ -49,15 +49,18 @@ public class Figure {
      * When <code>setLocation</code> is called, this method sets flag
      * to determine that the figure has moved.
      */
-    public void moved() {
+    public void setMoved() {
         if (! moved) {
-            this.moved = true;
+            moved = true;
         }
     }
 
+    public boolean hasMoved() {
+        return this.moved;
+    }
     public void setLocation(Point position) {
         this.position = position;
-        moved();
+        setMoved();
     }
 
     public Point getLocation() {

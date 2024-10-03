@@ -3,6 +3,8 @@ package main.models;
 import java.util.HashSet;
 
 public enum Coordinate {
+    // A5 -> White King
+    // H5 -> Black King
     H1, H2, H3, H4, H5, H6, H7, H8,
     G1, G2, G3, G4, G5, G6, G7, G8,
     F1, F2, F3, F4, F5, F6, F7, F8,

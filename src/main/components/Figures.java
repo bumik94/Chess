@@ -67,6 +67,10 @@ public class Figures {
         return figuresMap.get(selectedCoordinate);
     }
 
+    public Figure getFigureAt(Point selectedPoint) {
+        return getFigureAt(coordinates.get(selectedPoint));
+    }
+
     /**
      * <p>Evaluates how many checks are blocked by friendly figures.</p>
      * @param figure currently selected figure
@@ -97,6 +101,7 @@ public class Figures {
         HashSet<Coordinate> checkMoves = getCheckMoves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
+            // TODO create method for castling here
             HashSet<Coordinate> controlledMoves = getControlledMoves(figure);
             moves.removeAll(controlledMoves);
         }
@@ -207,4 +212,11 @@ public class Figures {
         return moves;
     }
 
+    public HashSet<Coordinate> Castle(Figure figure) {
+        HashSet<Coordinate> moves = new HashSet<>();
+
+        // TODO retain all castle moves from controlled moves
+
+        return moves;
+    }
 }
