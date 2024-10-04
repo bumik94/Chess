@@ -72,25 +72,6 @@ public class Figures {
     }
 
     /**
-     * <p>Evaluates how many checks are blocked by friendly figures.</p>
-     * @param figure currently selected figure
-     * @param checkMoves set of all check moves
-     * @return number of blocked checks
-     */
-    private int getControlledChecks(Figure figure, HashSet<Coordinate> checkMoves) {
-        int controlledChecks = 0;
-
-        for (Coordinate c : checkMoves) {
-            Figure f = getFigureAt(c);
-            if (f != null && f.getSide().equals(figure.getSide())) {
-                controlledChecks++;
-            }
-        }
-
-        return controlledChecks;
-    }
-
-    /**
      * <p>Calculates available moves for a given figure.</p>
      * @param figure selected figure on board
      * @return a set of available moves
@@ -101,8 +82,9 @@ public class Figures {
         HashSet<Coordinate> checkMoves = getCheckMoves(figure);
 
         if (figure.getRank().equals(Rank.KING)) {
-            // TODO create method for castling here
             HashSet<Coordinate> controlledMoves = getControlledMoves(figure);
+            moves.addAll(getCastleMoves(figure, controlledMoves));
+            // Restrict king's moves from controlled moves
             moves.removeAll(controlledMoves);
         }
         /*
@@ -212,10 +194,35 @@ public class Figures {
         return moves;
     }
 
-    public HashSet<Coordinate> Castle(Figure figure) {
+    /**
+     * <p>Evaluates how many checks are blocked by friendly figures.</p>
+     * @param figure currently selected figure
+     * @param checkMoves set of all check moves
+     * @return number of blocked checks
+     */
+    private int getControlledChecks(Figure figure, HashSet<Coordinate> checkMoves) {
+        int controlledChecks = 0;
+
+        for (Coordinate c : checkMoves) {
+            Figure f = getFigureAt(c);
+            if (f != null && f.getSide().equals(figure.getSide())) {
+                controlledChecks++;
+            }
+        }
+
+        return controlledChecks;
+    }
+
+    public HashSet<Coordinate> getCastleMoves(Figure figure,
+                                              HashSet<Coordinate> controlledMoves) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        // TODO retain all castle moves from controlled moves
+        if (! figure.hasMoved()) {
+            King king = (King) movables.get(figure.getRank());
+
+            moves.addAll(king.getBigCastleMove(figure, controlledMoves));
+            moves.addAll(king.getSmallCastleMove(figure, controlledMoves));
+        }
 
         return moves;
     }
