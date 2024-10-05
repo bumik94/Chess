@@ -75,11 +75,11 @@ public class Knight implements Movable {
     /**
      * <p>Checks for valid moves for a given figure.</p>
      *
-     * @param figure to be moved
+     * @param selectedFigure to be moved
      */
     @Override
-    public HashSet<Coordinate> getMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
@@ -87,12 +87,12 @@ public class Knight implements Movable {
         if (! Coordinate.isLeftBoundary(position)) {
             // Up-left
             c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+            if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                 moves.add(c);
             }
             // Down-left
             c = Coordinate.getCoordinate(position.ordinal() + DOWN_LEFT);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+            if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                 moves.add(c);
             }
 
@@ -100,12 +100,12 @@ public class Knight implements Movable {
             if (c != null && !Coordinate.isLeftBoundary(c)) {
                 // Left-up
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
                 // Left-down
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
             }
@@ -115,12 +115,12 @@ public class Knight implements Movable {
         if (! Coordinate.isRightBoundary(position)) {
             // Up-right
             c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+            if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                 moves.add(c);
             }
             // Down-right
             c = Coordinate.getCoordinate(position.ordinal() + DOWN_RIGHT);
-            if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+            if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                 moves.add(c);
             }
 
@@ -128,12 +128,12 @@ public class Knight implements Movable {
             if (c != null && !Coordinate.isRightBoundary(c)) {
                 // Right-up
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
                 // Right-down
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-                if (c != null && (isRemovable(figure, c) || isEmpty(c))) {
+                if (c != null && (isRemovable(selectedFigure, c) || isEmpty(c))) {
                     moves.add(c);
                 }
             }
@@ -143,8 +143,8 @@ public class Knight implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getControlledMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getControlledMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
@@ -208,8 +208,8 @@ public class Knight implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getCheckMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
@@ -217,12 +217,12 @@ public class Knight implements Movable {
         if (! Coordinate.isLeftBoundary(position)) {
             // Up-left
             c = Coordinate.getCoordinate(position.ordinal() + UP_LEFT);
-            if (c != null && isOppositeKing(figure, c)) {
+            if (c != null && isOppositeKing(selectedFigure, c)) {
                 moves.add(position);
             }
             // Down-left
             c = Coordinate.getCoordinate(position.ordinal() + DOWN_LEFT);
-            if (c != null && isOppositeKing(figure, c)) {
+            if (c != null && isOppositeKing(selectedFigure, c)) {
                 moves.add(position);
             }
 
@@ -230,12 +230,12 @@ public class Knight implements Movable {
             if (c != null && !Coordinate.isLeftBoundary(c)) {
                 // Left-up
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-                if (c != null  && isOppositeKing(figure, c)) {
+                if (c != null  && isOppositeKing(selectedFigure, c)) {
                     moves.add(position);
                 }
                 // Left-down
                 c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-                if (c != null  && isOppositeKing(figure, c)) {
+                if (c != null  && isOppositeKing(selectedFigure, c)) {
                     moves.add(position);
                 }
             }
@@ -245,12 +245,12 @@ public class Knight implements Movable {
         if (! Coordinate.isRightBoundary(position)) {
             // Up-right
             c = Coordinate.getCoordinate(position.ordinal() + UP_RIGHT);
-            if (c != null  && isOppositeKing(figure, c)) {
+            if (c != null  && isOppositeKing(selectedFigure, c)) {
                 moves.add(position);
             }
             // Down-right
             c = Coordinate.getCoordinate(position.ordinal() + DOWN_RIGHT);
-            if (c != null  && isOppositeKing(figure, c)) {
+            if (c != null  && isOppositeKing(selectedFigure, c)) {
                 moves.add(position);
             }
 
@@ -258,12 +258,12 @@ public class Knight implements Movable {
             if (c != null && !Coordinate.isRightBoundary(c)) {
                 // Right-up
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-                if (c != null  && isOppositeKing(figure, c)) {
+                if (c != null  && isOppositeKing(selectedFigure, c)) {
                     moves.add(position);
                 }
                 // Right-down
                 c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-                if (c != null  && isOppositeKing(figure, c)) {
+                if (c != null  && isOppositeKing(selectedFigure, c)) {
                     moves.add(position);
                 }
             }

@@ -135,47 +135,56 @@ public class Bishop implements Movable {
     /**
      * <p>Checks for valid moves for a given figure.</p>
      *
-     * @param figure to be moved
+     * @param selectedFigure to be moved
      */
     @Override
-    public HashSet<Coordinate> getControlledMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getControlledMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
         // Left-up
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-        while (c != null && !Coordinate.isLeftBoundary(position)
-                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
+        while (c != null && !Coordinate.isLeftBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
+            if (Coordinate.isBoundary(c)
+                    || isProtected(selectedFigure, c)
+                    || isRemovable(selectedFigure, c)
+            ) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_UP);
         }
 
         // Left-down
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
         while (c != null && !Coordinate.isLeftBoundary(position)
-                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
+                && (isEmpty(c) || isProtected(selectedFigure, c) || isOppositeKing(selectedFigure, c))) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
+            if (Coordinate.isBoundary(c)
+                    || isProtected(selectedFigure, c)
+                    || isRemovable(selectedFigure, c)
+            ) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + LEFT_DOWN);
         }
 
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-        while (c != null && !Coordinate.isRightBoundary(position)
-                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
+        while (c != null && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
+            if (Coordinate.isBoundary(c)
+                    || isProtected(selectedFigure, c)
+                    || isRemovable(selectedFigure, c)
+            ) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_UP);
         }
 
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-        while (c != null && !Coordinate.isRightBoundary(position)
-                && (isEmpty(c) || isProtected(figure, c) || isOppositeKing(figure, c))) {
+        while (c != null && !Coordinate.isRightBoundary(position)) {
             moves.add(c);
-            if (Coordinate.isBoundary(c) || isProtected(figure, c)) { break; }
+            if (Coordinate.isBoundary(c)
+                    || isProtected(selectedFigure, c)
+                    || isRemovable(selectedFigure, c)
+            ) { break; }
             c = Coordinate.getCoordinate(c.ordinal() + RIGHT_DOWN);
         }
 
@@ -183,19 +192,19 @@ public class Bishop implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getCheckMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
         int removable = 0;
 
         // Left-up
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-        while (c != null && !(Coordinate.isLeftBoundary(position) && isProtected(figure, c))) {
-            if (isRemovable(figure, c)) {
+        while (c != null && !(Coordinate.isLeftBoundary(position) && isProtected(selectedFigure, c))) {
+            if (isRemovable(selectedFigure, c)) {
                 removable++;
             }
-            if (isOppositeKing(figure, c) && removable <= 1) {
+            if (isOppositeKing(selectedFigure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
@@ -210,11 +219,11 @@ public class Bishop implements Movable {
 
         // Left-down
         c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-        while (c != null && !(Coordinate.isLeftBoundary(position) && isProtected(figure, c))) {
-            if (isRemovable(figure, c)) {
+        while (c != null && !(Coordinate.isLeftBoundary(position) && isProtected(selectedFigure, c))) {
+            if (isRemovable(selectedFigure, c)) {
                 removable++;
             }
-            if (isOppositeKing(figure, c) && removable <= 1) {
+            if (isOppositeKing(selectedFigure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
@@ -229,11 +238,11 @@ public class Bishop implements Movable {
 
         // Right-up
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-        while (c != null && !(Coordinate.isRightBoundary(position) || isProtected(figure, c))) {
-            if (isRemovable(figure, c)) {
+        while (c != null && !(Coordinate.isRightBoundary(position) || isProtected(selectedFigure, c))) {
+            if (isRemovable(selectedFigure, c)) {
                 removable++;
             }
-            if (isOppositeKing(figure, c) && removable <= 1) {
+            if (isOppositeKing(selectedFigure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }
@@ -248,11 +257,11 @@ public class Bishop implements Movable {
 
         // Right-down
         c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-        while (c != null && !(Coordinate.isRightBoundary(position) || isProtected(figure, c))) {
-            if (isRemovable(figure, c)) {
+        while (c != null && !(Coordinate.isRightBoundary(position) || isProtected(selectedFigure, c))) {
+            if (isRemovable(selectedFigure, c)) {
                 removable++;
             }
-            if (isOppositeKing(figure, c) && removable <= 1) {
+            if (isOppositeKing(selectedFigure, c) && removable <= 1) {
                 moves.add(position);
                 return moves;
             }

@@ -68,15 +68,15 @@ public class Pawn implements Movable {
 
     /**
      * <p>Checks for valid moves for a given figure.</p>
-     * @param figure to be moved
+     * @param selectedFigure to be moved
      */
     @Override
-    public HashSet<Coordinate> getMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        switch (figure.getSide()) {
+        switch (selectedFigure.getSide()) {
             case WHITE -> {
                 // Move up
                 c = Coordinate.getCoordinate(position.ordinal() + UP);
@@ -86,14 +86,14 @@ public class Pawn implements Movable {
                 // Remove left-up
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-                    if (isRemovable(figure, c)) {
+                    if (isRemovable(selectedFigure, c)) {
                         moves.add(c);
                     }
                 }
                 // Remove right-up
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-                    if (isRemovable(figure, c)) {
+                    if (isRemovable(selectedFigure, c)) {
                         moves.add(c);
                     }
                 }
@@ -107,14 +107,14 @@ public class Pawn implements Movable {
                 // Remove left-down
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-                    if (isRemovable(figure, c)) {
+                    if (isRemovable(selectedFigure, c)) {
                         moves.add(c);
                     }
                 }
                 // Remove right-down
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-                    if (isRemovable(figure, c)) {
+                    if (isRemovable(selectedFigure, c)) {
                         moves.add(c);
                     }
                 }
@@ -125,12 +125,12 @@ public class Pawn implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getControlledMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getControlledMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        switch (figure.getSide()) {
+        switch (selectedFigure.getSide()) {
             case WHITE -> {
                 // Control left-up
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
@@ -169,24 +169,24 @@ public class Pawn implements Movable {
     }
 
     @Override
-    public HashSet<Coordinate> getCheckMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
+    public HashSet<Coordinate> getCheckMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
         HashSet<Coordinate> moves = new HashSet<>();
         Coordinate c;
 
-        switch (figure.getSide()) {
+        switch (selectedFigure.getSide()) {
             case WHITE -> {
                 // Check left-up
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_UP);
-                    if (c != null && isOppositeKing(figure, c)) {
+                    if (c != null && isOppositeKing(selectedFigure, c)) {
                         moves.add(position);
                     }
                 }
                 // Check right-up
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_UP);
-                    if (c != null && isOppositeKing(figure, c)) {
+                    if (c != null && isOppositeKing(selectedFigure, c)) {
                         moves.add(position);
                     }
                 }
@@ -195,14 +195,14 @@ public class Pawn implements Movable {
                 // Check left-down
                 if (! Coordinate.isLeftBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + LEFT_DOWN);
-                    if (c != null && isOppositeKing(figure, c)) {
+                    if (c != null && isOppositeKing(selectedFigure, c)) {
                         moves.add(position);
                     }
                 }
                 // Check right-down
                 if (! Coordinate.isRightBoundary(position)) { // left edge
                     c = Coordinate.getCoordinate(position.ordinal() + RIGHT_DOWN);
-                    if (c != null && isOppositeKing(figure, c)) {
+                    if (c != null && isOppositeKing(selectedFigure, c)) {
                         moves.add(position);
                     }
                 }

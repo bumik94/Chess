@@ -105,16 +105,17 @@ public class Board {
         ArrayList<Figure> list = new ArrayList<>();
 
         // TEST
-        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.H1), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.G4), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.PAWN,      getPointAt(Coordinate.E5), resolution));
-//        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.F4), resolution));
+        list.add(new Figure(Side.BLACK, Rank.KING,      getPointAt(Coordinate.H5), resolution));
+        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H1), resolution));
+        list.add(new Figure(Side.BLACK, Rank.ROOK,      getPointAt(Coordinate.H8), resolution));
+        list.add(new Figure(Side.BLACK, Rank.BISHOP,      getPointAt(Coordinate.E8), resolution));
 //        list.add(new Figure(Side.BLACK, Rank.QUEEN,      getPointAt(Coordinate.H2), resolution));
 //
-//        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.D6), resolution));
-        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.D1), resolution));
-        list.add(new Figure(Side.WHITE, Rank.QUEEN,      getPointAt(Coordinate.D5), resolution));
-        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A8), resolution));
+        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.B1), resolution));
+        list.add(new Figure(Side.WHITE, Rank.PAWN,      getPointAt(Coordinate.B8), resolution));
+        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A8), resolution));
+        list.add(new Figure(Side.WHITE, Rank.ROOK,      getPointAt(Coordinate.A1), resolution));
+        list.add(new Figure(Side.WHITE, Rank.KING,      getPointAt(Coordinate.A5), resolution));
 
 
         // White

@@ -33,7 +33,7 @@ public class Chess extends JPanel {
                     if (setSelectedFigure(selectedCoordinate)) {
                         setSelectedSquare(selectedSquare);
 
-//                        System.out.println(selectedFigure);
+//                        System.out.println(selectedFigure.hasMoved());
 
                     } else if (moves != null && moves.contains(selectedCoordinate)) {
                         moveSelectedFigure(selectedPoint);
@@ -44,9 +44,9 @@ public class Chess extends JPanel {
                 case MouseEvent.BUTTON3 -> {
                     // Clear selection
                     selectedFigure = null;
-                    repaintMoves(null);
+//                    repaintMoves(null);
                     // TEST
-//                    repaintControlledMoves(null, null);
+                    repaintControlledMoves(null, null);
                     repaintSelectedSquare();
                 }
             }
@@ -107,9 +107,9 @@ public class Chess extends JPanel {
             4) figures
          */
         paintBoard(g);
-        paintMoves(g, moves);
+//        paintMoves(g, moves);
         // TEST
-//        paintControlledMoves(g, moves, controlledMoves);
+        paintControlledMoves(g, moves, controlledMoves);
 //        paintCheckMoves(g, moves, checkMoves);
         paintSelectedSquare(g);
         paintFigures(g);
@@ -225,6 +225,9 @@ public class Chess extends JPanel {
 
     public void moveSelectedFigure(Point SelectedPoint) {
         Coordinate selectedCoordinate = board.getCoordinateAt(SelectedPoint);
+
+        // TODO assess if selected figure is a king and if it moved to a castling position
+        //      and move appropriate rook to the castle as well
 
         // remove figure from old position and repaint
         Coordinate oldCoordinate = board.getCoordinateAt(selectedFigure.getLocation());

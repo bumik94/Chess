@@ -19,35 +19,35 @@ public class Queen implements Movable {
     /**
      * <p>Checks for valid moves for a given figure.</p>
      *
-     * @param figure to be moved
+     * @param selectedFigure to be moved
      */
     @Override
-    public HashSet<Coordinate> getMoves(Figure figure) {
+    public HashSet<Coordinate> getMoves(Figure selectedFigure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        moves.addAll(bishop.getMoves(figure));
-        moves.addAll(rook.getMoves(figure));
+        moves.addAll(bishop.getMoves(selectedFigure));
+        moves.addAll(rook.getMoves(selectedFigure));
 
         return moves;
     }
 
     @Override
-    public HashSet<Coordinate> getControlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure selectedFigure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        moves.addAll(bishop.getControlledMoves(figure));
-        moves.addAll(rook.getControlledMoves(figure));
+        moves.addAll(bishop.getControlledMoves(selectedFigure));
+        moves.addAll(rook.getControlledMoves(selectedFigure));
 
         return moves;
     }
 
 
     @Override
-    public HashSet<Coordinate> getCheckMoves(Figure figure) {
+    public HashSet<Coordinate> getCheckMoves(Figure selectedFigure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        moves.addAll(bishop.getCheckMoves(figure));
-        moves.addAll(rook.getCheckMoves(figure));
+        moves.addAll(bishop.getCheckMoves(selectedFigure));
+        moves.addAll(rook.getCheckMoves(selectedFigure));
 
         return moves;
     }

@@ -6,6 +6,7 @@ import main.models.movables.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Contains information about figures and their methods
@@ -73,46 +74,43 @@ public class Figures {
 
     /**
      * <p>Calculates available moves for a given figure.</p>
-     * @param figure selected figure on board
+     * @param selectedFigure selected figure on board
      * @return a set of available moves
      */
-    public HashSet<Coordinate> getMoves(Figure figure) {
-        Coordinate position = coordinates.get(figure.getLocation());
-        HashSet<Coordinate> moves = movables.get(figure.getRank()).getMoves(figure);
-        HashSet<Coordinate> checkMoves = getCheckMoves(figure);
+    public HashSet<Coordinate> getMoves(Figure selectedFigure) {
+        Coordinate position = coordinates.get(selectedFigure.getLocation());
+        HashSet<Coordinate> moves = movables.get(selectedFigure.getRank()).getMoves(selectedFigure);
+        HashSet<Coordinate> checkMoves = getCheckMoves(selectedFigure);
 
-        if (figure.getRank().equals(Rank.KING)) {
-            HashSet<Coordinate> controlledMoves = getControlledMoves(figure);
-            moves.addAll(getCastleMoves(figure, controlledMoves));
-            // Restrict king's moves from controlled moves
-            moves.removeAll(controlledMoves);
+        // When king is selected, restrict moves from opponent controlled positions
+        // and add Castle moves if applicable.
+        if (selectedFigure.getRank().equals(Rank.KING)) {
+            HashSet<Coordinate> controlledMoves = getControlledMoves(selectedFigure);
+            HashSet<Coordinate> castleMoves = getCastleMoves(selectedFigure, controlledMoves, checkMoves);
+
+            moves.addAll(castleMoves);
+            moves.removeAll(controlledMoves); // Restrict from controlled moves
         }
         /*
-        Evaluates if any opposite figure checks the king.
-        When only one figure checks, either king can move
-        or the opposite figure can be blocked or removed,
-        otherwise the king must move.
+        Evaluate if a check is imminent.
+        When only one opponent checks, either the king can move,
+        the check can be controlled or the opposite figure
+        can be removed, otherwise the king must move.
 
         TODO when no moves are left for checked king, the game's over.
          */
         else if (! checkMoves.isEmpty()) {
-            int checks = 0;
-            int controlledChecks = getControlledChecks(figure, checkMoves);
+            int imminentChecks = getImminentChecksCount(selectedFigure, checkMoves);
+            int controlledChecks = getControlledChecksCount(selectedFigure, checkMoves);
 
-            for (Coordinate c : checkMoves) {
-                Figure f = getFigureAt(c);
-                if (f != null && !(f.getSide().equals(figure.getSide()) || f.getRank().equals(Rank.KING))) {
-                    checks++;
-                }
-            }
-            if (checks == 1) {
-                // Restrict moves to check trajectory when one opponent figure checks
+            if (imminentChecks == 1) {
+                // Restrict moves to the check trajectory when one opponent figure checks
                 // and either the selected figure or none controls the check
                 if (checkMoves.contains(position) || controlledChecks == 0) {
                     moves.retainAll(checkMoves);
                 }
             }
-            else if ((checks > 1) && (checks == controlledChecks)) {
+            else if (imminentChecks > 1 && imminentChecks == controlledChecks) {
                 /*
                 Process every single figure that checks and determine if it's blocked.
                 If it is and the blocking figure is the selected, restrict its moves
@@ -126,14 +124,12 @@ public class Figures {
                 for (Coordinate c : checkMoves) {
                     Figure f = getFigureAt(c);
 
-                    if (f != null && !(f.getSide().equals(figure.getSide()))) {
+                    if (f != null && !(f.getSide().equals(selectedFigure.getSide()))) {
                         checkingFigures.add(f);
                     }
                 }
 
                 // Assess if a friendly figure controls the check move of the checking figure
-//                HashSet<Coordinate> tempMoves = new HashSet<>();
-
                 for (Figure f : checkingFigures) {
                     tempMoves.addAll(movables.get(f.getRank()).getCheckMoves(f));
                     if (tempMoves.contains(position)) {
@@ -156,14 +152,14 @@ public class Figures {
 
     /**
      * <p>Calculates available moves for all figures of the opposite side.</p>
-     * @param figure a selected figure of the current turn
+     * @param selectedFigure a selected figure of the current turn
      * @return a set of all opponent's controlled moves
      */
-    public HashSet<Coordinate> getControlledMoves(Figure figure) {
+    public HashSet<Coordinate> getControlledMoves(Figure selectedFigure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
         for (Figure opponent : figuresMap.values()) {
-            if (! opponent.getSide().equals(figure.getSide())) {
+            if (! opponent.getSide().equals(selectedFigure.getSide())) {
                 moves.addAll(movables.get(opponent.getRank()).getControlledMoves(opponent));
             }
         }
@@ -172,12 +168,14 @@ public class Figures {
     }
 
     /**
-     * <p>Evaluates moves that lead to check from opposite figure. When one friendly figure controls
-     * the path to check, it still returns the path and is considered a check.</p>
-     * @param figure currently selected <code>Figure</code>
+     * <p>Returns an opponents trajectory on the selected figure's king when
+     * at most one friendly figure stands in the way to check.
+     * Use <code>getControlledChecks</code> to compare if
+     * the count of figures match on both sides. </p>
+     * @param selectedFigure currently selected <code>Figure</code>
      * @return a set of check moves from the opposite side
      */
-    public HashSet<Coordinate> getCheckMoves(Figure figure) {
+    public HashSet<Coordinate> getCheckMoves(Figure selectedFigure) {
         HashSet<Coordinate> moves = new HashSet<>();
 
         /*
@@ -186,7 +184,7 @@ public class Figures {
         Perhaps separating the check moves for singular figure?
          */
         for (Figure opponent : figuresMap.values()) {
-            if (! opponent.getSide().equals(figure.getSide())) {
+            if (! opponent.getSide().equals(selectedFigure.getSide())) {
                 moves.addAll(movables.get(opponent.getRank()).getCheckMoves(opponent));
             }
         }
@@ -195,17 +193,36 @@ public class Figures {
     }
 
     /**
-     * <p>Evaluates how many checks are blocked by friendly figures.</p>
-     * @param figure currently selected figure
-     * @param checkMoves set of all check moves
-     * @return number of blocked checks
+     * <p>Evaluates how many opposite figures are imminent threat to the King.</p>
+     * @param selectedFigure side of the current turn
+     * @param checkMoves all imminent checks on the current side's King
+     * @return number of imminent checks
      */
-    private int getControlledChecks(Figure figure, HashSet<Coordinate> checkMoves) {
+    private int getImminentChecksCount(Figure selectedFigure, HashSet<Coordinate> checkMoves) {
+        int imminentChecks = 0;
+
+        for (Coordinate c : checkMoves) {
+            Figure f = getFigureAt(c);
+            if (f != null && !(f.getSide().equals(selectedFigure.getSide()) || f.getRank().equals(Rank.KING))) {
+                imminentChecks++;
+            }
+        }
+
+        return imminentChecks;
+    }
+
+    /**
+     * <p>Evaluates how many checks are controlled by friendly figures.</p>
+     * @param selectedFigure side of the current turn
+     * @param checkMoves all imminent checks on the current side's King
+     * @return number of controlled checks
+     */
+    private int getControlledChecksCount(Figure selectedFigure, HashSet<Coordinate> checkMoves) {
         int controlledChecks = 0;
 
         for (Coordinate c : checkMoves) {
             Figure f = getFigureAt(c);
-            if (f != null && f.getSide().equals(figure.getSide())) {
+            if (f != null && f.getSide().equals(selectedFigure.getSide())) {
                 controlledChecks++;
             }
         }
@@ -213,15 +230,27 @@ public class Figures {
         return controlledChecks;
     }
 
-    public HashSet<Coordinate> getCastleMoves(Figure figure,
-                                              HashSet<Coordinate> controlledMoves) {
+    /**
+     * <p>Evaluates if King is in check</p>
+     * @param selectedFigure side of the currently selected figure
+     * @param checkMoves imminent checks on the current side's king
+     * @return true if imminent checks count is greater than controlled checks count
+     */
+    public boolean isCheck(Figure selectedFigure, HashSet<Coordinate> checkMoves) {
+        return getImminentChecksCount(selectedFigure, checkMoves)
+                > getControlledChecksCount(selectedFigure, checkMoves);
+    }
+
+    public HashSet<Coordinate> getCastleMoves(Figure selectedFigure,
+                                              HashSet<Coordinate> controlledMoves,
+                                              HashSet<Coordinate> checkMoves) {
         HashSet<Coordinate> moves = new HashSet<>();
 
-        if (! figure.hasMoved()) {
-            King king = (King) movables.get(figure.getRank());
+        if ( !selectedFigure.hasMoved() && !isCheck(selectedFigure, checkMoves) ) {
+            King king = (King) movables.get(selectedFigure.getRank());
 
-            moves.addAll(king.getBigCastleMove(figure, controlledMoves));
-            moves.addAll(king.getSmallCastleMove(figure, controlledMoves));
+            moves.addAll(king.getBigCastleMove(selectedFigure, controlledMoves));
+            moves.addAll(king.getSmallCastleMove(selectedFigure, controlledMoves));
         }
 
         return moves;
