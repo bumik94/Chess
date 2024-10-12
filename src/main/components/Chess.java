@@ -1,6 +1,8 @@
 package main.components;
 
 import main.models.*;
+import main.models.movables.King;
+import main.models.movables.Rook;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +38,12 @@ public class Chess extends JPanel {
 //                        System.out.println(selectedFigure.hasMoved());
 
                     } else if (moves != null && moves.contains(selectedCoordinate)) {
+                        // Castle or Move
+                        if (selectedFigure.getRank().equals(Rank.KING)
+                                && !selectedFigure.hasMoved()) {
+//                                && isCastleMove(selectedCoordinate)) {
+                            // Castle move return true or false
+                        }
                         moveSelectedFigure(selectedPoint);
                         changeTurn();
                     }
@@ -223,12 +231,8 @@ public class Chess extends JPanel {
         }
     }
 
-    public void moveSelectedFigure(Point SelectedPoint) {
+    private void moveAndRepaintFigure(Point SelectedPoint) {
         Coordinate selectedCoordinate = board.getCoordinateAt(SelectedPoint);
-
-        // TODO assess if selected figure is a king and if it moved to a castling position
-        //      and move appropriate rook to the castle as well
-
         // remove figure from old position and repaint
         Coordinate oldCoordinate = board.getCoordinateAt(selectedFigure.getLocation());
         Figure f = figures.getFiguresMap().remove(oldCoordinate);
@@ -236,7 +240,7 @@ public class Chess extends JPanel {
         // TEST
         repaintControlledMoves(null, null);
         repaintSelectedSquare();
-        repaint(board.getSquareAt(oldCoordinate));
+//        repaint(board.getSquareAt(oldCoordinate));
 
         // Assign figure to new position and repaint
         f.setLocation(SelectedPoint);
@@ -245,6 +249,33 @@ public class Chess extends JPanel {
 
         selectedFigure.setMoved();
     }
+
+    public void moveSelectedFigure(Point selectedPoint) {
+
+        // TODO assess if selected figure is a king and if it moved to a castling position
+        //      and move appropriate rook to the castle as well
+
+        //determine if king is selectedFigure
+        if (selectedFigure.getRank().equals(Rank.KING) && !selectedFigure.hasMoved()) {
+//            Rook r = (Rook) figures.getMovable(Rank.ROOK);
+            Figure rook = figures.getCastleRook(selectedPoint);
+            // move and repaint rook
+        }
+        moveAndRepaintFigure(selectedPoint);
+    }
+//
+//    private boolean isCastleMove(Coordinate selectedCoordinate) {
+//        if (selectedFigure.getRank().equals(Rank.KING) && !selectedFigure.hasMoved()) {
+//            switch (selectedFigure.getSide()) {
+//                case WHITE -> {
+//                    if (selectedCoordinate.equals(Coordinate.A7)
+//                     || selectedCoordinate.equals(Coordinate.A3)) {
+//
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
      * <p>Repaints selected square and its previous position.</p>

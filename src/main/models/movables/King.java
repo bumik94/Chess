@@ -188,13 +188,13 @@ public class King implements Movable {
     public HashSet<Coordinate> getBigCastleMove(Figure selectedFigure,
                                                 HashSet<Coordinate> controlledMoves) {
         HashSet<Coordinate> moves = new HashSet<>();
-        HashSet<Coordinate> whiteCastleArea = new HashSet<>(List.of(
+        HashSet<Coordinate> whiteCastleArea = new HashSet<>(java.util.List.of(
                 Coordinate.A1,
                 Coordinate.A2,
                 Coordinate.A3,
                 Coordinate.A4,
                 Coordinate.A5));
-        HashSet<Coordinate> blackCastleArea = new HashSet<>(List.of(
+        HashSet<Coordinate> blackCastleArea = new HashSet<>(java.util.List.of(
                 Coordinate.H1,
                 Coordinate.H2,
                 Coordinate.H3,
@@ -204,7 +204,7 @@ public class King implements Movable {
         switch (selectedFigure.getSide()) {
             case WHITE -> {
                 // TODO add controlled moves check if the path is safe
-                Figure rightRook = figures.get(Coordinate.A8);
+                Figure rightRook = figures.get(Coordinate.A1);
 
                 if (rightRook != null && !rightRook.hasMoved()
                         && controlledMoves.stream().noneMatch(whiteCastleArea::contains)) {
@@ -212,7 +212,7 @@ public class King implements Movable {
                 }
             }
             case BLACK -> {
-                Figure rightRook = figures.get(Coordinate.H8);
+                Figure rightRook = figures.get(Coordinate.H1);
 
                 if (rightRook != null && !rightRook.hasMoved()
                         && controlledMoves.stream().noneMatch(blackCastleArea::contains)) {
@@ -227,7 +227,7 @@ public class King implements Movable {
     public HashSet<Coordinate> getSmallCastleMove(Figure selectedFigure,
                                                   HashSet<Coordinate> controlledMoves) {
         HashSet<Coordinate> moves = new HashSet<>();
-        HashSet<Coordinate> whiteCastleArea = new HashSet<>(List.of(
+        HashSet<Coordinate> whiteCastleArea = new HashSet<>(java.util.List.of(
                 Coordinate.A5,
                 Coordinate.A6,
                 Coordinate.A7,
@@ -240,7 +240,7 @@ public class King implements Movable {
 
         switch (selectedFigure.getSide()) {
             case WHITE -> {
-                Figure leftRook = figures.get(Coordinate.A1);
+                Figure leftRook = figures.get(Coordinate.A8);
 
                 if (leftRook != null && !leftRook.hasMoved()
                         && controlledMoves.stream().noneMatch(whiteCastleArea::contains)) {
@@ -248,7 +248,7 @@ public class King implements Movable {
                 }
             }
             case BLACK -> {
-                Figure leftRook = figures.get(Coordinate.H1);
+                Figure leftRook = figures.get(Coordinate.H8);
 
                 if (leftRook != null && !leftRook.hasMoved()
                         && controlledMoves.stream().noneMatch(blackCastleArea::contains)) {

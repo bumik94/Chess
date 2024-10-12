@@ -64,12 +64,34 @@ public class Figures {
         return this.figuresMap;
     }
 
+    public HashMap<Point, Coordinate> getCoordinatesMap() {
+        return this.coordinates;
+    }
+
+    public Movable getMovable(Rank rank) {
+        return movables.get(rank);
+    }
+
     public Figure getFigureAt(Coordinate selectedCoordinate) {
         return figuresMap.get(selectedCoordinate);
     }
 
     public Figure getFigureAt(Point selectedPoint) {
         return getFigureAt(coordinates.get(selectedPoint));
+    }
+
+    public Figure getCastleRook(Point selectedPoint) {
+        Coordinate selectedCoordinate = coordinates.get(selectedPoint);
+        Figure rook = null;
+
+        switch (selectedCoordinate) {
+            case A3 -> rook = figuresMap.get(Coordinate.A1);
+            case A7 -> rook = figuresMap.get(Coordinate.A8);
+            case H3 -> rook = figuresMap.get(Coordinate.H1);
+            case H7 -> rook = figuresMap.get(Coordinate.H8);
+        }
+
+        return rook;
     }
 
     /**

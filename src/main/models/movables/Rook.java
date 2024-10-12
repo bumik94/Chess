@@ -8,6 +8,7 @@ import main.models.Rank;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class Rook implements Movable {
     private static final int UP = -8;
@@ -258,4 +259,17 @@ public class Rook implements Movable {
 
         return moves;
     }
+//
+//    public Figure getCastleRook(Coordinate selectedCoordinate) {
+//        Figure rook = null;
+//
+//        switch (selectedCoordinate) {
+//            case A3 -> rook = figures.get(Coordinate.A1);
+//            case A7 -> rook = figures.get(Coordinate.A8);
+//            case H3 -> rook = figures.get(Coordinate.H1);
+//            case H7 -> rook = figures.get(Coordinate.H8);
+//        }
+//        return rook;
+//    }
+
 }
